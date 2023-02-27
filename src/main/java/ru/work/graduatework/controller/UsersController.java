@@ -5,17 +5,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.service.UsersService;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
 
@@ -44,9 +44,9 @@ public class UsersController {
                     )
             }, tags = "USER"
     )
-    @GetMapping("/users/me")
-    public String getUsers() {
-        return usersService.getUsers();
+    @GetMapping("/me")
+    public ResponseEntity<?> getUsers() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Установить пароль",
@@ -72,9 +72,9 @@ public class UsersController {
                     )
             }, tags = "USER"
     )
-    @PostMapping("/users/set_password")
-    public String setPassword() {
-        return usersService.setPassword();
+    @PostMapping("/set_password")
+    public ResponseEntity<?> setPassword() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Обновить данные пользователя",
@@ -104,9 +104,9 @@ public class UsersController {
                     )
             }, tags = "USER"
     )
-    @PatchMapping("/users/me")
-    public String updateUser() {               //   required: true
-        return usersService.updateUser();
+    @PatchMapping("/me")
+    public ResponseEntity<?> updateUser() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Обновление изображение пользователя",
@@ -122,8 +122,8 @@ public class UsersController {
                     )
             }, tags = "USER"
     )
-    @PatchMapping("/users/me/image")
-    public String updateUserImage() {
-        return usersService.updateUserImage();
+    @PatchMapping("/me/image")
+    public ResponseEntity<?> updateUserImage() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
