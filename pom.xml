@@ -16,6 +16,7 @@
     <properties>
         <java.version>11</java.version>
     </properties>
+
     <dependencies>
 
         <dependency>
@@ -62,6 +63,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.13</version>
         </dependency>
+
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
