@@ -1,66 +1,73 @@
 package ru.work.graduatework.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.work.graduatework.dto.LoginReq;
 import ru.work.graduatework.service.AdsService;
 
-@RestController
+@RestController()
 @RequiredArgsConstructor
+@RequestMapping("/ads")
 public class AdsController {
     private final AdsService adsService;
 
-    @GetMapping("/ads")    // Получить объявление
-    public String getAds() {
-        return adsService.getAds();
+    @GetMapping()    // Получить объявление
+    public ResponseEntity<?>  getAds() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/ads")   // Добавить объявления
-    public String addAds() {
-        return adsService.addAds();
+    @PostMapping()   // Добавить объявления
+    public ResponseEntity<?> addAds() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/ads/{ad_pk}/comments")  // Получить комментарии
-    public String getComments() {
-        return adsService.getComments();
+    @GetMapping("/{ad_pk}/comments")  // Получить комментарии
+    public ResponseEntity<?> getComments() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/ads/{ad_pk}/comments")  // Добавить Комментарии
-    public String addComments() {
-        return adsService.addComments();
+    @PostMapping("/{ad_pk}/comments")  // Добавить Комментарии
+    public ResponseEntity<?> addComments() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/ads/{id}")   // Получить полную рекламу
-    public String getFullAd() {
-        return adsService.getFullAd();
+    @GetMapping("/{id}")   // Получить полную рекламу
+    public ResponseEntity<?> getFullAd() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/ads/{id}")   // Убрать рекламу
-    public String removeAds() {
-        return adsService.removeAds();
+    public ResponseEntity<?> removeAds() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/ads/{id}")   // Обновить рекламу
-    public String updateAds() {
-        return adsService.updateAds();
+    public ResponseEntity<?> updateAds() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @GetMapping("/ads/{ad_pk}/comments/{id}")   // Получить комментарии по id
-    public String getCommentsId() {
-        return adsService.getCommentsId();
+    public ResponseEntity<?> getCommentsId() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @DeleteMapping("/ads/{ad_pk}/comments/{id}")   // Удалить комментарии по id
-    public String deleteCommentsId() {
-        return adsService.deleteCommentsId();
+    public ResponseEntity<?> deleteCommentsId() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/ads/{ad_pk}/comments/{id}")    // Обновление комментария по id
-    public String updateCommentsId() {
-        return adsService.updateCommentsId();
+    public ResponseEntity<?> updateCommentsId() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @GetMapping("/ads/me")   // Получить рекламу
-    public String getAdsMe() {
-        return adsService.getAdsMe();
+    public ResponseEntity<?> getAdsMe() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

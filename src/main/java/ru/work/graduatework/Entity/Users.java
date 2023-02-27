@@ -34,7 +34,7 @@ public class Users {
     private String image;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn(name = "ads_id")
+//    @JoinColumn(name = "ads_id")
     Collection<Ads> ads;
 
 
