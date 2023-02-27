@@ -1,13 +1,17 @@
 package ru.work.graduatework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import ru.work.graduatework.dto.LoginReq;
 import ru.work.graduatework.dto.RegisterReq;
 import ru.work.graduatework.dto.Role;
@@ -23,7 +27,12 @@ import static ru.work.graduatework.dto.Role.USER;
 public class AuthController {
 
     private final AuthService authService;
-
+@Operation(summary = "login",operationId = "login",
+responses = {@ApiResponse(responseCode = "200",description = "OK",content ={}), //84 строка в ямл */*
+@ApiResponse(responseCode = "404",
+description = "Not Found"),
+@ApiResponse(responseCode = "401", description = "Unauthorized",content = {}),
+@ApiResponse(responseCode = "403",description = "Forbidden",content ={})},tags = "Авторизация")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReq req) {
         if (authService.login(req.getUsername(), req.getPassword())) {
@@ -32,7 +41,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
-
+    @Operation(summary = "register",operationId = "register",
+            responses = {@ApiResponse(responseCode = "404",description = "Not Found"), //78 строка схема
+                    @ApiResponse(responseCode = "201",
+                            description = "Created",content = {}),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",content = {}),
+                    @ApiResponse(responseCode = "403",description = "Forbidden",content ={})},tags = "Авторизация")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
         Role role = req.getRole() == null ? USER : req.getRole();
