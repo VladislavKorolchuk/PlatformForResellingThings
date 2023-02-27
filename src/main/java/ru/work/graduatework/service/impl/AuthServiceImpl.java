@@ -6,9 +6,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.RegisterReq;
-import ru.skypro.homework.dto.Role;
-import ru.skypro.homework.service.AuthService;
+import ru.work.graduatework.dto.RegisterReq;
+import ru.work.graduatework.dto.Role;
+import ru.work.graduatework.service.AuthService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
