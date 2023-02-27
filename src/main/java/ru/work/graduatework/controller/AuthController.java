@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class AuthController {
 
     private final AuthService authService;
 @Operation(summary = "login",operationId = "login",
-responses = {@ApiResponse(responseCode = "200",description = "OK",content = {}), //84 строка в ямл */*
+responses = {@ApiResponse(responseCode = "200",description = "OK",content ={}), //84 строка в ямл */*
 @ApiResponse(responseCode = "404",
 description = "Not Found"),
 @ApiResponse(responseCode = "401", description = "Unauthorized",content = {}),
