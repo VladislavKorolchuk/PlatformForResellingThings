@@ -1,37 +1,39 @@
 package ru.work.graduatework.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.service.UsersService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
-
-    @GetMapping("/users/me")   // Получить пользователя
-    public String getUsers() {
-        return usersService.getUsers();
+    public ResponseEntity<?> getAds() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    @GetMapping("/me")   // Получить пользователя
+    public ResponseEntity<?> getUsers() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/users/set_password")  // Установка пароля
-    public String setPassword() {
-        return usersService.setPassword();
+    @PostMapping("/set_password")  // Установка пароля
+    public ResponseEntity<?> setPassword() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/users/me")  // Обновить пользователя
-    public String updateUser() {
-        return usersService.updateUser();
+    @PatchMapping("/me")  // Обновить пользователя
+    public ResponseEntity<?> updateUser() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/users/me/image") // Обновление изображение пользователя
-    public String updateUserImage() {
-        return usersService.updateUserImage();
+    @PatchMapping("/me/image") // Обновление изображение пользователя
+    public ResponseEntity<?> updateUserImage() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
