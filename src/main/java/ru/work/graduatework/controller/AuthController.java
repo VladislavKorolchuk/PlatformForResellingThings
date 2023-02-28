@@ -1,6 +1,8 @@
 package ru.work.graduatework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ public class AuthController {
 
     private final AuthService authService;
 @Operation(summary = "login",operationId = "login",
-responses = {@ApiResponse(responseCode = "200",description = "OK",content ={}), //84 строка в ямл */*
+responses = {@ApiResponse(responseCode = "200",description = "OK",content =@Content(mediaType = MediaType.ALL_VALUE,schema = @Schema(implementation = Object.class))),
 @ApiResponse(responseCode = "404",
 description = "Not Found"),
 @ApiResponse(responseCode = "401", description = "Unauthorized",content = {}),
@@ -42,7 +44,7 @@ description = "Not Found"),
         }
     }
     @Operation(summary = "register",operationId = "register",
-            responses = {@ApiResponse(responseCode = "404",description = "Not Found"), //78 строка схема
+            responses = {@ApiResponse(responseCode = "404",description = "Not Found"),
                     @ApiResponse(responseCode = "201",
                             description = "Created",content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized",content = {}),
