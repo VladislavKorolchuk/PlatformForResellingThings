@@ -10,12 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.service.UsersService;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@CrossOrigin(value = "http://localhost:3000")
 public class UsersController {
     private final UsersService usersService;
 
@@ -105,8 +107,9 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-    public ResponseEntity<?> updateUser() {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public UserDto updateUser(@RequestBody UserDto user) {
+        System.out.println("hello");
+        return new UserDto();
     }
 
     @Operation(summary = "Обновление изображение пользователя",
