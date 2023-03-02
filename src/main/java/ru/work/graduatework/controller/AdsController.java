@@ -1,25 +1,26 @@
 package ru.work.graduatework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.Ads;
-import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.LoginReq;
 import ru.work.graduatework.service.AdsService;
 
 @RestController()
 @RequiredArgsConstructor
 @RequestMapping("/ads")
 public class AdsController {
+
+    private final Logger logger = LoggerFactory.getLogger(AdsController.class);
     private final AdsService adsService;
 
     @Operation(
@@ -32,6 +33,7 @@ public class AdsController {
             tags = "Объявления")
     @GetMapping()    // Получить объявление
     public ResponseEntity<?> getAds() {
+        logger.info("Current Method is - getAds");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -46,6 +48,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping()   // Добавить объявления
     public ResponseEntity<?> addAds() {
+        logger.info("Current Method is - addAds");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -72,6 +75,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping("/{ad_pk}/comments")  // Добавить Комментарии
     public ResponseEntity<?> addComments() { // параметры,         required: true
+        logger.info("Current Method is - addComments");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -84,6 +88,7 @@ public class AdsController {
                             description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")
     public ResponseEntity<?> getFullAd() { // параметры и  required: true
+        logger.info("Current Method is - getFullAd");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -95,6 +100,7 @@ public class AdsController {
             }, tags = "Объявления")
     @DeleteMapping("/ads/{id}")   // Убрать рекламу
     public ResponseEntity<?> removeAds() { // параметры
+        logger.info("Current Method is - removeAds");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -109,6 +115,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/ads/{id}")   // Обновить рекламу
     public ResponseEntity<?> updateAds() {   // параметры,    required: true
+        logger.info("Current Method is - updateAds");
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
@@ -123,6 +130,7 @@ public class AdsController {
             }, tags = "Объявления")
     @GetMapping("/ads/{ad_pk}/comments/{id}")   // Получить комментарии по id
     public ResponseEntity<?> getCommentsId() {
+        logger.info("Current Method is - getCommentsId");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -134,6 +142,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @DeleteMapping("/ads/{ad_pk}/comments/{id}")   // Удалить комментарии по id
     public ResponseEntity<?> deleteCommentsId() {
+        logger.info("Current Method is - deleteCommentsId");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -148,6 +157,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/ads/{ad_pk}/comments/{id}")    // Обновление комментария по id
     public ResponseEntity<?> updateCommentsId() { // параметры, required: true
+        logger.info("Current Method is - updateCommentsId");
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
@@ -163,6 +173,8 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @GetMapping("/ads/me")   // Получить рекламу
     public ResponseEntity<?> getAdsMe() { // параметры
+        logger.info("Current Method is - getAdsMe");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
