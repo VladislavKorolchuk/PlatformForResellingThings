@@ -5,20 +5,23 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.service.UsersService;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
 @CrossOrigin(value = "http://localhost:3000")
+@RequestMapping("/users")
 public class UsersController {
+
+    private final Logger logger = LoggerFactory.getLogger(UsersController.class);
     private final UsersService usersService;
 
     @Operation(summary = "Получить пользователя",
@@ -48,6 +51,7 @@ public class UsersController {
     )
     @GetMapping("/me")
     public ResponseEntity<?> getUsers() {
+        logger.info("Current Method is - getUsers");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -76,6 +80,7 @@ public class UsersController {
     )
     @PostMapping("/set_password")
     public ResponseEntity<?> setPassword() {
+        logger.info("Current Method is - setPassword");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -107,9 +112,10 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-    public UserDto updateUser(@RequestBody UserDto user) {
-        System.out.println("hello");
-        return new UserDto();
+
+    public ResponseEntity<?> updateUser() {
+        logger.info("Current Method is - updateUser");
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "Обновление изображение пользователя",
@@ -127,6 +133,8 @@ public class UsersController {
     )
     @PatchMapping("/me/image")
     public ResponseEntity<?> updateUserImage() {
+        logger.info("Current Method is - updateUserImage");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }

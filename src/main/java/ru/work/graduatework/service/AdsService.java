@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AdsService {
+
     String getAds();   // Получить объявление
 
     String addAds();   // Добавить объявления
@@ -25,5 +26,6 @@ public interface AdsService {
     String updateCommentsId();   // Обновление комментария по id
 
     String getAdsMe();   // Получить рекламу
+
 }
 

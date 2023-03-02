@@ -5,6 +5,7 @@ import ru.work.graduatework.service.AdsService;
 
 @Service
 public class AdsServiceImpl implements AdsService {
+
     @Override    // Получить объявление
     public String getAds() {
         return null;
@@ -59,4 +60,5 @@ public class AdsServiceImpl implements AdsService {
     public String getAdsMe() {
         return null;
     }
+
 }

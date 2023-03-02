@@ -3,8 +3,6 @@ package ru.work.graduatework.service.impl;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.service.UsersService;
 
-import java.util.List;
-
 @Service
 public class UsersServiceImpl implements UsersService {
 
@@ -27,4 +25,5 @@ public class UsersServiceImpl implements UsersService {
     public String updateUserImage() {
         return null;
     }
+
 }

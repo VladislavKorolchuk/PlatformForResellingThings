@@ -1,7 +1,6 @@
 package ru.work.graduatework.Entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Table(name = "Ads")
@@ -30,8 +29,5 @@ public class Ads {
     @ManyToOne
     @JoinColumn(name = "Ads_user_id")
     private Users user;
-
-
-
 
 }
