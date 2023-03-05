@@ -1,7 +1,6 @@
 package ru.work.graduatework.Entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Ads")
@@ -12,7 +11,7 @@ public class Ads {
     @Column(name = "author")
     private Integer author;                     // Идентификатор
 
-  //  private List<String> image;
+//    private List<String> image;   не работает
 
     @Column(name = "Ads_pk")
     private Integer pk;                        // Идентификатор пользователя ???
