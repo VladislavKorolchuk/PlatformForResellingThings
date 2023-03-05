@@ -1,16 +1,16 @@
 package ru.work.graduatework.dto;
 
 import lombok.Data;
-import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Comment;
 
 import java.util.List;
 
 @Data
-public class ResponseWrapperAdsDto {
+public class ResponseWrapperCommentDto {
     private Integer count;
-    private List<Ads> results;
+    private List<Comment> results;
 
-    public ResponseWrapperAdsDto(Integer count, List<Ads> results) {
+    public ResponseWrapperCommentDto(Integer count, List<Comment> results) {
         this.count = count;
         this.results = results;
     }
@@ -23,11 +23,11 @@ public class ResponseWrapperAdsDto {
         this.count = count;
     }
 
-    public List<Ads> getResults() {
+    public List<Comment> getResults() {
         return results;
     }
 
-    public void setResults(List<Ads> results) {
+    public void setResults(List<Comment> results) {
         this.results = results;
     }
 }
