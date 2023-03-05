@@ -1,15 +1,13 @@
-package ru.work.graduatework.dto;
+package ru.work.graduatework.Entity;
 
-import lombok.Data;
+import ru.work.graduatework.dto.Role;
 
-@Data
 public class RegisterReq {
-
     private String username;
     private String password;
     private String firstName;
     private String lastName;
     private String phone;
-    private Role role;
 
+    private Role role;
 }
