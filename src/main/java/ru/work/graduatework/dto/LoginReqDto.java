@@ -1,8 +1,17 @@
-package ru.work.graduatework.Entity;
+package ru.work.graduatework.dto;
 
-public class LoginReq {
+import lombok.Data;
+
+@Data
+public class LoginReqDto {
+
     private String password;
     private String username;
+
+    public LoginReqDto(String password, String username) {
+        this.password = password;
+        this.username = username;
+    }
 
     public String getPassword() {
         return password;
