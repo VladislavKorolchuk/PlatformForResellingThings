@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.service.UsersService;
@@ -53,7 +53,7 @@ public class UsersController {
             }, tags = "USER"
     )
     @GetMapping("/me")
-    public ResponseEntity<UserDto> getUsers(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> getUsers() {
         logger.info("Current Method is - getUsers");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -115,7 +115,6 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
         logger.info("Current Method is - updateUser");
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -135,9 +134,8 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me/image")
-    public ResponseEntity<UserDto> updateUserImage(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> updateUserImage(@RequestBody ImageDto imageDto) {
         logger.info("Current Method is - updateUserImage");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 }
