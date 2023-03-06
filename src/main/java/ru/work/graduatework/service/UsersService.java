@@ -1,14 +1,18 @@
 package ru.work.graduatework.service;
 
+import ru.work.graduatework.Entity.Image;
+import ru.work.graduatework.Entity.NewPassword;
+import ru.work.graduatework.Entity.Users;
+
 public interface UsersService {
 
-    String getUsers(); // Получить пользователя
+    Users getUsers(); // Получить пользователя
 
-    String setPassword();  // Установка пароля
+    NewPassword setPassword();  // Установка пароля
 
-    String updateUser();   // Обновить пользователя
+    Users updateUser();   // Обновить пользователя
 
-    String updateUserImage();   // Обновление изображение пользователя
+    Image updateUserImage();   // Обновление изображение пользователя
 
 }
 

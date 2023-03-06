@@ -1,29 +1,31 @@
 package ru.work.graduatework.service.impl;
 
 import org.springframework.stereotype.Service;
+import ru.work.graduatework.Entity.Image;
+import ru.work.graduatework.Entity.NewPassword;
+import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.service.UsersService;
 
 @Service
 public class UsersServiceImpl implements UsersService {
 
-    @Override   // Получить пользователя
-    public String getUsers() {
+    @Override
+    public Users getUsers() {
         return null;
     }
 
-    @Override  // Установка пароля
-    public String setPassword() {
+    @Override
+    public NewPassword setPassword() {
         return null;
     }
 
-    @Override  // Обновить пользователя
-    public String updateUser() {
+    @Override
+    public Users updateUser() {
         return null;
     }
 
-    @Override  // Обновление изображение пользователя
-    public String updateUserImage() {
+    @Override
+    public Image updateUserImage() {
         return null;
     }
-
 }
