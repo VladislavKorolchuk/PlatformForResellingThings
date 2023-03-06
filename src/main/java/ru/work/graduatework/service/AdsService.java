@@ -1,31 +1,32 @@
 package ru.work.graduatework.service;
 
 import org.springframework.stereotype.Service;
+import ru.work.graduatework.Entity.*;
 
 @Service
 public interface AdsService {
 
-    String getAds();   // Получить объявление
+    ResponseWrapperAds getAds();   // Получить объявление
 
-    String addAds();   // Добавить объявления
+    CreateAds addAds();   // Добавить объявления
 
-    String getComments();  // Получить комментарии
+    FullAds getFullAd();   // Получить полную рекламу
 
-    String addComments();  // Добавить Комментарии
+    void removeAds();   // Убрать рекламу
 
-    String getFullAd();   // Получить полную рекламу
+    Ads updateAds();   // Обновить рекламу
 
-    String removeAds();   // Убрать рекламу
+    ResponseWrapperAds getAdsMe();   // Получить рекламу
 
-    String updateAds();   // Обновить рекламу
+    ResponseWrapperComment getComments(); //ResponseWrapperComment список всех комментариев
 
-    String getCommentsId();   // Получить комментарии по id
+    Comment addComments(); //Комментарий который добавили
 
-    String deleteCommentsId();   // Удалить комментарии по id
+    Comment getCommentsId(); // Комментарий по id
 
-    String updateCommentsId();   // Обновление комментария по id
+    void deleteCommentsId(); // void
 
-    String getAdsMe();   // Получить рекламу
+    Comment updateCommentsId(); //comment
 
 }
 

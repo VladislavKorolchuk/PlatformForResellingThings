@@ -1,64 +1,65 @@
 package ru.work.graduatework.service.impl;
 
 import org.springframework.stereotype.Service;
+import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.service.AdsService;
 
 @Service
 public class AdsServiceImpl implements AdsService {
 
-    @Override    // Получить объявление
-    public String getAds() {
+
+    @Override
+    public ResponseWrapperAds getAds() {
         return null;
     }
 
-    @Override  // Добавить объявления
-    public String addAds() {
+    @Override
+    public CreateAds addAds() {
         return null;
     }
 
-    @Override  // Получить комментарии
-    public String getComments() {
+    @Override
+    public FullAds getFullAd() {
         return null;
     }
 
-    @Override   // Добавить Комментарии
-    public String addComments() {
+    @Override
+    public void removeAds() {
+
+    }
+
+    @Override
+    public Ads updateAds() {
         return null;
     }
 
-    @Override   // Получить полную рекламу
-    public String getFullAd() {
+    @Override
+    public ResponseWrapperAds getAdsMe() {
         return null;
     }
 
-    @Override   // Убрать рекламу
-    public String removeAds() {
+    @Override
+    public ResponseWrapperComment getComments() {
         return null;
     }
 
-    @Override  // Обновить рекламу
-    public String updateAds() {
+    @Override
+    public Comment addComments() {
         return null;
     }
 
-    @Override   // Получить комментарии по id
-    public String getCommentsId() {
+    @Override
+    public Comment getCommentsId() {
         return null;
     }
 
-    @Override   // Удалить комментарии по id
-    public String deleteCommentsId() {
-        return null;
+    @Override
+    public void deleteCommentsId() {
+
     }
 
-    @Override   // Обновление комментария по id
-    public String updateCommentsId() {
+    @Override
+    public Comment updateCommentsId() {
         return null;
     }
-
-    @Override   // Получить рекламу
-    public String getAdsMe() {
-        return null;
-    }
-
 }
