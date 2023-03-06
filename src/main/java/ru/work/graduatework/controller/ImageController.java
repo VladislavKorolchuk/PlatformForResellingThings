@@ -27,7 +27,6 @@ public class ImageController {
     @PostMapping("/{id}")
     public ResponseEntity<?> updateAdsImage(@PathVariable int id, @RequestParam MultipartFile imageFile) {
         logger.info("Current Method is - updateAdsImage");
-
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
