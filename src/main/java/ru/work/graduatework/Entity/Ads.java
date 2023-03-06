@@ -12,7 +12,7 @@ public class Ads {
     @Column(name = "Ads_author")
     private Integer author;                     // Идентификатор
 
-    @Transient
+   @ElementCollection
     private List<String> image;
 
     @Column(name = "Ads_pk")
