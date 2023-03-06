@@ -1,6 +1,12 @@
 package ru.work.graduatework.Entity;
 
+import javax.persistence.*;
+
+@Entity
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Comment_author")
     private int author;
     private String createdAt;
     private int pk;

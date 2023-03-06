@@ -34,7 +34,7 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseEntity<ResponseWrapperAds> getAllAds() {
+    public ResponseEntity<ResponseWrapperAds> getAllAds() { // параметры какие ?
         logger.info("Current Method is - getAds");
         return ResponseEntity.ok(new ResponseWrapperAds());
     }
