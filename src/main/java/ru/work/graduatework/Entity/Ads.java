@@ -36,13 +36,13 @@ public class Ads {
         this.author = author;
     }
 
-//    public List<String> getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(List<String> image) {
-//        this.image = image;
-//    }
+    public List<String> getImage() {
+        return image;
+    }
+
+    public void setImage(List<String> image) {
+        this.image = image;
+    }
 
     public Integer getPk() {
         return pk;
