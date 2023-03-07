@@ -3,32 +3,32 @@ package ru.work.graduatework.Entity;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
+@Entity  // A special class whose objects are saved to the database
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;                      // Идентификатор
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // delegates the installation of the ID to the database level
+    private Integer id;                                 // Primary key
 
-    private String firstName;             // Имя пользователя
+    private String firstName;                           // User's name
 
-    private String lastName;              //Фамилия пользователя
+    private String lastName;                            // User's last name
 
-    private String phone;                 // Телефон пользователя
+    private String phone;                               // User's phone number
 
-    private String email;
+    private String email;                               // User's email address
 
-    private String regDate;
+    private String regDate;                             // Registration date
 
-    private String city;
+    private String city;                                // The user's location city
 
-    private String image;
+    private String image;                               // User image
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user")                       // type of database connection
 //    @JoinColumn(name = "ads_id")
     Collection<Ads> ads;
 
-
+    // ----------------- block Getter's and Setter's ---------------------
     public Integer getId() {
         return id;
     }
@@ -100,4 +100,5 @@ public class Users {
     public void setAds(Collection<Ads> ads) {
         this.ads = ads;
     }
+
 }
