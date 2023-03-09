@@ -19,8 +19,27 @@
 <div id="header" align="center">
 <img src="https://komarev.com/ghpvc/?username=VladislavKorolchuk&style=flat-square&color=blue" alt=""/>
 </div>
+<div id="header" align="center">
+  <a href="https://sky.pro/">
+  <img src="https://img.shields.io/badge/SkyPro-green?style=for-the-badge" alt="IntelliJ%20IDEA Badge"/> </a> Back-end part of the site for the resale of goods <br><br>
 
-
+ ## General functionality:
+- [x] Authorization and authentication of users
+- [x] Distribution of roles between users: user and administrator
+- [x] CRUD for ads on the site: the administrator can delete or edit all ads, and users — only their own
+- [x] Under each ad, users can leave reviews
+- [x] In the site header, you can search for ads by name
+- [x] Show and save ad images  
+  
+### Were working on a project:
+ [Владислав Корольчук](https://github.com/VladislavKorolchuk) <br>
+ [Павел Деменков](https://github.com/PDemenkov) <br>
+ [Анастасия Шутова](https://github.com/fuminako)<br>
+ [Алексей Новицкий](https://github.com/AlekseyNovitskiy)<br>
+ [Руслан Гилязев]()<br>
+ [...]()<br>
+ [...]()<br>
+</div>
 
 
 <div id="header" align="center">
