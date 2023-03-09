@@ -9,17 +9,18 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Image_id")
-    private Long id;                        // Идентификатор
+    private Long id;                        // ID
 
     @Column(name = "Image_idAds")
-    private Long idAds;                     // Идентификатор объявления
+    private Long idAds;                     // ID ads
 
     @Column(name = "Image_image")
-    private String image ;                  // Изображение
+    private String image ;                  // Image
 
-    @OneToOne                               // Связь один к одному
+    @OneToOne                               // One-to-one communication
     private Ads ads;
 
+    // ----------------- block Getter's and Setter's ---------------------
     public Long getId() {
         return id;
     }
@@ -51,4 +52,5 @@ public class Image {
     public void setAds(Ads ads) {
         this.ads = ads;
     }
+
 }

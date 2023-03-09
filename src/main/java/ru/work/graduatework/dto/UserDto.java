@@ -9,13 +9,21 @@ import java.util.Collection;
 public class UserDto {
 
     private Integer id;
+
     private String firstName;
+
     private String lastName;
+
     private String phone;
+
     private String email;
+
     private String regDate;
+
     private String city;
+
     private String image;
+
     private Collection<Ads> ads;
 
     public UserDto(Integer id, String firstName, String lastName, String phone,
@@ -30,4 +38,5 @@ public class UserDto {
         this.image = image;
         this.ads = ads;
     }
+
 }

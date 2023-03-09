@@ -4,6 +4,7 @@ import ru.work.graduatework.Entity.ResponseWrapperAds;
 import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 
 public class ResponseWrapperAdsMapper {
+
     public static ResponseWrapperAdsDto toDto(ResponseWrapperAds responseWrapperAds) {
         return new ResponseWrapperAdsDto(responseWrapperAds.getCount(), responseWrapperAds.getResults());
     }
@@ -14,4 +15,5 @@ public class ResponseWrapperAdsMapper {
         responseWrapperAds.setResults(responseWrapperAdsDto.getResults());
         return responseWrapperAds;
     }
+
 }

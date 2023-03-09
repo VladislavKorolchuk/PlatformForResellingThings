@@ -20,7 +20,7 @@ public interface AdsService {
 
     ResponseWrapperComment getComments(); //ResponseWrapperComment список всех комментариев
 
-    Comment addComments(); //Комментарий который добавили
+    Comment addComments(); //Комментарий которые добавили
 
     Comment getCommentsId(); // Комментарий по id
 

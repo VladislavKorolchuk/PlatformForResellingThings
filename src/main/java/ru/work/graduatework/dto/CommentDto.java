@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CommentDto {
+
     private Integer author;
     private String createdAt;
     private Integer pk;
@@ -15,4 +16,5 @@ public class CommentDto {
         this.pk = pk;
         this.text = text;
     }
+
 }

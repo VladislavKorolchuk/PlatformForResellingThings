@@ -3,7 +3,9 @@ package ru.work.graduatework.Entity;
 import java.util.List;
 
 public class ResponseWrapperComment {
+
     private Integer count;
+
     private List<Comment> results;
 
     public Integer getCount() {
@@ -21,4 +23,5 @@ public class ResponseWrapperComment {
     public void setResults(List<Comment> results) {
         this.results = results;
     }
+
 }

@@ -4,6 +4,7 @@ import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.dto.CommentDto;
 
 public class CommentMapper {
+
     public static CommentDto toDto(Comment comment){
         return new CommentDto(comment.getAuthor(), comment.getCreatedAt(), comment.getPk(), comment.getText());
     }
@@ -16,4 +17,5 @@ public class CommentMapper {
         comment.setText(commentDto.getText());
         return comment;
     }
+
 }

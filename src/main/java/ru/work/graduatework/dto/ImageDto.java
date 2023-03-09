@@ -5,6 +5,7 @@ import ru.work.graduatework.Entity.Ads;
 
 @Data
 public class ImageDto {
+
     private Long id;
     private Long idAds;
     private String image;
@@ -16,4 +17,5 @@ public class ImageDto {
         this.image = image;
         this.ads = ads;
     }
+
 }

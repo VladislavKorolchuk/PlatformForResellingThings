@@ -40,7 +40,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
-        logger.info("Current Method is - login");
+        logger.info("Class AuthController, current method is - login");
         if (authService.login(req.getUsername(), req.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
@@ -56,7 +56,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReqDto req) {
-        logger.info("Current Method is - register");
+        logger.info("Class AuthController, current method is - register");
         Role role = req.getRole() == null ? USER : req.getRole();
         if (authService.register(req, role)) {
             return ResponseEntity.ok().build();

@@ -1,10 +1,14 @@
 package ru.work.graduatework.Entity;
 
 public class CreateAds {
+
     private String description;
+
     private Integer price;
+
     private String title;
 
+    // ----------------- block Getter's and Setter's ---------------------
     public String getDescription() {
         return description;
     }
@@ -28,4 +32,5 @@ public class CreateAds {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }
