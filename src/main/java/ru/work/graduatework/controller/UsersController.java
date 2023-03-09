@@ -15,8 +15,11 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
+import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.service.UsersService;
 
+import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +29,8 @@ public class UsersController {
 
     private final Logger logger = LoggerFactory.getLogger(UsersController.class);
     private final UsersService usersService;
+    private final UsersRepository usersRepository;
+    private Integer loggedInUser;        // logged in user
 
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
@@ -53,9 +58,21 @@ public class UsersController {
             }, tags = "USER"
     )
     @GetMapping("/me")
-    public ResponseEntity<UserDto> getUsers() {
+    public Users getUsers(Principal principal) {
         logger.info("Class UsersController, current method is - getUsers");
-        return ResponseEntity.status(HttpStatus.OK).build();
+        String username;
+        if (principal != null) {
+            username = principal.getName();
+            logger.info("Logged in user - " + username);
+            Optional<Users> userFindByEmail = usersRepository.findByEmail(username);
+            if (userFindByEmail != null) {
+                loggedInUser = userFindByEmail.get().getId();
+                Optional<Users> user = usersRepository.findById(loggedInUser);
+                logger.info("ID Logged in user - " + loggedInUser.toString());
+                return user.orElse(null);
+            }
+        }
+        return null;
     }
 
     @Operation(summary = "Установить пароль",
@@ -115,11 +132,14 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+    public void updateUser(@RequestBody UserDto userDto) {
+
         logger.info("Class UsersController, current method is - updateUser");
-        return usersService.updateUser(userDto) != null
-                ? new ResponseEntity<>(userDto, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        Optional<Users> user = usersRepository.findById(loggedInUser);
+        user.get().setFirstName(userDto.getFirstName());
+        user.get().setLastName(userDto.getLastName());
+        user.get().setPhone(userDto.getPhone());
+        usersRepository.save(user.get());
     }
 
     @Operation(summary = "Обновление изображение пользователя",
