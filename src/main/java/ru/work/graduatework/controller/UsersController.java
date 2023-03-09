@@ -54,7 +54,7 @@ public class UsersController {
     )
     @GetMapping("/me")
     public ResponseEntity<UserDto> getUsers() {
-        logger.info("Current Method is - getUsers");
+        logger.info("Class UsersController, current method is - getUsers");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -83,7 +83,7 @@ public class UsersController {
     )
     @PostMapping("/set_password")
     public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
-        logger.info("Current Method is - setPassword");
+        logger.info("Class UsersController, current method is - setPassword");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -116,8 +116,10 @@ public class UsersController {
     )
     @PatchMapping("/me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
-        logger.info("Current Method is - updateUser");
-        return ResponseEntity.status(HttpStatus.OK).build();
+        logger.info("Class UsersController, current method is - updateUser");
+        return usersService.updateUser(userDto) != null
+                ? new ResponseEntity<>(userDto, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @Operation(summary = "Обновление изображение пользователя",
@@ -135,7 +137,7 @@ public class UsersController {
     )
     @PatchMapping("/me/image")
     public ResponseEntity<UserDto> updateUserImage(@RequestBody ImageDto imageDto) {
-        logger.info("Current Method is - updateUserImage");
+        logger.info("Class UsersController, current method is - updateUserImage");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

@@ -12,4 +12,5 @@ public class LoginReqDto {
         this.password = password;
         this.username = username;
     }
+
 }

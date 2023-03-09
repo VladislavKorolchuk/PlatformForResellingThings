@@ -15,4 +15,5 @@ public class NewPasswordMapper {
         newPassword.setNewPassword(newPasswordDto.getNewPassword());
         return newPassword;
     }
+
 }

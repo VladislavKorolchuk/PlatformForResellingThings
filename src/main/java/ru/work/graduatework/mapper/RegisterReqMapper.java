@@ -4,6 +4,7 @@ import ru.work.graduatework.Entity.RegisterReq;
 import ru.work.graduatework.dto.RegisterReqDto;
 
 public class RegisterReqMapper {
+
     public static RegisterReqDto toDto(RegisterReq registerReq) {
         return new RegisterReqDto(registerReq.getUsername(), registerReq.getPassword(), registerReq.getFirstName(),
                 registerReq.getLastName(), registerReq.getPhone(), registerReq.getRole());
@@ -19,4 +20,5 @@ public class RegisterReqMapper {
         registerReq.setRole(registerReqDto.getRole());
         return registerReq;
     }
+
 }

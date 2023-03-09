@@ -10,21 +10,21 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Ads_author")
-    private Integer author;                     // Идентификатор
+    private Integer author;                     // ID
 
-   @ElementCollection
+    @ElementCollection                          // Image
     private List<String> image;
 
     @Column(name = "Ads_pk")
-    private Integer pk;                        // Идентификатор пользователя ???
+    private Integer pk;                         // User ID
 
     @Column(name = "Ads_price")
-    private Integer price;                    // Цена
+    private Integer price;                      // Price
 
-    @Column(name = "Ads_title")             // Заглавие
-    private String title;
+    @Column(name = "Ads_title")
+    private String title;                       // Title
 
-    @ManyToOne
+    @ManyToOne                                  // Many-to-one communication
     @JoinColumn(name = "Ads_user_id")
     private Users user;
 
@@ -75,4 +75,5 @@ public class Ads {
     public void setUser(Users user) {
         this.user = user;
     }
+
 }

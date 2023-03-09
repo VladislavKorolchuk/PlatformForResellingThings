@@ -3,6 +3,7 @@ package ru.work.graduatework.service;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.dto.UserDto;
 
 public interface UsersService {
 
@@ -10,7 +11,7 @@ public interface UsersService {
 
     NewPassword setPassword();  // Установка пароля
 
-    Users updateUser();   // Обновить пользователя
+    Users updateUser(UserDto userDto);   // Обновить пользователя
 
     Image updateUserImage();   // Обновление изображение пользователя
 
