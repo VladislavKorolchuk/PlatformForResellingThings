@@ -3,6 +3,9 @@ package ru.work.graduatework.Entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/** Entity Users
+ *
+ */
 @Entity  // A special class whose objects are saved to the database
 public class Users {
 

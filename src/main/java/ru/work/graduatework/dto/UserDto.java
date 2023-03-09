@@ -26,6 +26,10 @@ public class UserDto {
 
     private Collection<Ads> ads;
 
+    public UserDto() {
+
+    }
+
     public UserDto(Integer id, String firstName, String lastName, String phone,
                    String email, String regDate, String city, String image, Collection<Ads> ads) {
         this.id = id;
