@@ -16,4 +16,5 @@ public class CreateAdsMapper {
         createAds.setTitle(createAdsDto.getTitle());
         return createAds;
     }
+
 }

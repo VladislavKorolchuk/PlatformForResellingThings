@@ -4,6 +4,7 @@ import ru.work.graduatework.Entity.FullAds;
 import ru.work.graduatework.dto.FullAdsDto;
 
 public class FullAdsMapper {
+
     public static FullAdsDto toDto(FullAds fullAds) {
         return new FullAdsDto(fullAds.getAuthorFirstName(), fullAds.getAuthorLastName(), fullAds.getDescription(), fullAds.getEmail(),
                 fullAds.getImage(), fullAds.getPhone(), fullAds.getPk(), fullAds.getPrice(), fullAds.getTitle());
@@ -22,4 +23,5 @@ public class FullAdsMapper {
         fullAds.setTitle(fullAdsDto.getTitle());
         return fullAds;
     }
+
 }

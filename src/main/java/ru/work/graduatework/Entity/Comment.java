@@ -4,14 +4,19 @@ import javax.persistence.*;
 
 @Entity
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Comment_author")
     private int author;
+
     private String createdAt;
+
     private int pk;
+
     private String text;
 
+    // ----------------- block Getter's and Setter's ---------------------
     public int getAuthor() {
         return author;
     }
@@ -43,4 +48,5 @@ public class Comment {
     public void setText(String text) {
         this.text = text;
     }
+
 }

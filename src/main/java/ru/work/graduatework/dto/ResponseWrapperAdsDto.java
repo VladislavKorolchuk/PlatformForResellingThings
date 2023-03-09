@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class ResponseWrapperAdsDto {
+
     private Integer count;
     private List<Ads> results;
 
@@ -14,4 +15,5 @@ public class ResponseWrapperAdsDto {
         this.count = count;
         this.results = results;
     }
+
 }

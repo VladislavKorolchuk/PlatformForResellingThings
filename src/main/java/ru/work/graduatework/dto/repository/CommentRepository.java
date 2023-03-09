@@ -1,8 +1,7 @@
-package ru.work.graduatework.repository;
+package ru.work.graduatework.dto.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.work.graduatework.Entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-
 }

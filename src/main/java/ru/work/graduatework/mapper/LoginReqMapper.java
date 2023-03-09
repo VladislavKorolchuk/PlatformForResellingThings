@@ -4,6 +4,7 @@ import ru.work.graduatework.Entity.LoginReq;
 import ru.work.graduatework.dto.LoginReqDto;
 
 public class LoginReqMapper {
+
     public static LoginReqDto toDto(LoginReq loginReq) {
         return new LoginReqDto(loginReq.getPassword(), loginReq.getUsername());
     }
@@ -14,4 +15,5 @@ public class LoginReqMapper {
         loginReq.setUsername(loginReqDto.getUsername());
         return loginReq;
     }
+
 }

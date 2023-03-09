@@ -1,9 +1,12 @@
 package ru.work.graduatework.Entity;
 
 public class LoginReq {
+
     private String password;
+
     private String username;
 
+    // ----------------- block Getter's and Setter's ---------------------
     public String getPassword() {
         return password;
     }
@@ -19,4 +22,5 @@ public class LoginReq {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

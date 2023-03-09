@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class NewPasswordDto {
+
     private String currentPassword;
     private String newPassword;
 
@@ -11,4 +12,5 @@ public class NewPasswordDto {
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
     }
+
 }

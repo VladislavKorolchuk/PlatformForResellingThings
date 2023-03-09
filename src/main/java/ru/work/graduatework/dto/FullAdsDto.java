@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class FullAdsDto {
+
     private String authorFirstName;
     private String authorLastName;
     private String description;
@@ -28,4 +29,5 @@ public class FullAdsDto {
         this.price = price;
         this.title = title;
     }
+
 }
