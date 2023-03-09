@@ -10,6 +10,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.RegisterReq;
 import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.GraduateWorkApplication;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.repository.UsersRepository;
@@ -43,15 +44,13 @@ public class AuthServiceImpl implements AuthService {
         String encryptedPassword = userDetails.getPassword();
         String encryptedPasswordWithoutEncryptionType = encryptedPassword.substring(8);
         return encoder.matches(password, encryptedPasswordWithoutEncryptionType);
+
     }
 
     @Override
     public boolean register(RegisterReqDto registerReqDto, Role role) {
         logger.info("Class AuthServiceImpl, current method is - register");
-        logger.info(registerReqDto.getUsername());
-        logger.info(registerReqDto.getPassword());
-        logger.info(registerReqDto.getPhone());
-          createUser(registerReqDto);
+        createUser(registerReqDto);
         if (manager.userExists(registerReqDto.getUsername())) {
             return false;
         }
@@ -66,11 +65,19 @@ public class AuthServiceImpl implements AuthService {
         return true;
     }
 
+    /**
+     * @author Korolchuk Vladislav
+     * @param registerReqDto Input parameter
+     * <br> <b> Method create User </b> </br>
+     * <br> Input parameter entity {@link RegisterReqDto} </br>
+     * <br> Is used entity Users {@link User} </br>
+     * <br> Is used mapper {@link RegisterReqMapper} </br>
+     * <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     */
     public void createUser(RegisterReqDto registerReqDto) {
         logger.info("Class AuthServiceImpl, current method is - createUser");
-        logger.info(registerReqDto.getUsername());
-        logger.info(registerReqDto.getFirstName());
-        logger.info(registerReqDto.getLastName());
+
+        //  if (usersRepository.findByEmail(registerReqDto.getUsername()).isPresent()) {
         Users user = new Users();
         RegisterReq registerReq;
         registerReq = RegisterReqMapper.toEntity(registerReqDto);
@@ -79,6 +86,9 @@ public class AuthServiceImpl implements AuthService {
         user.setLastName(registerReq.getLastName());
         user.setPhone(registerReq.getPhone());
         usersRepository.save(user);
+        //       return true;
+        //   }
+        //   return false;
     }
 
 }
