@@ -3,33 +3,36 @@ package ru.work.graduatework.Entity;
 import javax.persistence.*;
 import java.util.Collection;
 
-/** Entity Users
- *
+/**
+ * Entity Users
  */
 @Entity  // A special class whose objects are saved to the database
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // delegates the installation of the ID to the database level
+    @Column(name = "primary_key")
     private Integer id;                                 // Primary key
-
+    @Column(name = "first_name")
     private String firstName;                           // User's name
-
+    @Column(name = "last_name")
     private String lastName;                            // User's last name
-
+    @Column(name = "phone_number")
     private String phone;                               // User's phone number
-
+    @Column(name = "email")
     private String email;                               // User's email address
-
+    @Column(name = "reg_date")
     private String regDate;                             // Registration date
-
+    @Column(name = "city")
     private String city;                                // The user's location city
-
+    @Column(name = "image")
     private String image;                               // User image
 
     @OneToMany(mappedBy = "user")                       // type of database connection
-//    @JoinColumn(name = "ads_id")
-    Collection<Ads> ads;
+    Collection<Ads> adsCollection;
+
+    @OneToMany(mappedBy = "user")                       // type of database connection
+    Collection<Comment> commentCollection;
 
     // ----------------- block Getter's and Setter's ---------------------
     public Integer getId() {
@@ -97,11 +100,26 @@ public class Users {
     }
 
     public Collection<Ads> getAds() {
-        return ads;
+        return adsCollection;
     }
 
     public void setAds(Collection<Ads> ads) {
-        this.ads = ads;
+        this.adsCollection = ads;
     }
 
+    public Collection<Ads> getAdsCollection() {
+        return adsCollection;
+    }
+
+    public void setAdsCollection(Collection<Ads> adsCollection) {
+        this.adsCollection = adsCollection;
+    }
+
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
+    }
+
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
+    }
 }

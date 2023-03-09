@@ -9,14 +9,12 @@ public class Ads {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "primary_key")
+    private Integer pk;                         // User ID
     @Column(name = "Ads_author")
     private Integer author;                     // ID
-
     @ElementCollection                          // Image
     private List<String> image;
-
-    @Column(name = "Ads_pk")
-    private Integer pk;                         // User ID
 
     @Column(name = "Ads_price")
     private Integer price;                      // Price
