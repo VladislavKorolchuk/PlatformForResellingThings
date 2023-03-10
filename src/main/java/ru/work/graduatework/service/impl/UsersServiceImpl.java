@@ -45,6 +45,7 @@ public class UsersServiceImpl implements UsersService {
             activeUsers.add(userFindByEmail.get().getId());
             logger.info("ID Logged in user - " + userFindByEmail.get().getId().toString());
         }
+
         return userFindByEmail.orElse(null);
 
     }
