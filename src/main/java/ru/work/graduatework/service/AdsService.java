@@ -1,14 +1,21 @@
 package ru.work.graduatework.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
+import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CreateAdsDto;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public interface AdsService {
 
-    ResponseWrapperAds getAds();   // Получить объявление
 
-    CreateAds addAds();   // Добавить объявления
+    Collection<AdsDto> getAds();   // Получить объявление
+
+    AdsDto addAds(CreateAdsDto createAdsDto, String image);
 
     FullAds getFullAd();   // Получить полную рекламу
 
