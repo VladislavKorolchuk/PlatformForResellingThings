@@ -19,7 +19,6 @@ import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.service.UsersService;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +29,6 @@ public class UsersController {
     private final Logger logger = LoggerFactory.getLogger(UsersController.class);
     private final UsersService usersService;
     private final UsersRepository usersRepository;
-    private Integer loggedInUser;        // logged in user
 
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
@@ -59,20 +57,13 @@ public class UsersController {
     )
     @GetMapping("/me")
     public Users getUsers(Principal principal) {
+
         logger.info("Class UsersController, current method is - getUsers");
-        String username;
         if (principal != null) {
-            username = principal.getName();
-            logger.info("Logged in user - " + username);
-            Optional<Users> userFindByEmail = usersRepository.findByEmail(username);
-            if (userFindByEmail != null) {
-                loggedInUser = userFindByEmail.get().getId();
-                Optional<Users> user = usersRepository.findById(loggedInUser);
-                logger.info("ID Logged in user - " + loggedInUser.toString());
-                return user.orElse(null);
-            }
+            return usersService.getUsers(principal.getName());
         }
         return null;
+
     }
 
     @Operation(summary = "Установить пароль",
@@ -132,14 +123,14 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-    public void updateUser(@RequestBody UserDto userDto) {
+    public void updateUser(@RequestBody UserDto userDto, Principal principal) {
 
         logger.info("Class UsersController, current method is - updateUser");
-        Optional<Users> user = usersRepository.findById(loggedInUser);
-        user.get().setFirstName(userDto.getFirstName());
-        user.get().setLastName(userDto.getLastName());
-        user.get().setPhone(userDto.getPhone());
-        usersRepository.save(user.get());
+        Users user = usersService.getUsers(principal.getName());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        usersRepository.save(user);
     }
 
     @Operation(summary = "Обновление изображение пользователя",
@@ -160,4 +151,5 @@ public class UsersController {
         logger.info("Class UsersController, current method is - updateUserImage");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
