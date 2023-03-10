@@ -1,22 +1,47 @@
 package ru.work.graduatework.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.*;
+import ru.work.graduatework.controller.AdsController;
+import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CreateAdsDto;
+import ru.work.graduatework.dto.repository.AdsRepository;
+import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.service.AdsService;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class AdsServiceImpl implements AdsService {
 
+    private final AdsRepository adsRepository;
 
-    @Override
-    public ResponseWrapperAds getAds() {
-        return null;
+    private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+    public AdsServiceImpl(AdsRepository adsRepository) {
+        this.adsRepository = adsRepository;
     }
 
     @Override
-    public CreateAds addAds() {
-        return null;
+    public Collection<AdsDto> getAds() {
+        logger.info("Current Method is - getAds-Service");
+        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public AdsDto addAds(CreateAdsDto createAdsDto, String image) {
+        logger.info("Current Method is - addAds");
+        // если креэйтДто.дет... null то ошибка
+        Ads ads = new Ads();
+        ads.setTitle(createAdsDto.getTitle());
+        ads.setPrice(createAdsDto.getPrice());
+        ads.setImage(image);
+        ads.setAuthor(1);
+        return AdsMapper.toDto(adsRepository.save(ads));
+    }
+
 
     @Override
     public FullAds getFullAd() {
