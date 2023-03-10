@@ -1,8 +1,6 @@
 package ru.work.graduatework.Entity;
 
 import javax.persistence.*;
-import java.util.List;
-
 @Entity
 @Table(name = "Ads")
 public class Ads {
@@ -13,8 +11,10 @@ public class Ads {
     private Integer pk;                         // User ID
     @Column(name = "Ads_author")
     private Integer author;                     // ID
-    @ElementCollection                          // Image
-    private List<String> image;
+//    @ElementCollection                          // Image
+//    private List<String> image;
+    @Column(name = "Ads_image")
+    private String image;
 
     @Column(name = "Ads_price")
     private Integer price;                      // Price
@@ -34,11 +34,20 @@ public class Ads {
         this.author = author;
     }
 
-    public List<String> getImage() {
+//    public List<String> getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(List<String> image) {
+//        this.image = image;
+//    }
+
+
+    public String getImage() {
         return image;
     }
 
-    public void setImage(List<String> image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -73,5 +82,4 @@ public class Ads {
     public void setUser(Users user) {
         this.user = user;
     }
-
 }

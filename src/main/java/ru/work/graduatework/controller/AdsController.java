@@ -17,6 +17,11 @@ import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.FullAdsDto;
+import ru.work.graduatework.dto.repository.AdsRepository;
+import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.service.AdsService;
+
+import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
@@ -24,6 +29,11 @@ import ru.work.graduatework.dto.FullAdsDto;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+
+    private final AdsRepository adsRepository;
+
+    private final AdsService adsService;
+
 
     @Operation(
             operationId = "getALLAds",
@@ -34,9 +44,9 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseEntity<ResponseWrapperAds> getAllAds() { // параметры какие ?
+    public Collection<AdsDto> getAllAds() {
         logger.info("Current Method is - getAds");
-        return ResponseEntity.ok(new ResponseWrapperAds());
+        return adsService.getAds();
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
@@ -49,9 +59,13 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping()   // Добавить объявления
-    public ResponseEntity<CreateAdsDto> addAds(@RequestBody CreateAdsDto createAdsDto) {
-        logger.info("Current Method is - addAds");
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam String image ) {
+        logger.info("Current Method is - addAds"); //ловить ошибку
+        AdsDto adsDto = adsService.addAds(createAdsDto, image);
+        if (adsDto == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        else return ResponseEntity.ok(adsDto);
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -85,7 +99,7 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ads.class))), // FullAds.class
+                            schema = @Schema(implementation = FullAds.class))), // FullAds.class
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")

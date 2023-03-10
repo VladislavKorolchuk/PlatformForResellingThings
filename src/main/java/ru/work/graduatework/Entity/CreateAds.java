@@ -32,5 +32,4 @@ public class CreateAds {
     public void setTitle(String title) {
         this.title = title;
     }
-
 }
