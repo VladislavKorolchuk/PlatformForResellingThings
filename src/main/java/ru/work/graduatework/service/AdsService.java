@@ -19,7 +19,7 @@ public interface AdsService {
 
     FullAds getFullAd();   // Получить полную рекламу
 
-    void removeAds();   // Убрать рекламу
+    AdsDto removeAds(int id);   // Убрать рекламу
 
     Ads updateAds();   // Обновить рекламу
 

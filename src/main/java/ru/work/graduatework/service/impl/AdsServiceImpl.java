@@ -1,5 +1,7 @@
 package ru.work.graduatework.service.impl;
 
+import com.sun.jdi.ObjectCollectedException;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ public class AdsServiceImpl implements AdsService {
         return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
     }
 
+    // TODO: здесь требуется доработать,пример был на разборе
     @Override
     public AdsDto addAds(CreateAdsDto createAdsDto, String image) {
         logger.info("Current Method is - addAds");
@@ -49,8 +52,10 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public void removeAds() {
-
+    public AdsDto removeAds(int id) {
+        Ads dbAds = this.adsRepository.findById(id).orElseThrow(ObjectCollectedException::new);
+        this.adsRepository.delete(dbAds);
+        return AdsMapper.toDto(dbAds);
     }
 
     @Override
