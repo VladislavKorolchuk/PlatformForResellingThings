@@ -18,7 +18,6 @@ import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.FullAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
-import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.service.AdsService;
 
 import java.util.Collection;
@@ -115,9 +114,9 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
             }, tags = "Объявления")
     @DeleteMapping("/{id}")   // Убрать рекламу
-    public ResponseEntity<AdsDto> removeAds(@PathVariable int id) { // параметры
+    public AdsDto removeAds(@PathVariable int id) { // параметры
         logger.info("Current Method is - removeAds");
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return adsService.removeAds(id);
     }
 
     @Operation(summary = "updateAds", operationId = "updateAds",
