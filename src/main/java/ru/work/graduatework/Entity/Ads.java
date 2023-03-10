@@ -1,8 +1,13 @@
 package ru.work.graduatework.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "Ads")
+@Getter
+@Setter
 public class Ads {
 
     @Id
@@ -26,60 +31,4 @@ public class Ads {
     @JoinColumn(name = "Ads_user_id")
     private Users user;
 
-    public Integer getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Integer author) {
-        this.author = author;
-    }
-
-//    public List<String> getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(List<String> image) {
-//        this.image = image;
-//    }
-
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Integer getPk() {
-        return pk;
-    }
-
-    public void setPk(Integer pk) {
-        this.pk = pk;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
 }
