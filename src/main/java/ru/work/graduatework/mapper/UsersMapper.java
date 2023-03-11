@@ -7,8 +7,7 @@ public class UsersMapper {
 
     public static UserDto toDto(Users users) {
         return new UserDto(users.getId(), users.getFirstName(), users.getLastName(), users.getPhone(),
-                users.getEmail(), users.getRegDate(), users.getCity(), users.getImage());
-        //users.getAds()
+                users.getEmail(), users.getRegDate(), users.getCity(), users.getImage(), users.getAdsCollection());
     }
 
     public static Users toEntity(UserDto userDto) {
@@ -21,7 +20,7 @@ public class UsersMapper {
         users.setRegDate(userDto.getRegDate());
         users.setCity(userDto.getCity());
         users.setImage(userDto.getImage());
-//        users.setAds(userDto.getAds());
+        users.setAdsCollection(userDto.getAdsCollection());
         return users;
     }
 }
