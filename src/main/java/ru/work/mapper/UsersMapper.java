@@ -1,4 +1,4 @@
-package ru.work.graduatework.mapper;
+package ru.work.mapper;
 
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.UserDto;
@@ -6,12 +6,14 @@ import ru.work.graduatework.dto.UserDto;
 public class UsersMapper {
 
     public static UserDto toDto(Users users) {
+
         return new UserDto(users.getId(), users.getFirstName(), users.getLastName(), users.getPhone(),
                 users.getEmail(), users.getRegDate(), users.getCity(), users.getImage());
-        //, users.getAdsCollection()
+
     }
 
     public static Users toEntity(UserDto userDto) {
+
         Users users = new Users();
         users.setId(userDto.getId());
         users.setFirstName(userDto.getFirstName());
@@ -21,7 +23,7 @@ public class UsersMapper {
         users.setRegDate(userDto.getRegDate());
         users.setCity(userDto.getCity());
         users.setImage(userDto.getImage());
-       // users.setAdsCollection(userDto.getAdsCollection());
         return users;
+
     }
 }

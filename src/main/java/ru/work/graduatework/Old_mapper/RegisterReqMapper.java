@@ -1,7 +1,7 @@
-package ru.work.graduatework.mapper;
+package ru.work.graduatework.Old_mapper;
 
-import ru.work.graduatework.Entity.RegisterReq;
-import ru.work.graduatework.dto.RegisterReqDto;
+import ru.work.graduatework.Old_Entity.RegisterReq;
+import ru.work.graduatework.Old_DTO.RegisterReqDto;
 
 public class RegisterReqMapper {
 

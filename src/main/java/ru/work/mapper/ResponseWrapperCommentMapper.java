@@ -1,7 +1,7 @@
-package ru.work.graduatework.mapper;
+package ru.work.mapper;
 
 import ru.work.graduatework.Entity.ResponseWrapperComment;
-import ru.work.graduatework.dto.ResponseWrapperCommentDto;
+import ru.work.graduatework.Old_DTO.ResponseWrapperCommentDto;
 
 public class ResponseWrapperCommentMapper {
     public static ResponseWrapperCommentDto toDto(ResponseWrapperComment responseWrapperComment) {

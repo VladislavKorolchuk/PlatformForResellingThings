@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.work.graduatework.dto.LoginReqDto;
-import ru.work.graduatework.dto.RegisterReqDto;
+import ru.work.graduatework.Old_DTO.LoginReqDto;
+import ru.work.graduatework.Old_DTO.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.service.AuthService;
 

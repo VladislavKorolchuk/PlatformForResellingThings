@@ -1,4 +1,4 @@
-package ru.work.graduatework.dto;
+package ru.work.graduatework.Old_DTO;
 
 import lombok.Data;
 import ru.work.graduatework.Entity.Comment;

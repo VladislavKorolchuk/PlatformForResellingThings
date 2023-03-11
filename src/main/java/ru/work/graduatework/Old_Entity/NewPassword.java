@@ -1,4 +1,4 @@
-package ru.work.graduatework.Entity;
+package ru.work.graduatework.Old_Entity;
 
 public class NewPassword {
     private String currentPassword;
