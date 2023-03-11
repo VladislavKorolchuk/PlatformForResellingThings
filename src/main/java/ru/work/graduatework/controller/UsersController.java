@@ -16,7 +16,7 @@ import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
+import ru.work.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
 
 import java.security.Principal;
@@ -96,8 +96,10 @@ public class UsersController {
     )
     @PostMapping("/set_password")
     public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
+
         logger.info("Class UsersController, current method is - setPassword");
         return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
     @Operation(summary = "Обновить данные пользователя",
@@ -159,9 +161,11 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me/image")
+
     public ResponseEntity<UserDto> updateUserImage(@RequestBody ImageDto imageDto) {
         logger.info("Class UsersController, current method is - updateUserImage");
         return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
 }

@@ -1,13 +1,14 @@
 package ru.work.graduatework.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
+import ru.work.graduatework.Entity.FullAds;
+import ru.work.graduatework.Entity.ResponseWrapperAds;
+import ru.work.graduatework.Entity.ResponseWrapperComment;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public interface AdsService {

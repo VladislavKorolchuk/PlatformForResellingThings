@@ -1,6 +1,6 @@
-package ru.work.graduatework.mapper;
+package ru.work.graduatework.Old_mapper;
 
-import ru.work.graduatework.Entity.Image;
+import ru.work.graduatework.Old_Entity.Image;
 import ru.work.graduatework.dto.ImageDto;
 
 public class ImageMapper {

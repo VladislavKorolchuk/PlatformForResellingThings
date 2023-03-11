@@ -2,6 +2,7 @@ package ru.work.graduatework.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.work.graduatework.Old_Entity.Image;
 
 import javax.persistence.*;
 import java.util.List;

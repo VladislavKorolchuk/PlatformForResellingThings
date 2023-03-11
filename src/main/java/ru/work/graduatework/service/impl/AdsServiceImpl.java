@@ -1,16 +1,18 @@
 package ru.work.graduatework.service.impl;
 
 import com.sun.jdi.ObjectCollectedException;
-import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.*;
+import ru.work.graduatework.Entity.FullAds;
+import ru.work.graduatework.Entity.ResponseWrapperAds;
+import ru.work.graduatework.Entity.ResponseWrapperComment;
 import ru.work.graduatework.controller.AdsController;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
-import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.mapper.AdsMapper;
 import ru.work.graduatework.service.AdsService;
 
 import java.util.Collection;
@@ -22,6 +24,7 @@ public class AdsServiceImpl implements AdsService {
     private final AdsRepository adsRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+
     public AdsServiceImpl(AdsRepository adsRepository) {
         this.adsRepository = adsRepository;
     }
@@ -44,7 +47,6 @@ public class AdsServiceImpl implements AdsService {
         ads.setAuthor(1);
         return AdsMapper.toDto(adsRepository.save(ads));
     }
-
 
     @Override
     public FullAds getFullAd() {

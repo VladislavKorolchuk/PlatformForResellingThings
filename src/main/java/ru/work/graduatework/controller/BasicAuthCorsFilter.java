@@ -2,6 +2,7 @@ package ru.work.graduatework.controller;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,4 +20,5 @@ public class BasicAuthCorsFilter extends OncePerRequestFilter {
         httpServletResponse.addHeader("Access-Control-Allow-Credentials", "true");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
 }

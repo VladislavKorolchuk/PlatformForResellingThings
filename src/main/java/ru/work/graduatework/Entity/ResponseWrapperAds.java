@@ -1,5 +1,7 @@
 package ru.work.graduatework.Entity;
 
+import ru.work.graduatework.Entity.Ads;
+
 import java.util.List;
 
 public class ResponseWrapperAds {

@@ -1,7 +1,9 @@
-package ru.work.graduatework.Entity;
+package ru.work.graduatework.Old_Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Users;
 
 import javax.persistence.*;
 

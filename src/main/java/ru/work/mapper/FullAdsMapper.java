@@ -1,4 +1,4 @@
-package ru.work.graduatework.mapper;
+package ru.work.mapper;
 
 import ru.work.graduatework.Entity.FullAds;
 import ru.work.graduatework.dto.FullAdsDto;
