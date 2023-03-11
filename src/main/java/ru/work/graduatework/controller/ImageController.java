@@ -26,10 +26,8 @@ public class ImageController {
                             description = "Not Found")}, tags = "Изображения")
     @PostMapping("/{id}")
     public ResponseEntity<?> updateAdsImage(@PathVariable int id, @RequestParam MultipartFile imageFile) {
-
         logger.info("Class ImageController, current method is - updateAdsImage");
         return ResponseEntity.status(HttpStatus.OK).build();
-
     }
 
 }

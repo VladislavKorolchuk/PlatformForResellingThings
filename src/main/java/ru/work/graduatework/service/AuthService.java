@@ -1,6 +1,6 @@
 package ru.work.graduatework.service;
 
-import ru.work.graduatework.Old_DTO.RegisterReqDto;
+import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 
 public interface AuthService {
