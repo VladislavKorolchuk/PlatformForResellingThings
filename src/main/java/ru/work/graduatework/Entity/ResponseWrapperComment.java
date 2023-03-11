@@ -1,7 +1,5 @@
 package ru.work.graduatework.Entity;
 
-import ru.work.graduatework.Entity.Comment;
-
 import java.util.List;
 
 public class ResponseWrapperComment {

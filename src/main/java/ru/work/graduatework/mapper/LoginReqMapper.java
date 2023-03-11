@@ -1,7 +1,7 @@
-package ru.work.graduatework.Old_mapper;
+package ru.work.graduatework.mapper;
 
-import ru.work.graduatework.Old_Entity.LoginReq;
-import ru.work.graduatework.Old_DTO.LoginReqDto;
+import ru.work.graduatework.Entity.LoginReq;
+import ru.work.graduatework.dto.LoginReqDto;
 
 public class LoginReqMapper {
 

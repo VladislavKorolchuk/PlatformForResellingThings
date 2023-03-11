@@ -3,14 +3,13 @@ package ru.work.graduatework.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.work.graduatework.Old_Entity.Image;
-import ru.work.graduatework.Old_Entity.NewPassword;
+import ru.work.graduatework.Entity.Image;
+import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
-import ru.work.mapper.UsersMapper;
+import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class UsersServiceImpl implements UsersService {
         this.usersRepository = usersRepository;
     }
 
-    Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
+    Collection <Integer> activeUsers = new HashSet<>(); // Collection active Users
 
     /**
      * @return Collection activeUsers
@@ -35,20 +34,20 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Collection<Users> getUsers() {
 
-        Collection<Users> usersCollection = new HashSet();
-        for (Integer idUser : activeUsers) {
-            Optional<Users> userFindById = usersRepository.findById(idUser);
-            if (userFindById.isPresent()) {
-                Users user = new Users();
-                user.setId(userFindById.get().getId());
-                user.setFirstName(userFindById.get().getFirstName());
-                user.setLastName(userFindById.get().getLastName());
-                user.setEmail(userFindById.get().getEmail());
-                user.setPhone(userFindById.get().getPhone());
-                usersCollection.add(user);
+            Collection<Users> usersCollection = new HashSet();
+            for (Integer idUser : activeUsers) {
+                Optional<Users> userFindById = usersRepository.findById(idUser);
+                if (userFindById.isPresent()) {
+                    Users user = new Users();
+                    user.setId(userFindById.get().getId());
+                    user.setFirstName(userFindById.get().getFirstName());
+                    user.setLastName(userFindById.get().getLastName());
+                    user.setEmail(userFindById.get().getEmail());
+                    user.setPhone(userFindById.get().getPhone());
+                    usersCollection.add(user);
+                }
             }
-        }
-        return usersCollection;
+            return usersCollection;
 
     }
 
@@ -75,16 +74,15 @@ public class UsersServiceImpl implements UsersService {
 
     }
 
+
+
     @Override
     public NewPassword setPassword() {
-
         return null;
-
     }
 
     @Override
     public Users updateUser(UserDto userDto) {
-
         Users user;
         user = UsersMapper.toEntity(userDto);
         Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
@@ -93,14 +91,10 @@ public class UsersServiceImpl implements UsersService {
             return updateUser.get();
         }
         return null;
-
     }
 
     @Override
     public Image updateUserImage() {
-
         return null;
-
     }
-
 }

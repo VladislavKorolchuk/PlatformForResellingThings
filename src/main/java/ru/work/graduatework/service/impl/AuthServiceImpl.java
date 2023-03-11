@@ -8,20 +8,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.work.graduatework.Old_Entity.RegisterReq;
+import ru.work.graduatework.Entity.RegisterReq;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.Old_DTO.RegisterReqDto;
+import ru.work.graduatework.GraduateWorkApplication;
+import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.repository.UsersRepository;
-import ru.work.graduatework.Old_mapper.RegisterReqMapper;
+import ru.work.graduatework.mapper.RegisterReqMapper;
 import ru.work.graduatework.service.AuthService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     private final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
+
     private final UserDetailsManager manager;
+
     private final UsersRepository usersRepository;
+
     private final PasswordEncoder encoder;
 
     public AuthServiceImpl(UserDetailsManager manager, UsersRepository usersRepository) {
@@ -62,16 +66,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * @param registerReqDto Input parameter
-     *                       <br> <b> Method create User </b> </br>
-     *                       <br> Input parameter entity {@link RegisterReqDto} </br>
-     *                       <br> Is used entity Users {@link User} </br>
-     *                       <br> Is used mapper {@link RegisterReqMapper} </br>
-     *                       <br> Is used repository {@link UsersRepository#save(Object)} </br>
      * @author Korolchuk Vladislav
+     * @param registerReqDto Input parameter
+     * <br> <b> Method create User </b> </br>
+     * <br> Input parameter entity {@link RegisterReqDto} </br>
+     * <br> Is used entity Users {@link User} </br>
+     * <br> Is used mapper {@link RegisterReqMapper} </br>
+     * <br> Is used repository {@link UsersRepository#save(Object)} </br>
      */
     public void createUser(RegisterReqDto registerReqDto) {
-
         logger.info("Class AuthServiceImpl, current method is - createUser");
 
         //  if (usersRepository.findByEmail(registerReqDto.getUsername()).isPresent()) {
@@ -83,6 +86,9 @@ public class AuthServiceImpl implements AuthService {
         user.setLastName(registerReq.getLastName());
         user.setPhone(registerReq.getPhone());
         usersRepository.save(user);
+        //       return true;
+        //   }
+        //   return false;
     }
 
 }

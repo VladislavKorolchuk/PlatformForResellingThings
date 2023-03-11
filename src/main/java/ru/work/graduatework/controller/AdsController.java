@@ -13,9 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.work.graduatework.Entity.*;
-import ru.work.graduatework.Entity.FullAds;
-import ru.work.graduatework.Entity.ResponseWrapperAds;
-import ru.work.graduatework.Entity.ResponseWrapperComment;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
@@ -31,8 +28,11 @@ import java.util.Collection;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+
     private final AdsRepository adsRepository;
+
     private final AdsService adsService;
+
 
     @Operation(
             operationId = "getALLAds",
@@ -58,12 +58,13 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping()   // Добавить объявления
-    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam String image) {
+    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam String image ) {
         logger.info("Current Method is - addAds"); //ловить ошибку
         AdsDto adsDto = adsService.addAds(createAdsDto, image);
-        if (adsDto == null) {
+        if (adsDto == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else return ResponseEntity.ok(adsDto);
+        }
+        else return ResponseEntity.ok(adsDto);
     }
 
     @Operation(summary = "getComments", operationId = "getComments",

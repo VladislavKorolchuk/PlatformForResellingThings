@@ -1,6 +1,6 @@
-package ru.work.graduatework.Old_mapper;
+package ru.work.graduatework.mapper;
 
-import ru.work.graduatework.Old_Entity.CreateAds;
+import ru.work.graduatework.Entity.CreateAds;
 import ru.work.graduatework.dto.CreateAdsDto;
 
 public class CreateAdsMapper {

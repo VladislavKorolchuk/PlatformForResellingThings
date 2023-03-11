@@ -1,6 +1,6 @@
-package ru.work.graduatework.Old_mapper;
+package ru.work.graduatework.mapper;
 
-import ru.work.graduatework.Old_Entity.NewPassword;
+import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.dto.NewPasswordDto;
 
 public class NewPasswordMapper {

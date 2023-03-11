@@ -1,7 +1,6 @@
-package ru.work.graduatework.Old_DTO;
+package ru.work.graduatework.dto;
 
 import lombok.Data;
-import ru.work.graduatework.dto.Role;
 
 @Data
 public class RegisterReqDto {

@@ -1,4 +1,4 @@
-package ru.work.graduatework.Old_Entity;
+package ru.work.graduatework.Entity;
 
 public class CreateAds {
 

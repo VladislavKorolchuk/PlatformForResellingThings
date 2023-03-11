@@ -1,4 +1,4 @@
-package ru.work.mapper;
+package ru.work.graduatework.mapper;
 
 import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.dto.CommentDto;

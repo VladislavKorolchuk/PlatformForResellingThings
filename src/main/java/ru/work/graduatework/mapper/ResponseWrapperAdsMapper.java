@@ -1,7 +1,7 @@
-package ru.work.mapper;
+package ru.work.graduatework.mapper;
 
 import ru.work.graduatework.Entity.ResponseWrapperAds;
-import ru.work.graduatework.Old_DTO.ResponseWrapperAdsDto;
+import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 
 public class ResponseWrapperAdsMapper {
 
