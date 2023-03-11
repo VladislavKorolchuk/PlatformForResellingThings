@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 
 import java.util.Collection;
@@ -27,7 +28,7 @@ public interface AdsService {
 
     ResponseWrapperComment getComments(); //ResponseWrapperComment список всех комментариев
 
-    Comment addComments(); //Комментарий которые добавили
+    public CommentDto addComments(int ad_pk, CommentDto commentDto); //Комментарий которые добавили
 
     Comment getCommentsId(); // Комментарий по id
 

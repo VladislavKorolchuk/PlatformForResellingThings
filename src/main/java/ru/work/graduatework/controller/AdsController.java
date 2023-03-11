@@ -88,10 +88,13 @@ public class AdsController {
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
-    @PostMapping("/{ad_pk}/comments")  // Добавить Комментарии
-    public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") String ad_pk, @RequestBody CommentDto commentDto) { // параметры,         required: true
+    @PostMapping("/{ad_pk}/comments") // Добавить Комментарии
+            public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") int ad_pk, @RequestBody CommentDto commentDto) {
         logger.info("Current Method is - addComments");
-        return ResponseEntity.ok(commentDto);
+        CommentDto comment = adsService.addComments(ad_pk, commentDto);
+        if (comment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else return ResponseEntity.ok(comment);
     }
 
     @Operation(summary = "getFullAd", operationId = "getAds",
