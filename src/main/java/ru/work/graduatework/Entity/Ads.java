@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -35,4 +36,6 @@ public class Ads {
     @OneToMany(mappedBy = "ads")                 // Many images to one ads
     private List<Image> images;
 
+    @OneToMany(mappedBy = "ads")                       // type of database connection
+    Collection<Comment> commentCollection;
 }
