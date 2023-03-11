@@ -1,9 +1,14 @@
 package ru.work.graduatework.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Image")
+@Getter
+@Setter
 public class Image {
 
     @Id
@@ -17,40 +22,12 @@ public class Image {
     @Column(name = "Image_image")
     private String image ;                  // Image
 
-    @OneToOne                               // One-to-one communication
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ads_id")            // One-to-one communication
     private Ads ads;
 
-    // ----------------- block Getter's and Setter's ---------------------
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getIdAds() {
-        return idAds;
-    }
-
-    public void setIdAds(Long idAds) {
-        this.idAds = idAds;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Ads getAds() {
-        return ads;
-    }
-
-    public void setAds(Ads ads) {
-        this.ads = ads;
-    }
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Users users;
 
 }

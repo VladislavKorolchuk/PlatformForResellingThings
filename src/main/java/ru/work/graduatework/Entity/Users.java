@@ -37,7 +37,6 @@ public class Users {
     Collection<Ads> adsCollection;
 
     @OneToMany(mappedBy = "user")                       // type of database connection
-    // @JoinColumn (name = "ads_id")
     Collection<Comment> commentCollection;
 
 }
