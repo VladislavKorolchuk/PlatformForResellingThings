@@ -6,6 +6,7 @@ import ru.work.graduatework.Entity.FullAds;
 import ru.work.graduatework.Entity.ResponseWrapperAds;
 import ru.work.graduatework.Entity.ResponseWrapperComment;
 import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 
 import java.util.Collection;
@@ -24,11 +25,11 @@ public interface AdsService {
 
     Ads updateAds();   // Обновить рекламу
 
-    ResponseWrapperAds getAdsMe();   // Получить рекламу
+    ResponseWrapperAds getAdsMe();   // Получить все объявления?
 
     ResponseWrapperComment getComments(); //ResponseWrapperComment список всех комментариев
 
-    Comment addComments(); //Комментарий которые добавили
+    public CommentDto addComments(int ad_pk, CommentDto commentDto); //добавить комментарий к объявлению
 
     Comment getCommentsId(); // Комментарий по id
 
