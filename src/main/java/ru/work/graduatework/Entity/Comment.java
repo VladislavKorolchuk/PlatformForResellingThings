@@ -22,8 +22,12 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne                                  // Many-to-one communication
+    @ManyToOne(fetch = FetchType.LAZY)                  // Many-to-one communication
     @JoinColumn(name = "Ads_user_id")
     private Users user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ads")
+    private Ads ads;
 
 }
