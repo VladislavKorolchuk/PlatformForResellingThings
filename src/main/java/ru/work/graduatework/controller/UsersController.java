@@ -16,12 +16,9 @@ import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.HashSet;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,15 +56,13 @@ public class UsersController {
             }, tags = "USER"
     )
     @GetMapping("/me")
-    public Collection<Users> getUsers(Principal principal) {
+    public Users getUsers(Principal principal) {
 
         logger.info("Class UsersController, current method is - getUsers");
         if (principal != null) {
-            Collection<Users> usersCollection = new HashSet<>();
-            usersCollection.add(usersService.getUser(principal.getName()));
-            return usersCollection;
+            return usersService.getUsers(principal.getName());
         }
-        return usersService.getUsers();
+        return null;
 
     }
 
@@ -131,18 +126,11 @@ public class UsersController {
     public void updateUser(@RequestBody UserDto userDto, Principal principal) {
 
         logger.info("Class UsersController, current method is - updateUser");
-        if (principal != null) {
-            Users user = usersService.getUser(principal.getName());
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setPhone(userDto.getPhone());
-            usersRepository.save(user);
-        } else {
-            Users user = UsersMapper.toEntity(userDto);
-            logger.info("-----------------------------------------");
-            usersRepository.save(user);
-        }
-        return;
+        Users user = usersService.getUsers(principal.getName());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        usersRepository.save(user);
     }
 
     @Operation(summary = "Обновление изображение пользователя",

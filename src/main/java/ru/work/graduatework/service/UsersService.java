@@ -5,14 +5,11 @@ import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.UserDto;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface UsersService {
 
-    Collection<Users> getUsers(); // Получить пользователей
-
-    Users getUser(String emailUser); // Получить пользователя
+    Users getUsers(String emailUser); // Получить пользователя
 
     NewPassword setPassword();  // Установка пароля
 
