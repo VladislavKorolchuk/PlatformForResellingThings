@@ -17,6 +17,11 @@ import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.FullAdsDto;
+import ru.work.graduatework.service.UsersService;
+
+import java.security.Principal;
+import java.util.Collection;
+import java.util.HashSet;
 
 @RestController()
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ import ru.work.graduatework.dto.FullAdsDto;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+    private final UsersService usersService;
 
     @Operation(
             operationId = "getALLAds",
@@ -34,8 +40,15 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseEntity<ResponseWrapperAds> getAllAds() { // параметры какие ?
-        logger.info("Current Method is - getAds");
+
+    public ResponseEntity<ResponseWrapperAds> getAllAds(Principal principal) { // параметры какие ?
+        logger.info("Class AdsController, current method is - getAllAds");
+        if (principal != null) {
+            Users user = usersService.getUser(principal.getName());
+
+        }
+
+
         return ResponseEntity.ok(new ResponseWrapperAds());
     }
 
@@ -50,7 +63,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping()   // Добавить объявления
     public ResponseEntity<CreateAdsDto> addAds(@RequestBody CreateAdsDto createAdsDto) {
-        logger.info("Current Method is - addAds");
+        logger.info("Class AdsController, current method is - addAds");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -63,6 +76,7 @@ public class AdsController {
                             description = "Not Found")}, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments")  // Получить комментарии
     public ResponseEntity<ResponseWrapperComment> getComments(@PathVariable("ad_pk") String add_pk) {
+        logger.info("Class AdsController, current method is - getComments");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -77,7 +91,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping("/{ad_pk}/comments")  // Добавить Комментарии
     public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") String ad_pk, @RequestBody CommentDto commentDto) { // параметры,         required: true
-        logger.info("Current Method is - addComments");
+        logger.info("Class AdsController, current method is - addComments");
         return ResponseEntity.ok(commentDto);
     }
 
@@ -90,7 +104,7 @@ public class AdsController {
                             description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")
     public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) { // параметры и  required: true
-        logger.info("Current Method is - getFullAd");
+        logger.info("Class AdsController, current method is - getFullAd");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -102,7 +116,7 @@ public class AdsController {
             }, tags = "Объявления")
     @DeleteMapping("/{id}")   // Убрать рекламу
     public ResponseEntity<AdsDto> removeAds(@PathVariable int id) { // параметры
-        logger.info("Current Method is - removeAds");
+        logger.info("Class AdsController, current method is - removeAds");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -117,7 +131,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/{id}")   // Обновить рекламу
     public ResponseEntity<AdsDto> updateAds(@PathVariable int id, @RequestBody AdsDto adsDto) {   // параметры,    required: true
-        logger.info("Current Method is - updateAds");
+        logger.info("Class AdsController, current method is - updateAds");
         return ResponseEntity.ok(adsDto);
 
     }
@@ -134,7 +148,7 @@ public class AdsController {
     public ResponseEntity<CommentDto> getCommentsId(@PathVariable("ad_pk") String ad_pk,
                                                     @PathVariable int id,
                                                     @RequestBody CommentDto commentDto) {
-        logger.info("Current Method is - getCommentsId");
+        logger.info("Class AdsController, current method is - getCommentsId");
         return ResponseEntity.ok(commentDto);
     }
 
@@ -147,7 +161,7 @@ public class AdsController {
     @DeleteMapping("/{ad_pk}/comments/{id}")   // Удалить комментарии по id
     public ResponseEntity<CommentDto> deleteCommentsId(@PathVariable("ad_pk") String ad_pk,
                                                        @PathVariable int id) {
-        logger.info("Current Method is - deleteCommentsId");
+        logger.info("Class AdsController, current method is - deleteCommentsId");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -164,7 +178,7 @@ public class AdsController {
     public ResponseEntity<CommentDto> updateCommentsId(@PathVariable("ad_pk") String adPk,
                                                        @PathVariable int id,
                                                        @RequestBody CommentDto commentDto) { // параметры, required: true
-        logger.info("Current Method is - updateCommentsId");
+        logger.info("Class AdsController, current method is - updateCommentsId");
         return ResponseEntity.ok(commentDto);
 
     }
@@ -180,7 +194,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @GetMapping("/me")   // Получить рекламу
     public ResponseEntity<ResponseWrapperAds> getAdsMe() { // параметры нужно разобрать и дописать
-        logger.info("Current Method is - getAdsMe");
+        logger.info("Class AdsController, current method is - getAdsMe");
         return ResponseEntity.ok(new ResponseWrapperAds());
     }
 

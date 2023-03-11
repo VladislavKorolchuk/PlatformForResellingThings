@@ -24,14 +24,15 @@ public class UserDto {
 
     private String image;
 
-    private Collection<Ads> ads;
+   // private Collection<Ads> ads;
 
     public UserDto() {
 
     }
 
     public UserDto(Integer id, String firstName, String lastName, String phone,
-                   String email, String regDate, String city, String image, Collection<Ads> ads) {
+                   String email, String regDate, String city, String image) {
+        //Collection<Ads> ads
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +41,7 @@ public class UserDto {
         this.regDate = regDate;
         this.city = city;
         this.image = image;
-        this.ads = ads;
+     //   this.ads = ads;
     }
 
 }

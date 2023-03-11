@@ -10,42 +10,64 @@ import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service
 public class UsersServiceImpl implements UsersService {
 
     private final Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
     private final UsersRepository usersRepository;
+    private Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
 
     public UsersServiceImpl(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
-    Collection <Integer> activeUsers = new HashSet<>(); // Collection active Users
-
     /**
+     * @return Collection activeUsers
      * @author Korolchuk Vladislav
      * <br> <b> Method get Users </b> </br>
-     * @param emailUser Input parameter
-     * <br> Is used entity Users {@link Users} </br>
-     * <br> Is used repository {@link UsersRepository#save(Object)} </br>
-     * <br> Uses the active Users collection which contains active users </br>
-     * @return {@link Users}
      */
     @Override
-    public Users getUsers(String emailUser) {
+    public Collection<Users> getUsers() {
 
-        logger.info("Class UsersServiceImpl, current method is - getUsers");
+        Collection<Users> usersCollection = new HashSet();
+        for (Integer idUser : activeUsers) {
+            Optional<Users> userFindById = usersRepository.findById(idUser);
+            if (userFindById.isPresent()) {
+                Users user = new Users();
+                user.setId(userFindById.get().getId());
+                user.setFirstName(userFindById.get().getFirstName());
+                user.setLastName(userFindById.get().getLastName());
+                user.setEmail(userFindById.get().getEmail());
+                user.setPhone(userFindById.get().getPhone());
+                usersCollection.add(user);
+            }
+        }
+        return usersCollection;
+
+    }
+
+    /**
+     * @param emailUser Input parameter
+     *                  <br> Is used entity Users {@link Users} </br>
+     *                  <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *                  <br> Uses the active Users collection which contains active users </br>
+     * @return {@link Users}
+     * @author Korolchuk Vladislav
+     * <br> <b> Method get User </b> </br>
+     */
+    @Override
+    public Users getUser(String emailUser) {
+
+        logger.info("Class UsersServiceImpl, current method is - getUser");
+
         Optional<Users> userFindByEmail = usersRepository.findByEmail(emailUser);
-        // Filling the collection with active users
+        //---- Creating a User entity that has been authenticated by the system----
         if (userFindByEmail.isPresent()) {
             activeUsers.add(userFindByEmail.get().getId());
-            logger.info("ID Logged in user - " + userFindByEmail.get().getId().toString());
         }
-
         return userFindByEmail.orElse(null);
 
     }
