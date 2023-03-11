@@ -10,10 +10,13 @@ import ru.work.graduatework.Entity.ResponseWrapperAds;
 import ru.work.graduatework.Entity.ResponseWrapperComment;
 import ru.work.graduatework.controller.AdsController;
 import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
+import ru.work.graduatework.dto.repository.CommentRepository;
 import ru.work.mapper.AdsMapper;
 import ru.work.graduatework.service.AdsService;
+import ru.work.mapper.CommentMapper;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -23,10 +26,12 @@ public class AdsServiceImpl implements AdsService {
 
     private final AdsRepository adsRepository;
 
+    private final CommentRepository commentRepository;
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
 
-    public AdsServiceImpl(AdsRepository adsRepository) {
+    public AdsServiceImpl(AdsRepository adsRepository, CommentRepository commentRepository) {
         this.adsRepository = adsRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -47,6 +52,7 @@ public class AdsServiceImpl implements AdsService {
         ads.setAuthor(1);
         return AdsMapper.toDto(adsRepository.save(ads));
     }
+
 
     @Override
     public FullAds getFullAd() {
@@ -75,9 +81,13 @@ public class AdsServiceImpl implements AdsService {
         return null;
     }
 
+    // TODO: В последствии должен принимать String ad_pk
     @Override
-    public Comment addComments() {
-        return null;
+    public CommentDto addComments(int ad_pk, CommentDto commentDto) {
+        //обработать возможные ошибки с CommentDto
+        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow(ObjectCollectedException::new);
+        ads.getCommentCollection().add(CommentMapper.toEntity(commentDto));
+        return CommentMapper.toDto(this.commentRepository.save(CommentMapper.toEntity(commentDto)));
     }
 
     @Override
