@@ -40,6 +40,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement(session->session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
+                .maxSessionsPreventsLogin(true)) //запрет второго логина
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
                         authz
