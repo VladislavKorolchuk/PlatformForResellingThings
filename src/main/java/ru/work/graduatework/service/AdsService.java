@@ -22,7 +22,7 @@ public interface AdsService {
 
     AdsDto removeAds(int id);   // Убрать рекламу
 
-    Ads updateAds();   // Обновить рекламу
+    AdsDto updateAds(int id, AdsDto adsDto);   // Обновить рекламу
 
     ResponseWrapperAds getAdsMe();   // Получить рекламу
 
