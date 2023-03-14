@@ -14,18 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
-import ru.work.graduatework.dto.AdsDto;
-import ru.work.graduatework.dto.CommentDto;
-import ru.work.graduatework.dto.CreateAdsDto;
-import ru.work.graduatework.dto.FullAdsDto;
+import ru.work.graduatework.dto.*;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
+import java.io.IOException;
 import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
-@CrossOrigin(value = "http://localhost:3000")
+@CrossOrigin(value = {"http://localhost:3000"})
 @RequestMapping("/ads")
 public class AdsController {
 
@@ -45,27 +43,28 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public Collection<AdsDto> getAllAds() {
+    public ResponseWrapperAdsDto getAllAds() {
         logger.info("Current Method is - getAds");
         return adsService.getAds();
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
-            responses = {@ApiResponse(responseCode = "201", description = "Created",
+            responses = {@ApiResponse(responseCode = "200", description = "Created",
                     content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Ads.class)
                     )),
                     @ApiResponse(responseCode = "404", description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
-    @PostMapping()   // Добавить объявления
-    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam MultipartFile adsImage) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   // Добавить объявления
+    public ResponseEntity<AdsDto> addAds(@RequestParam MultipartFile adsImage,CreateAdsDto createAdsDto) throws IOException {
         logger.info("Current Method is - addAds");
         AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
         if (adsDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else return ResponseEntity.ok(adsDto);
+        } else
+            return ResponseEntity.ok(adsDto); //нужен Created
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -77,7 +76,7 @@ public class AdsController {
                             description = "Not Found")}, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments")  // Получить комментарии
     public ResponseEntity<ResponseWrapperComment> getComments(@PathVariable("ad_pk") String add_pk) {
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Operation(summary = "addComments", operationId = "addComments",

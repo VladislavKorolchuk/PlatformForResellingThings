@@ -6,15 +6,15 @@ import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
+import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public interface AdsService {
 
 
-    Collection<AdsDto> getAds();   // Получить объявление
+    ResponseWrapperAdsDto getAds();   // Получить объявление
 
     AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage);
 

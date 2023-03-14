@@ -29,7 +29,7 @@ public class Image {
     @Lob
     private byte[] data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ads_id")            // One-to-one communication
     private Ads ads;
 

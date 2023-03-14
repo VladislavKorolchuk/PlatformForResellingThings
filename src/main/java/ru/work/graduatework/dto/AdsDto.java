@@ -8,13 +8,15 @@ import java.util.List;
 @Data
 public class AdsDto {
     private Integer author;
+    private String description;
     private Integer pk;
     private Integer price;
     private String title;
 
-    private List<Image> images;
+    private Image images;
 
-    public AdsDto(Integer author, List<Image> images, Integer pk, Integer price, String title) {
+    public AdsDto(Integer author, String description, Image images, Integer pk, Integer price, String title) {
+        this.description = description;
         this.author = author;
         this.images = images;
         this.pk = pk;
