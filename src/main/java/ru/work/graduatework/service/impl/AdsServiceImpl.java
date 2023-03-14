@@ -10,6 +10,7 @@ import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
+import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.dto.repository.CommentRepository;
 import ru.work.graduatework.dto.repository.UsersRepository;
@@ -19,6 +20,7 @@ import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,9 +42,15 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Collection<AdsDto> getAds() {
+    public ResponseWrapperAdsDto getAds() {
         logger.info("Current Method is - getAds-Service");
-        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
+        List<Ads> dtoList = adsRepository.findAll();
+        responseWrapperAdsDto.setCount(dtoList.size());
+        responseWrapperAdsDto.setResults(dtoList);
+        return  responseWrapperAdsDto;
+//        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+
     }
 
     // TODO: здесь требуется доработать,пример был на разборе

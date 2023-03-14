@@ -14,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
-import ru.work.graduatework.dto.AdsDto;
-import ru.work.graduatework.dto.CommentDto;
-import ru.work.graduatework.dto.CreateAdsDto;
-import ru.work.graduatework.dto.FullAdsDto;
+import ru.work.graduatework.dto.*;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
@@ -45,7 +42,7 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public Collection<AdsDto> getAllAds() {
+    public ResponseWrapperAdsDto getAllAds() {
         logger.info("Current Method is - getAds");
         return adsService.getAds();
     }
