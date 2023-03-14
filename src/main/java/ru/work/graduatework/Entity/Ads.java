@@ -20,8 +20,8 @@ public class Ads {
     @Column(name = "Ads_author")
     private Integer author;                     // ID
 
-    @Column(name = "Ads_image")
-    private String image;
+//    @Column(name = "Ads_image")
+//    private String image;
 
     @Column(name = "Ads_price")
     private Integer price;                      // Price

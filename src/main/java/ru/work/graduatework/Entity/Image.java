@@ -16,11 +16,18 @@ public class Image {
     @Column(name = "Image_id")
     private Long id;                        // ID
 
-    @Column(name = "Image_idAds")
-    private Long idAds;                     // ID ads
+//    @Column(name = "Image_idAds")
+//    private Long idAds;                     // ID ads
+//
+//    @Column(name = "Image_image")
+//    private String image ;                  // Image
 
-    @Column(name = "Image_image")
-    private String image ;                  // Image
+    private String filePath;
+    private Long fileSize;
+    private String mediaType;
+
+    @Lob
+    private byte[] data;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ads_id")            // One-to-one communication

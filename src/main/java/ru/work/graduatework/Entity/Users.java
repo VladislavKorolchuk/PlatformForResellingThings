@@ -2,9 +2,11 @@ package ru.work.graduatework.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Entity Users
@@ -30,8 +32,8 @@ public class Users {
     private String regDate;                             // Registration date
     @Column(name = "city")
     private String city;                                // The user's location city
-    @Column(name = "image")
-    private String image;                               // User image
+//    @Column(name = "image")
+//    private String image;                               // User image
 
     @OneToMany(mappedBy = "user")                       // type of database connection
     Collection<Ads> adsCollection;
@@ -39,4 +41,19 @@ public class Users {
     @OneToMany(mappedBy = "user")                       // type of database connection
     Collection<Comment> commentCollection;
 
+    @OneToOne
+    Image image;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return Objects.equals(id, users.id) && Objects.equals(phone, users.phone) && Objects.equals(email, users.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, phone, email);
+    }
 }

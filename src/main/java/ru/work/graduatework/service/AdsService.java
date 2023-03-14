@@ -16,19 +16,19 @@ public interface AdsService {
 
     Collection<AdsDto> getAds();   // Получить объявление
 
-    AdsDto addAds(CreateAdsDto createAdsDto, String image);
+    AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage);
 
     FullAds getFullAd();   // Получить полную рекламу
 
     AdsDto removeAds(int id);   // Убрать рекламу
 
-    Ads updateAds();   // Обновить рекламу
+    AdsDto updateAds(int id, AdsDto adsDto);   // Обновить рекламу
 
-    ResponseWrapperAds getAdsMe();   // Получить все объявления?
+    ResponseWrapperAds getAdsMe();   // Получить рекламу
 
     ResponseWrapperComment getComments(); //ResponseWrapperComment список всех комментариев
 
-    public CommentDto addComments(int ad_pk, CommentDto commentDto); //добавить комментарий к объявлению
+    public CommentDto addComments(int ad_pk, CommentDto commentDto); //Комментарий которые добавили
 
     Comment getCommentsId(); // Комментарий по id
 

@@ -23,17 +23,25 @@ public class WebSecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
+        User.UserBuilder users = User.withDefaultPasswordEncoder();
+        UserDetails user = users
                 .username("user@gmail.com")
                 .password("password")
                 .roles("USER")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        UserDetails admin = users
+                .username("admin@gmail.com")
+                .password("admin")
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user,admin);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement(session->session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
+                .maxSessionsPreventsLogin(true)) //запрет второго логина
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
                         authz
