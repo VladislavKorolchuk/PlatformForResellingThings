@@ -1,5 +1,6 @@
 package ru.work.graduatework.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -42,6 +43,7 @@ public class Users {
     Collection<Comment> commentCollection;
 
     @OneToOne
+    @JsonIgnore
     Image image;
 
     @Override
