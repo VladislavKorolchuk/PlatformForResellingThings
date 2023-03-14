@@ -10,7 +10,6 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.RegisterReq;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.GraduateWorkApplication;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.repository.UsersRepository;

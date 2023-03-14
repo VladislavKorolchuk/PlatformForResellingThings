@@ -3,13 +3,13 @@ package ru.work.graduatework.service.impl;
 import com.sun.jdi.ObjectCollectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
+import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.dto.repository.CommentRepository;
 import ru.work.graduatework.dto.repository.UsersRepository;
@@ -19,6 +19,7 @@ import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,28 +41,36 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Collection<AdsDto> getAds() {
+    public ResponseWrapperAdsDto getAds() {
         logger.info("Current Method is - getAds-Service");
-        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
+        List<Ads> dtoList = adsRepository.findAll();
+        responseWrapperAdsDto.setCount(dtoList.size());
+        responseWrapperAdsDto.setResults(dtoList);
+        return  responseWrapperAdsDto;
+//        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
     }
 
-    // TODO: здесь требуется доработать,пример был на разборе
+    // TODO: добавлять пользователя
     @Override
     public AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
-        logger.info("Current Method is - addAds");
-        Users users = usersRepository.findByEmail((SecurityContextHolder
-                .getContext().getAuthentication().getName())).orElseThrow();
+        logger.info("Current Method is - serviceAddAds");
+//        Users users = usersRepository.findByEmail((SecurityContextHolder
+//                .getContext().getAuthentication().getName())).orElseThrow();   // ДЛЯ ДОКЕРА
         Ads ads = new Ads();
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
+        ads.setDescription(createAdsDto.getDescription());
+        ads.setAuthor(1);           //ДЛЯ СВАГЕРА
+//        ads.setAuthor(users.getId());
+        adsRepository.save(ads);
         try {
             Image image = imageService.addImage(ads.getPk(), adsImage);
+            ads.setImage(image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        ads.setImages(image);
-        ads.setAuthor(users.getId());
-        return AdsMapper.toDto(adsRepository.save(ads));
+        return AdsMapper.toDto(ads);
     }
 
 

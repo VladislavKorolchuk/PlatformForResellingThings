@@ -1,5 +1,6 @@
 package ru.work.graduatework.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,9 @@ public class Ads {
     @Column(name = "Ads_price")
     private Integer price;                      // Price
 
+    @Column(name = "Ads_description")
+    private String description;
+
     @Column(name = "Ads_title")
     private String title;                       // Title
 
@@ -33,8 +37,9 @@ public class Ads {
     @JoinColumn(name = "Ads_user_id")
     private Users user;
 
-    @OneToMany(mappedBy = "ads")                 // Many images to one ads
-    private List<Image> images;
+    @OneToOne(mappedBy = "ads")
+    @JsonIgnore// Many images to one ads
+    private Image image;
 
     @OneToMany(mappedBy = "ads")                       // type of database connection
     Collection<Comment> commentCollection;

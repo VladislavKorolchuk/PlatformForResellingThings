@@ -6,7 +6,6 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.UserDto;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface UsersService {
 
