@@ -2,8 +2,10 @@ package ru.work.graduatework.dto;
 
 import lombok.Data;
 import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Image;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -22,16 +24,16 @@ public class UserDto {
 
     private String city;
 
-    private String image;
+    private Image image;
 
-   // private Collection<Ads> adsCollection;
+    // private Collection<Ads> adsCollection;
 
     public UserDto() {
 
     }
 
     public UserDto(Integer id, String firstName, String lastName, String phone,
-                   String email, String regDate, String city, String image) {
+                   String email, String regDate, String city, Image image) {
         //, Collection<Ads> adsCollection
         this.id = id;
         this.firstName = firstName;
@@ -41,7 +43,7 @@ public class UserDto {
         this.regDate = regDate;
         this.city = city;
         this.image = image;
-     //   this.adsCollection = adsCollection;
+        //   this.adsCollection = adsCollection;
     }
 
 }
