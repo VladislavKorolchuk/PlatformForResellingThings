@@ -16,7 +16,7 @@ public interface AdsService {
 
     Collection<AdsDto> getAds();   // Получить объявление
 
-    AdsDto addAds(CreateAdsDto createAdsDto, String image);
+    AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage);
 
     FullAds getFullAd();   // Получить полную рекламу
 

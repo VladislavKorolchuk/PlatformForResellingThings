@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
@@ -59,9 +60,9 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping()   // Добавить объявления
-    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam String image) {
+    public ResponseEntity<AdsDto> addAds(@RequestBody CreateAdsDto createAdsDto, @RequestParam MultipartFile adsImage) {
         logger.info("Current Method is - addAds");
-        AdsDto adsDto = adsService.addAds(createAdsDto, image);
+        AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
         if (adsDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else return ResponseEntity.ok(adsDto);

@@ -7,15 +7,16 @@ import ru.work.graduatework.Entity.Ads;
 public class ImageDto {
 
     private Long id;
-    private Long idAds;
-    private String image;
-    private Ads ads;
+    private String filePath;
+    private Long fileSize;
+    private String mediaType;
+    private byte[] data;
 
-    public ImageDto(Long id, Long idAds, String image, Ads ads) {
+    public ImageDto(Long id, String filePath, Long fileSize, String mediaType, byte[] data) {
         this.id = id;
-        this.idAds = idAds;
-        this.image = image;
-        this.ads = ads;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.mediaType = mediaType;
+        this.data = data;
     }
-
 }

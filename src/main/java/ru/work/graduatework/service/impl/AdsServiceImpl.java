@@ -1,13 +1,12 @@
 package ru.work.graduatework.service.impl;
 
 import com.sun.jdi.ObjectCollectedException;
-import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
-import ru.work.graduatework.controller.AdsController;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
@@ -17,30 +16,27 @@ import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.service.AdsService;
-import ru.work.graduatework.service.UsersService;
 
-import java.security.Principal;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
 public class AdsServiceImpl implements AdsService {
 
+    private final Logger logger = LoggerFactory.getLogger(AdsServiceImpl.class);
+
     private final AdsRepository adsRepository;
     private final CommentRepository commentRepository;
-
-    private final UsersService usersService;
-
-
-    private final Logger logger = LoggerFactory.getLogger(AdsController.class);
     private final UsersRepository usersRepository;
+    private final ImageServiceImpl imageService;
 
     public AdsServiceImpl(AdsRepository adsRepository, CommentRepository commentRepository,
-                          UsersRepository usersRepository, UsersService usersService) {
+                          UsersRepository usersRepository, ImageServiceImpl imageService) {
         this.adsRepository = adsRepository;
         this.commentRepository = commentRepository;
         this.usersRepository = usersRepository;
-        this.usersService = usersService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -51,13 +47,19 @@ public class AdsServiceImpl implements AdsService {
 
     // TODO: здесь требуется доработать,пример был на разборе
     @Override
-    public AdsDto addAds(CreateAdsDto createAdsDto, String image) {
+    public AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
         logger.info("Current Method is - addAds");
-        Users users = usersRepository.findByEmail((SecurityContextHolder.getContext().getAuthentication().getName())).orElseThrow();
+        Users users = usersRepository.findByEmail((SecurityContextHolder
+                .getContext().getAuthentication().getName())).orElseThrow();
         Ads ads = new Ads();
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
-        ads.setImage(image);
+        try {
+            Image image = imageService.addImage(ads.getPk(), adsImage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        ads.setImages(image);
         ads.setAuthor(users.getId());
         return AdsMapper.toDto(adsRepository.save(ads));
     }
@@ -111,7 +113,6 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public void deleteCommentsId() {
-
     }
 
     @Override
