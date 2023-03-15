@@ -2,14 +2,20 @@ package ru.work.graduatework.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.mapper.ImageMapper;
 import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
+
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -19,12 +25,14 @@ public class UsersServiceImpl implements UsersService {
 
     private final Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
     private final UsersRepository usersRepository;
+    private final ImageServiceImpl imageService;
 
-    public UsersServiceImpl(UsersRepository usersRepository) {
+    public UsersServiceImpl(UsersRepository usersRepository, ImageServiceImpl imageService) {
         this.usersRepository = usersRepository;
+        this.imageService = imageService;
     }
 
-    Collection <Integer> activeUsers = new HashSet<>(); // Collection active Users
+    Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
 
     /**
      * @return Collection activeUsers
@@ -34,20 +42,20 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Collection<Users> getUsers() {
 
-            Collection<Users> usersCollection = new HashSet();
-            for (Integer idUser : activeUsers) {
-                Optional<Users> userFindById = usersRepository.findById(idUser);
-                if (userFindById.isPresent()) {
-                    Users user = new Users();
-                    user.setId(userFindById.get().getId());
-                    user.setFirstName(userFindById.get().getFirstName());
-                    user.setLastName(userFindById.get().getLastName());
-                    user.setEmail(userFindById.get().getEmail());
-                    user.setPhone(userFindById.get().getPhone());
-                    usersCollection.add(user);
-                }
+        Collection<Users> usersCollection = new HashSet();
+        for (Integer idUser : activeUsers) {
+            Optional<Users> userFindById = usersRepository.findById(idUser);
+            if (userFindById.isPresent()) {
+                Users user = new Users();
+                user.setId(userFindById.get().getId());
+                user.setFirstName(userFindById.get().getFirstName());
+                user.setLastName(userFindById.get().getLastName());
+                user.setEmail(userFindById.get().getEmail());
+                user.setPhone(userFindById.get().getPhone());
+                usersCollection.add(user);
             }
-            return usersCollection;
+        }
+        return usersCollection;
 
     }
 
@@ -75,7 +83,6 @@ public class UsersServiceImpl implements UsersService {
     }
 
 
-
     @Override
     public NewPassword setPassword() {
         return null;
@@ -94,7 +101,17 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Image updateUserImage() {
-        return null;
+    public ImageDto updateUserImage(Integer id, MultipartFile imageDto) {
+        logger.info("Class UsersController, current method is - updateUserImage");
+        Users users = new Users();  //
+        usersRepository.save(users);
+        Image image = new Image();
+        try {
+            imageService.addUserImage(id, imageDto);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        users.setImage(image);
+        return ImageMapper.toDto(image);
     }
 }

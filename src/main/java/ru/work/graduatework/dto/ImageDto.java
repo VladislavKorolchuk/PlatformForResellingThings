@@ -6,13 +6,13 @@ import ru.work.graduatework.Entity.Ads;
 @Data
 public class ImageDto {
 
-    private Long id;
+    private int id;
     private String filePath;
     private Long fileSize;
     private String mediaType;
     private byte[] data;
 
-    public ImageDto(Long id, String filePath, Long fileSize, String mediaType, byte[] data) {
+    public ImageDto(int id, String filePath, Long fileSize, String mediaType, byte[] data) {
         this.id = id;
         this.filePath = filePath;
         this.fileSize = fileSize;
