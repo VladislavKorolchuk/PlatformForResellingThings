@@ -16,6 +16,7 @@ import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.service.AdsService;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
+    @Transactional
     public CommentDto addComments(int ad_pk, CommentDto commentDto) {
 //обработать возможные ошибки с CommentDto
         Ads ads = this.adsRepository.findById(ad_pk).orElseThrow(ObjectCollectedException::new);
