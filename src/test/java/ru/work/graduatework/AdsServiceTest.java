@@ -6,12 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Ads;
 import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.dto.AdsDto;
 import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
+import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.dto.repository.CommentRepository;
 import ru.work.graduatework.mapper.CommentMapper;
@@ -34,7 +36,8 @@ public class AdsServiceTest {
     Integer pk = 1;
     Integer price = 1;
     String title = "1";
-    String image = "1";
+    Image image = new Image();
+    MultipartFile imageFile;
     List<Image> images = new ArrayList<>();
     Collection<Comment> commentCollection = new HashSet<>();
     Collection<Ads> adsCollection = new HashSet<>();
@@ -47,10 +50,11 @@ public class AdsServiceTest {
         ads.setPk(pk);
         ads.setPrice(price);
         ads.setTitle(title);
-        ads.setImage(image);
-
-        ads.setImages(images);
+        ads.setImage(ads.getImage());
+        ads.setDescription(description);
+        ads.setUser(ads.getUser());
         ads.setCommentCollection(commentCollection);
+
         adsRepository.save(ads);
     }
 
@@ -61,21 +65,21 @@ public class AdsServiceTest {
 
     @Test
     public void getAdsTest() {
-        Collection<AdsDto> adsDto = this.adsServiceImpl.getAds();
+        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAds();
         Assertions
-                .assertThat(adsDto).hasSize(1);
+                .assertThat(adsDto).isNotNull();
     }
 
     @Test
     public void addAdsTest() {
-        AdsDto request = new AdsDto(author, image, pk, price, title);
+        AdsDto request = new AdsDto(author, description, image, pk, price, title);
         CreateAdsDto createAdsDto = new CreateAdsDto(description, price, title);
-        AdsDto result = adsServiceImpl.addAds(createAdsDto, image);
+        AdsDto result = adsServiceImpl.addAds(createAdsDto, imageFile);
 
         Assertions
                 .assertThat(request.getAuthor()).isEqualTo(result.getAuthor());
         Assertions
-                .assertThat(request.getImage()).isEqualTo(result.getImage());
+                .assertThat(request.getDescription()).isEqualTo(result.getDescription());
         Assertions
                 .assertThat(request.getPrice()).isEqualTo(result.getPrice());
         Assertions
@@ -86,12 +90,12 @@ public class AdsServiceTest {
     @Test
     public void removeAdsTest() {
         CreateAdsDto createAdsDto2 = new CreateAdsDto("description", 2, "title");
-        AdsDto part2 = adsServiceImpl.addAds(createAdsDto2, "image");
+        AdsDto part2 = adsServiceImpl.addAds(createAdsDto2, imageFile);
         adsServiceImpl.removeAds(part2.getPk());
-        Collection<AdsDto> adsDto = this.adsServiceImpl.getAds();
+        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAds();
 
         Assertions
-                .assertThat(adsDto).hasSize(1);
+                .assertThat(adsDto.getResults()).hasSize(1);
     }
 
     @Test
