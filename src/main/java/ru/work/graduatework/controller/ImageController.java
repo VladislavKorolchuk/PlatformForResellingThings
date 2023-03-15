@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController()
 @RequiredArgsConstructor
 @RequestMapping("/image")
+@CrossOrigin(value = {"http://localhost:3000"})
 public class ImageController {
 
     private final Logger logger = LoggerFactory.getLogger(ImageController.class);

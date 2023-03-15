@@ -15,16 +15,14 @@ import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.RegisterReqMapper;
 import ru.work.graduatework.service.AuthService;
+import java.time.LocalDate;
 
-@Service
+@Service()
 public class AuthServiceImpl implements AuthService {
 
     private final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
-
     private final UserDetailsManager manager;
-
     private final UsersRepository usersRepository;
-
     private final PasswordEncoder encoder;
 
     public AuthServiceImpl(UserDetailsManager manager, UsersRepository usersRepository) {
@@ -75,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
      */
     public void createUser(RegisterReqDto registerReqDto) {
         logger.info("Class AuthServiceImpl, current method is - createUser");
-
         //  if (usersRepository.findByEmail(registerReqDto.getUsername()).isPresent()) {
         Users user = new Users();
         RegisterReq registerReq;
@@ -84,10 +81,13 @@ public class AuthServiceImpl implements AuthService {
         user.setFirstName(registerReq.getFirstName());
         user.setLastName(registerReq.getLastName());
         user.setPhone(registerReq.getPhone());
+        user.setCurrentPassword(encoder.encode(registerReq.getPassword()));
+        dateUserRegistration();
+        user.setRegDate(dateUserRegistration());
         usersRepository.save(user);
-        //       return true;
-        //   }
-        //   return false;
     }
-
+    public String dateUserRegistration() {
+        String dateNow = String.valueOf(LocalDate.now());
+        return dateNow;
+    }
 }

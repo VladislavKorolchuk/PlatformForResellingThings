@@ -35,6 +35,10 @@ public class Users {
     private String city;                                // The user's location city
 //    @Column(name = "image")
 //    private String image;                               // User image
+    @Column(name = "currPass")
+    private String currentPassword;
+    @Column(name = "newPass",nullable = true)
+    private String newPassword;
 
     @OneToMany(mappedBy = "user")                       // type of database connection
     Collection<Ads> adsCollection;
