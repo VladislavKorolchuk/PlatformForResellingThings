@@ -49,6 +49,7 @@ public class AdsServiceImpl implements AdsService {
         responseWrapperAdsDto.setResults(dtoList);
         return  responseWrapperAdsDto;
 //        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+
     }
 
     // TODO: добавлять пользователя
