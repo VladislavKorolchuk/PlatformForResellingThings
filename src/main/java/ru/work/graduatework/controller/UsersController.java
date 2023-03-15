@@ -7,16 +7,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.mapper.ImageMapper;
 import ru.work.graduatework.mapper.UsersMapper;
+import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
 
 import java.security.Principal;
@@ -31,6 +35,8 @@ public class UsersController {
 
     private final Logger logger = LoggerFactory.getLogger(UsersController.class);
     private final UsersService usersService;
+
+    private final ImageService imageService;
     private final UsersRepository usersRepository;
 
     @Operation(summary = "Получить пользователя",
@@ -158,10 +164,11 @@ public class UsersController {
                     )
             }, tags = "USER"
     )
-    @PatchMapping("/me/image")
-    public ResponseEntity<UserDto> updateUserImage(@RequestBody ImageDto imageDto) {
+    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<byte[]> updateUserImage(@RequestParam MultipartFile imageDto) {
         logger.info("Class UsersController, current method is - updateUserImage");
-        return ResponseEntity.status(HttpStatus.OK).build();
+//        Users users = usersService.getUser(principal.getName());
+        ImageDto image = usersService.updateUserImage(1, imageDto);
+        return ResponseEntity.ok(image.getData());
     }
-
 }

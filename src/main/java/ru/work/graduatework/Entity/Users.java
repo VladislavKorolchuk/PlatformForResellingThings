@@ -43,8 +43,8 @@ public class Users {
     Collection<Comment> commentCollection;
 
     @OneToOne
-    @JsonIgnore
-    Image image;
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     @Override
     public boolean equals(Object o) {

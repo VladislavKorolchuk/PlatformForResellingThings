@@ -49,7 +49,7 @@ public class AdsController {
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
-            responses = {@ApiResponse(responseCode = "200", description = "Created",
+            responses = {@ApiResponse(responseCode = "201", description = "Created",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Ads.class)

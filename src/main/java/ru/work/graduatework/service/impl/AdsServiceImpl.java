@@ -3,6 +3,7 @@ package ru.work.graduatework.service.impl;
 import com.sun.jdi.ObjectCollectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
@@ -58,16 +59,16 @@ public class AdsServiceImpl implements AdsService {
     public AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
         logger.info("Current Method is - serviceAddAds");
 //        Users users = usersRepository.findByEmail((SecurityContextHolder
-//                .getContext().getAuthentication().getName())).orElseThrow();   // ДЛЯ ДОКЕРА
+//                .getContext().getAuthentication().getName())).orElseThrow();  //не работает
         Ads ads = new Ads();
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
         ads.setDescription(createAdsDto.getDescription());
-        ads.setAuthor(1);           //ДЛЯ СВАГЕРА
-//        ads.setAuthor(users.getId());
+        ads.setAuthor(1);
+//        ads.setAuthor(users.getId()); не работает
         adsRepository.save(ads);
         try {
-            Image image = imageService.addImage(ads.getPk(), adsImage);
+            Image image = imageService.addAdsImage(ads.getPk(), adsImage);
             ads.setImage(image);
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "Ads")
@@ -38,7 +37,7 @@ public class Ads {
     private Users user;
 
     @OneToOne(mappedBy = "ads")
-    @JsonIgnore// Many images to one ads
+    @JsonIgnore  // Many images to one ads
     private Image image;
 
     @OneToMany(mappedBy = "ads")                       // type of database connection
