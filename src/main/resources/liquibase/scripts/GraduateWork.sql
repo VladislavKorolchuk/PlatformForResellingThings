@@ -12,7 +12,7 @@ CREATE TABLE users
     phone character varying(255),
     reg_date character varying(255),
     CONSTRAINT users_pkey PRIMARY KEY (id)
-    )
+    );
 
 --changeset KorolchukVladislav:2
 CREATE TABLE ads
@@ -22,7 +22,7 @@ CREATE TABLE ads
     ads_price integer,
     ads_title character varying(255) COLLATE pg_catalog."default",
     ads_user_id integer
-    )
+    );
 
 --changeset KorolchukVladislav:3
 CREATE TABLE comment
@@ -31,14 +31,14 @@ CREATE TABLE comment
     created_at character varying(255),
     pk integer NOT NULL,
     text character varying(255)
-)
+);
 
 --changeset KorolchukVladislav:4
 CREATE TABLE IF NOT EXISTS public.ads_image
 (
     ads_ads_author integer NOT NULL,
     image character varying(255)
-    )
+    );
 
 --changeset KorolchukVladislav:5
 CREATE TABLE IF NOT EXISTS public.image
