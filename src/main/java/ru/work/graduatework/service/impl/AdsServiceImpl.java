@@ -18,6 +18,7 @@ import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +50,7 @@ public class AdsServiceImpl implements AdsService {
         responseWrapperAdsDto.setResults(dtoList);
         return  responseWrapperAdsDto;
 //        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+
     }
 
     // TODO: добавлять пользователя
@@ -108,6 +110,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
+    @Transactional
     public CommentDto addComments(int ad_pk, CommentDto commentDto) {
 //обработать возможные ошибки с CommentDto
         Ads ads = this.adsRepository.findById(ad_pk).orElseThrow(ObjectCollectedException::new);
