@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
@@ -18,7 +18,6 @@ import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
-import ru.work.graduatework.mapper.ImageMapper;
 import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
@@ -38,6 +37,8 @@ public class UsersController {
 
     private final ImageService imageService;
     private final UsersRepository usersRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
@@ -101,18 +102,13 @@ public class UsersController {
             }, tags = "USER"
     )
     @PostMapping("/set_password")
-    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto,Principal principal) {
+    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto, Principal principal) {
         logger.info("Class UsersController, current method is - setPassword");
-        Users user = usersService.getUser(principal.getName());
+        Users currentUser = usersService.getUser(principal.getName());
         //TODO: Проверить на фронте
-        try {
-            if (!newPasswordDto.getNewPassword().equals(user.getCurrentPassword())) {
-                user.setCurrentPassword(newPasswordDto.getNewPassword());
-                user.setNewPassword(newPasswordDto.getNewPassword());
-                usersRepository.save(user);
-            }
-        } catch (RuntimeException e) {
-            e.getStackTrace();
+        if (this.bCryptPasswordEncoder.matches(newPasswordDto.getCurrentPassword(), currentUser.getCurrentPassword())) {
+            currentUser.setNewPassword(this.bCryptPasswordEncoder.encode(newPasswordDto.getNewPassword()));
+            this.usersRepository.save(currentUser);
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
