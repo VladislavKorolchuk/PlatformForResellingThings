@@ -84,6 +84,7 @@ public class AuthServiceImpl implements AuthService {
         user.setCurrentPassword(encoder.encode(registerReq.getPassword()));
         dateUserRegistration();
         user.setRegDate(dateUserRegistration());
+        user.setRole(Role.USER);
         usersRepository.save(user);
     }
     public String dateUserRegistration() {
