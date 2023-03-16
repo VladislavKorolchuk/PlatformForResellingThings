@@ -40,7 +40,7 @@ public class Users {
     @Column(name = "newPass",nullable = true)
     private String newPassword;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
