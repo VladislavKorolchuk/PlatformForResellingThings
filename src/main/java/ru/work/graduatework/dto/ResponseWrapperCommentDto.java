@@ -11,9 +11,9 @@ public class ResponseWrapperCommentDto {
     private Integer count;
     private List<Comment> results;
 
-    public ResponseWrapperCommentDto(Integer count, List<Comment> results) {
-        this.count = count;
-        this.results = results;
-    }
+//    public ResponseWrapperCommentDto(Integer count, List<Comment> results) {
+//        this.count = count;
+//        this.results = results;
+//    }
 
 }

@@ -15,7 +15,7 @@ public interface AdsService {
 
     AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage);
 
-    FullAdsDto getFullAd();   // Получить полную рекламу
+    FullAdsDto getFullAd(int id);   // Получить полную рекламу
 
     AdsDto removeAds(int id);   // Убрать рекламу
 
@@ -23,7 +23,7 @@ public interface AdsService {
 
     ResponseWrapperAdsDto getAdsMe();   // Получить рекламу
 
-    ResponseWrapperCommentDto getComments(); //ResponseWrapperComment список всех комментариев
+    ResponseWrapperCommentDto getComments(Integer ad_pk); //ResponseWrapperComment список всех комментариев
 
     public CommentDto addComments(int ad_pk, CommentDto commentDto); //Комментарий которые добавили
 

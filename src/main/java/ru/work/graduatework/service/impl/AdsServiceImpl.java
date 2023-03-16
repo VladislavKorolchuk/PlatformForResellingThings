@@ -17,6 +17,7 @@ import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,8 +85,18 @@ public class AdsServiceImpl implements AdsService {
 
 
     @Override
-    public FullAdsDto getFullAd() {
-        return null;
+    public FullAdsDto getFullAd(int id) {
+        Users users = usersRepository.findByEmail((SecurityContextHolder
+                .getContext().getAuthentication().getName())).orElseThrow();
+        Ads ads = adsRepository.findById(id).orElseThrow();
+        FullAdsDto fullAdsDto = new FullAdsDto();
+        fullAdsDto.setAuthorFirstName(users.getFirstName());
+        fullAdsDto.setAuthorLastName(users.getLastName());
+        fullAdsDto.setDescription(ads.getDescription());
+        fullAdsDto.setEmail(users.getEmail());
+        fullAdsDto.setPrice(ads.getPrice());
+        fullAdsDto.setTitle(ads.getTitle());
+        return fullAdsDto;
     }
 
     @Override
@@ -98,11 +109,17 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public AdsDto updateAds(int id, AdsDto adsDto) {
         Ads ads = adsRepository.findById(id).orElseThrow((ObjectCollectedException::new));
-//        Users usersSecurity = usersRepository.findByEmail((SecurityContextHolder.getContext().getAuthentication().getName())).orElseThrow();
-//        Users users = usersRepository.findById(adsDto.getAuthor()).orElseThrow();
-//        if (users.equals(usersSecurity)){
-//            return AdsMapper.toDto(this.adsRepository.save(AdsMapper.toEntity(adsDto)));
-//        }
+        Users usersSecurity = usersRepository.findByEmail((SecurityContextHolder.
+        getContext().getAuthentication().getName())).orElseThrow();
+        Users users = usersRepository.findById(adsDto.getAuthor()).orElseThrow();
+        if (users.equals(usersSecurity)){
+           ads.setAuthor(adsDto.getAuthor());
+           ads.setTitle(adsDto.getTitle());
+           ads.setDescription(adsDto.getDescription());
+           ads.setPrice(adsDto.getPrice());
+           adsRepository.save(ads);
+           return AdsMapper.toDto(ads);
+        }
         return adsDto;
     }
 
@@ -112,8 +129,13 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ResponseWrapperCommentDto getComments() {
-        return null;
+    public ResponseWrapperCommentDto getComments(Integer ad_pk) {
+        ResponseWrapperCommentDto responseWrapperCommentDto = new ResponseWrapperCommentDto();
+        Ads ads = adsRepository.findById(ad_pk).orElseThrow();
+        List<Comment> dtoList = new ArrayList<>(ads.getCommentCollection());
+        responseWrapperCommentDto.setCount(dtoList.size());
+        responseWrapperCommentDto.setResults(dtoList);
+        return responseWrapperCommentDto;
     }
 
     @Override
