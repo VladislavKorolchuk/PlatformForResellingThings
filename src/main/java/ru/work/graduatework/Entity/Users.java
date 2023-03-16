@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import ru.work.graduatework.dto.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -33,12 +34,15 @@ public class Users {
     private String regDate;                             // Registration date
     @Column(name = "city")
     private String city;                                // The user's location city
-//    @Column(name = "image")
-//    private String image;                               // User image
+
     @Column(name = "currPass")
     private String currentPassword;
     @Column(name = "newPass",nullable = true)
     private String newPassword;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")                       // type of database connection
     Collection<Ads> adsCollection;
