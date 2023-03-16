@@ -15,7 +15,9 @@ import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.RegisterReqMapper;
 import ru.work.graduatework.service.AuthService;
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service()
 public class AuthServiceImpl implements AuthService {
@@ -33,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean login(String userName, String password) {
-        logger.info("Class AuthServiceImpl, current method is - login");
+        logger.info("Current method is - login");
         if (!manager.userExists(userName)) {
             return false;
         }
@@ -46,8 +48,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean register(RegisterReqDto registerReqDto, Role role) {
-        logger.info("Class AuthServiceImpl, current method is - register");
-        createUser(registerReqDto);
+        logger.info("Current method is - register");
+        createUser(registerReqDto);   // method of adding a new user
         if (manager.userExists(registerReqDto.getUsername())) {
             return false;
         }
@@ -58,35 +60,45 @@ public class AuthServiceImpl implements AuthService {
                         .roles(role.name())
                         .build()
         );
-        //    createUser(registerReqDto);
         return true;
     }
 
     /**
-     * @author Korolchuk Vladislav
      * @param registerReqDto Input parameter
-     * <br> <b> Method create User </b> </br>
-     * <br> Input parameter entity {@link RegisterReqDto} </br>
-     * <br> Is used entity Users {@link User} </br>
-     * <br> Is used mapper {@link RegisterReqMapper} </br>
-     * <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *                       <br> <b> Method create User </b> </br>
+     *                       <br> Input parameter entity {@link RegisterReqDto} </br>
+     *                       <br> Is used entity Users {@link User} </br>
+     *                       <br> Is used mapper {@link RegisterReqMapper} </br>
+     *                       <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *                       * @return boolean true - New user added or false - New user not added
+     * @author Korolchuk Vladislav
      */
-    public void createUser(RegisterReqDto registerReqDto) {
-        logger.info("Class AuthServiceImpl, current method is - createUser");
-        //  if (usersRepository.findByEmail(registerReqDto.getUsername()).isPresent()) {
-        Users user = new Users();
-        RegisterReq registerReq;
-        registerReq = RegisterReqMapper.toEntity(registerReqDto);
-        user.setEmail(registerReq.getUsername());
-        user.setFirstName(registerReq.getFirstName());
-        user.setLastName(registerReq.getLastName());
-        user.setPhone(registerReq.getPhone());
-        user.setCurrentPassword(encoder.encode(registerReq.getPassword()));
-        dateUserRegistration();
-        user.setRegDate(dateUserRegistration());
-        user.setRole(Role.USER);
-        usersRepository.save(user);
+
+    public boolean createUser(RegisterReqDto registerReqDto) {
+
+        logger.info("Current method is - createUser");
+        if (registerReqDto != null) {
+            if (registerReqDto.getUsername() != null & !registerReqDto.getUsername().isEmpty()) {
+                Optional<Users> userFindByEmail;
+                userFindByEmail = usersRepository.findByEmail(registerReqDto.getUsername());
+                if (!userFindByEmail.isPresent()) {
+                    Users user = new Users();
+                    user.setEmail(registerReqDto.getUsername());
+                    user.setFirstName(registerReqDto.getFirstName());
+                    user.setLastName(registerReqDto.getLastName());
+                    user.setPhone(registerReqDto.getPhone());
+                    user.setCurrentPassword(encoder.encode(registerReqDto.getPassword()));
+                    user.setRegDate(dateUserRegistration());
+                    user.setRole(Role.USER);
+                    usersRepository.save(user);
+                    return true;  // New user added
+                }
+            }
+        }
+        return false;             // New user not added
+
     }
+
     public String dateUserRegistration() {
         return String.valueOf(LocalDate.now());
     }
