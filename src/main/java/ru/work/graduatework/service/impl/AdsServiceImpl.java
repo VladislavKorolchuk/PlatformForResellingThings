@@ -119,10 +119,11 @@ public class AdsServiceImpl implements AdsService {
     @Override
     @Transactional
     public CommentDto addComments(int ad_pk, CommentDto commentDto) {
-//обработать возможные ошибки с CommentDto
-        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow(ObjectCollectedException::new);
-        ads.getCommentCollection().add(CommentMapper.toEntity(commentDto));
-        return CommentMapper.toDto(this.commentRepository.save(CommentMapper.toEntity(commentDto)));
+        logger.info("Current Method is - addCommentsService");
+        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
+        Comment comment = CommentMapper.toEntity(commentDto);
+        ads.getCommentCollection().add(comment);
+        return CommentMapper.toDto(commentRepository.save(comment));
     }
 
     @Override

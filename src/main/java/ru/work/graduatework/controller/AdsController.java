@@ -81,8 +81,8 @@ public class AdsController {
     @Operation(summary = "addComments", operationId = "addComments",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ads.class))), //Comments.класс
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = CommentDto.class))), //Comments.класс
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
@@ -181,7 +181,7 @@ public class AdsController {
     @PatchMapping("/{ad_pk}/comments/{id}")    // Обновление комментария по id
     public ResponseEntity<CommentDto> updateCommentsId(@PathVariable("ad_pk") String adPk,
                                                        @PathVariable int id,
-                                                       @RequestBody CommentDto commentDto) { // параметры, required: true
+                                                       @RequestBody CommentDto commentDto) {
         logger.info("Current Method is - updateCommentsId");
         return ResponseEntity.ok(commentDto);
 
