@@ -87,7 +87,6 @@ public class AuthServiceImpl implements AuthService {
         usersRepository.save(user);
     }
     public String dateUserRegistration() {
-        String dateNow = String.valueOf(LocalDate.now());
-        return dateNow;
+        return String.valueOf(LocalDate.now());
     }
 }

@@ -101,8 +101,19 @@ public class UsersController {
             }, tags = "USER"
     )
     @PostMapping("/set_password")
-    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
+    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto,Principal principal) {
         logger.info("Class UsersController, current method is - setPassword");
+        Users user = usersService.getUser(principal.getName());
+        //TODO: Проверить на фронте
+        try {
+            if (!newPasswordDto.getNewPassword().equals(user.getCurrentPassword())) {
+                user.setCurrentPassword(newPasswordDto.getNewPassword());
+                user.setNewPassword(newPasswordDto.getNewPassword());
+                usersRepository.save(user);
+            }
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
