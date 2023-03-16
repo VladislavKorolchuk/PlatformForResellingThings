@@ -2,13 +2,12 @@ package ru.work.graduatework.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
-import ru.work.graduatework.Entity.NewPassword;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.ImageDto;
+import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.ImageMapper;
@@ -84,18 +83,18 @@ public class UsersServiceImpl implements UsersService {
 
 
     @Override
-    public NewPassword setPassword() {
+    public NewPasswordDto setPassword() {
         return null;
     }
 
     @Override
-    public Users updateUser(UserDto userDto) {
+    public UserDto updateUser(UserDto userDto) {
         Users user;
         user = UsersMapper.toEntity(userDto);
         Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
         if (updateUser.get() != null) {
             usersRepository.save(updateUser.get());
-            return updateUser.get();
+            return UsersMapper.toDto(updateUser.get());
         }
         return null;
     }

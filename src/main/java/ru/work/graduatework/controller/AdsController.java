@@ -19,7 +19,6 @@ import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
-import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class AdsController {
     @GetMapping()    // Получить объявление
     public ResponseWrapperAdsDto getAllAds() {
         logger.info("Current Method is - getAds");
-        return adsService.getAds();
+        return adsService.getAllAds();
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
@@ -71,11 +70,11 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperComment.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperCommentDto.class)))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found")}, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments")  // Получить комментарии
-    public ResponseEntity<ResponseWrapperComment> getComments(@PathVariable("ad_pk") String add_pk) {
+    public ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") String add_pk) {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -101,7 +100,7 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = FullAds.class))), // FullAds.class
+                            schema = @Schema(implementation = FullAdsDto.class))), // FullAds.class
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")
@@ -198,9 +197,9 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @GetMapping("/me")   // Получить рекламу
-    public ResponseEntity<ResponseWrapperAds> getAdsMe() { // параметры нужно разобрать и дописать
+    public ResponseEntity<ResponseWrapperAdsDto> getAdsMe() { // параметры нужно разобрать и дописать
         logger.info("Current Method is - getAdsMe");
-        return ResponseEntity.ok(new ResponseWrapperAds());
+        return ResponseEntity.ok(new ResponseWrapperAdsDto());
     }
 
 }
