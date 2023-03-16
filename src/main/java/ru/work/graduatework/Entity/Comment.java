@@ -14,7 +14,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "primary_key")
     private int pk;
-    @Column(name = "Comment_author")
+    @Column(name = "Comment_author") //user id
     private int author;
     @Column(name = "created_at")
     private String createdAt;

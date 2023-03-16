@@ -100,13 +100,14 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = FullAdsDto.class))), // FullAds.class
+                            schema = @Schema(implementation = FullAdsDto.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")
-    public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) { // параметры и  required: true
+    public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) {
         logger.info("Current Method is - getFullAd");
-        return ResponseEntity.status(HttpStatus.OK).build();
+        FullAdsDto fullAdsDto = adsService.getFullAd(id);
+        return ResponseEntity.ok(fullAdsDto);
     }
 
     @Operation(summary = "removeAds", operationId = "removeAds",
@@ -144,16 +145,18 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ads.class))), // Comment.class
+                            schema = @Schema(implementation = ResponseWrapperCommentDto.class))), // Comment.class
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
             }, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments/{id}")   // Получить комментарии по id
-    public ResponseEntity<CommentDto> getCommentsId(@PathVariable("ad_pk") String ad_pk,
-                                                    @PathVariable int id,
-                                                    @RequestBody CommentDto commentDto) {
+    public ResponseEntity<ResponseWrapperCommentDto> getCommentsId(@PathVariable("ad_pk") Integer ad_pk) {
         logger.info("Current Method is - getCommentsId");
-        return ResponseEntity.ok(commentDto);
+        ResponseWrapperCommentDto comment = adsService.getComments(ad_pk);
+        if (comment == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(comment);
     }
 
     @Operation(summary = "deleteComments", operationId = "deleteComments",
