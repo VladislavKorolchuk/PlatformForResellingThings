@@ -19,7 +19,6 @@ import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
-import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class AdsController {
     @GetMapping()    // Получить объявление
     public ResponseWrapperAdsDto getAllAds() {
         logger.info("Current Method is - getAds");
-        return adsService.getAds();
+        return adsService.getAllAds();
     }
 
     @Operation(summary = "addAds", operationId = "addAds",

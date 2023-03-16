@@ -8,13 +8,13 @@ import ru.work.graduatework.dto.CommentDto;
 import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.ResponseWrapperAdsDto;
 
-import java.util.Collection;
-
 @Service
 public interface AdsService {
 
 
-    ResponseWrapperAdsDto getAds();   // Получить объявление
+    ResponseWrapperAdsDto getAllAds();   // Получить объявление
+
+    public ResponseWrapperAdsDto getAds(String title);
 
     AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage);
 

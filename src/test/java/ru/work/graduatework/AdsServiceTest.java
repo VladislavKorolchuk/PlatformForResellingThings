@@ -65,7 +65,7 @@ public class AdsServiceTest {
 
     @Test
     public void getAdsTest() {
-        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAds();
+        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAllAds();
         Assertions
                 .assertThat(adsDto).isNotNull();
     }
@@ -92,7 +92,7 @@ public class AdsServiceTest {
         CreateAdsDto createAdsDto2 = new CreateAdsDto("description", 2, "title");
         AdsDto part2 = adsServiceImpl.addAds(createAdsDto2, imageFile);
         adsServiceImpl.removeAds(part2.getPk());
-        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAds();
+        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAllAds();
 
         Assertions
                 .assertThat(adsDto.getResults()).hasSize(1);
