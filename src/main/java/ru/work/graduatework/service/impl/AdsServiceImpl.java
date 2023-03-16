@@ -43,15 +43,24 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ResponseWrapperAdsDto getAds() {
-        logger.info("Current Method is - getAds-Service");
+    public ResponseWrapperAdsDto getAllAds() {
+        logger.info("Current Method is - getAllAds-Service");
         ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
         List<Ads> dtoList = adsRepository.findAll();
         responseWrapperAdsDto.setCount(dtoList.size());
         responseWrapperAdsDto.setResults(dtoList);
-        return  responseWrapperAdsDto;
+        return responseWrapperAdsDto;
 //        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+    }
 
+    @Override
+    public ResponseWrapperAdsDto getAds(String title) {
+        logger.info("Current Method is - getAds-Service");
+        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
+        List<Ads> list = adsRepository.findByTitleIgnoreCase(title);
+        responseWrapperAdsDto.setCount(list.size());
+        responseWrapperAdsDto.setResults(list);
+        return responseWrapperAdsDto;
     }
 
     // TODO: добавлять пользователя
