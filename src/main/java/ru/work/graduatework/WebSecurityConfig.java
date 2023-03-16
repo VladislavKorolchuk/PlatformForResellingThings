@@ -48,7 +48,7 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests((authz) ->
                         authz
                                 .mvcMatchers(AUTH_WHITELIST).permitAll()
-                                .mvcMatchers("/ads/**", "/users/**").authenticated()
+//                                .mvcMatchers("/ads/**", "/users/**").authenticated()
                                 .mvcMatchers("/ads/getAllAds").permitAll() // разрешить всем(и не авторизированным ?)
                         // TODO: Разделение методов Юзера-Админа
                                                 )
