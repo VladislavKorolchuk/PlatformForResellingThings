@@ -7,10 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
-import ru.work.graduatework.dto.AdsDto;
-import ru.work.graduatework.dto.CommentDto;
-import ru.work.graduatework.dto.CreateAdsDto;
-import ru.work.graduatework.dto.ResponseWrapperAdsDto;
+import ru.work.graduatework.dto.*;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.dto.repository.CommentRepository;
 import ru.work.graduatework.dto.repository.UsersRepository;
@@ -87,7 +84,7 @@ public class AdsServiceImpl implements AdsService {
 
 
     @Override
-    public FullAds getFullAd() {
+    public FullAdsDto getFullAd() {
         return null;
     }
 
@@ -110,12 +107,12 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ResponseWrapperAds getAdsMe() {
+    public ResponseWrapperAdsDto getAdsMe() {
         return null;
     }
 
     @Override
-    public ResponseWrapperComment getComments() {
+    public ResponseWrapperCommentDto getComments() {
         return null;
     }
 
@@ -129,7 +126,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Comment getCommentsId() {
+    public CommentDto getCommentsId() {
         return null;
     }
 
@@ -138,7 +135,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Comment updateCommentsId() {
+    public CommentDto updateCommentsId() {
         return null;
     }
 }
