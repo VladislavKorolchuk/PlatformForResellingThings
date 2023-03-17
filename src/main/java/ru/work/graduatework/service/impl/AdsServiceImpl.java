@@ -10,6 +10,7 @@ import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
 import ru.work.graduatework.dto.repository.AdsRepository;
 import ru.work.graduatework.dto.repository.CommentRepository;
+import ru.work.graduatework.dto.repository.ImageRepository;
 import ru.work.graduatework.dto.repository.UsersRepository;
 import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.mapper.CommentMapper;
@@ -20,7 +21,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdsServiceImpl implements AdsService {
@@ -29,15 +29,17 @@ public class AdsServiceImpl implements AdsService {
 
     private final AdsRepository adsRepository;
     private final CommentRepository commentRepository;
+    private final ImageRepository imageRepository;
     private final UsersRepository usersRepository;
     private final ImageServiceImpl imageService;
 
     public AdsServiceImpl(AdsRepository adsRepository, CommentRepository commentRepository,
-                          UsersRepository usersRepository, ImageServiceImpl imageService) {
+                          UsersRepository usersRepository, ImageServiceImpl imageService, ImageRepository imageRepository) {
         this.adsRepository = adsRepository;
         this.commentRepository = commentRepository;
         this.usersRepository = usersRepository;
         this.imageService = imageService;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -63,6 +65,7 @@ public class AdsServiceImpl implements AdsService {
 
     // TODO: добавлять пользователя
     @Override
+    @Transactional
     public AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
         logger.info("Current Method is - serviceAddAds");
 //        Users users = usersRepository.findByEmail((SecurityContextHolder
@@ -102,6 +105,8 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public void removeAds(int id) {
         Ads dbAds = this.adsRepository.findById(id).orElseThrow(ObjectCollectedException::new);
+        Image image = dbAds.getImage();
+        this.imageRepository.delete(image);
         this.adsRepository.delete(dbAds);
     }
 
