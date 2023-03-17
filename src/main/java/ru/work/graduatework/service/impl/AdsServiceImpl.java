@@ -100,32 +100,29 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public AdsDto removeAds(int id) {
+    public void removeAds(int id) {
         Ads dbAds = this.adsRepository.findById(id).orElseThrow(ObjectCollectedException::new);
         this.adsRepository.delete(dbAds);
-        return AdsMapper.toDto(dbAds);
     }
 
     @Override
-    public AdsDto updateAds(int id, AdsDto adsDto) {
+    public AdsDto updateAds(int id, CreateAdsDto createAdsDto) {
         Ads ads = adsRepository.findById(id).orElseThrow((ObjectCollectedException::new));
-        Users usersSecurity = usersRepository.findByEmail((SecurityContextHolder.
-        getContext().getAuthentication().getName())).orElseThrow();
-        Users users = usersRepository.findById(adsDto.getAuthor()).orElseThrow();
-        if (users.equals(usersSecurity)){
-           ads.setAuthor(adsDto.getAuthor());
-           ads.setTitle(adsDto.getTitle());
-           ads.setDescription(adsDto.getDescription());
-           ads.setPrice(adsDto.getPrice());
-           adsRepository.save(ads);
-           return AdsMapper.toDto(ads);
-        }
-        return adsDto;
+        ads.setTitle(createAdsDto.getTitle());
+        ads.setDescription(createAdsDto.getDescription());
+        ads.setPrice(createAdsDto.getPrice());
+        return AdsMapper.toDto(adsRepository.save(ads));
     }
 
     @Override
     public ResponseWrapperAdsDto getAdsMe() {
-        return null;
+        Users user = usersRepository.findByEmail((SecurityContextHolder.
+                getContext().getAuthentication().getName())).orElseThrow();
+        List<Ads> adsList = new ArrayList<>(user.getAdsCollection());
+        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
+        responseWrapperAdsDto.setCount(adsList.size());
+        responseWrapperAdsDto.setResults(adsList);
+        return responseWrapperAdsDto;
     }
 
     @Override
@@ -149,8 +146,9 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public CommentDto getCommentsId() {
-        return null;
+    public CommentDto getCommentsId(Integer ad_pk, Integer id) {
+        Ads ads = adsRepository.findById(ad_pk).orElseThrow();
+        return new CommentDto(null, null, null, null);
     }
 
     @Override

@@ -17,9 +17,9 @@ public interface AdsService {
 
     FullAdsDto getFullAd(int id);   // Получить полную рекламу
 
-    AdsDto removeAds(int id);   // Убрать рекламу
+    void removeAds(int id);   // Убрать рекламу
 
-    AdsDto updateAds(int id, AdsDto adsDto);   // Обновить рекламу
+    public AdsDto updateAds(int id, CreateAdsDto createAdsDto);   // Обновить рекламу
 
     ResponseWrapperAdsDto getAdsMe();   // Получить рекламу
 
@@ -27,7 +27,7 @@ public interface AdsService {
 
     public CommentDto addComments(int ad_pk, CommentDto commentDto); //Комментарий которые добавили
 
-    CommentDto getCommentsId(); // Комментарий по id
+    CommentDto getCommentsId(Integer ad_pk, Integer id); // Комментарий по id
 
     void deleteCommentsId(); // void
 
