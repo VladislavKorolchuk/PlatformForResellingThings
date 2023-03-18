@@ -2,6 +2,7 @@ package ru.work.graduatework;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +21,8 @@ public class WebSecurityConfig  {
             "/swagger-ui.html",
             "/v3/api-docs",
             "/webjars/**",
-            "/login", "/register","/ads"
+            "/login", "/register",
+            "/ads"
     };
 
     @Bean
@@ -47,12 +49,14 @@ public class WebSecurityConfig  {
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
                         authz
+                                .antMatchers(HttpMethod.OPTIONS).permitAll()
                                 .mvcMatchers(AUTH_WHITELIST).permitAll()
                                 .mvcMatchers("/ads/**", "/users/**").authenticated()
                                 .mvcMatchers("/users/**").hasAnyAuthority("ADMIN", "USER")
                         // TODO: Разделение методов Юзера-Админа
                                                 )
-                .httpBasic(withDefaults()).cors();
+                .httpBasic(withDefaults())
+                .cors();
         return http.build();
     }
 

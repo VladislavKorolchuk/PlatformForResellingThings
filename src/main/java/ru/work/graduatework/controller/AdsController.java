@@ -37,6 +37,9 @@ public class AdsController {
 
     private final AdsService adsService;
 
+    private AdsMapper adsMapper;
+
+
 
     @Operation(
             operationId = "getALLAds",
@@ -46,11 +49,11 @@ public class AdsController {
                             array = @ArraySchema(schema = @Schema(implementation = Ads.class))))
             },
             tags = "Объявления")
-    @GetMapping()    // Получить объявление
+    @GetMapping    // Получить объявление
     public ResponseWrapper<AdsDto> getAllAds() {
         logger.info("Current Method is - getAds");
-        Collection<AdsDto> adsCollection = adsRepository.findAll().stream().map(AdsMapper1::toDto).collect(Collectors.toList());
-        return ResponseWrapper.of(adsCollection);
+        Collection<Ads> adsCollection = adsService.getAllAds();
+        return ResponseWrapper.of(adsMapper.toDto(adsCollection));
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
