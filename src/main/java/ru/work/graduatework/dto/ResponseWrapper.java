@@ -1,7 +1,10 @@
 package ru.work.graduatework.dto;
 
+import lombok.Data;
+
 import java.util.Collection;
 
+@Data
 public class ResponseWrapper<A> {
     private int count;
     private Collection <A> result;
