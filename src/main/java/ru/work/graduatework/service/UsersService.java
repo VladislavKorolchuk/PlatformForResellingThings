@@ -1,8 +1,8 @@
 package ru.work.graduatework.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 
@@ -18,8 +18,7 @@ public interface UsersService {
 
     UserDto updateUser(UserDto userDto);   // Обновить пользователя
 
-    ImageDto updateUserImage(Integer id, MultipartFile imageDto);   // Обновление изображение пользователя
-
+    String updateUserImage(MultipartFile imageDto);   // Обновление изображение пользователя
 }
 
 

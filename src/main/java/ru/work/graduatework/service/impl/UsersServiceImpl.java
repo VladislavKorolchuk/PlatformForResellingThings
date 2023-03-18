@@ -2,19 +2,17 @@ package ru.work.graduatework.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.ImageMapper;
 import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.UsersService;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -100,17 +98,17 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public ImageDto updateUserImage(Integer id, MultipartFile imageDto) {
+    public String updateUserImage(MultipartFile imageDto) {
         logger.info("Class UsersController, current method is - updateUserImage");
         Users users = new Users();  //
         usersRepository.save(users);
         Image image = new Image();
-        try {
-            imageService.addUserImage(id, imageDto);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            imageService.addUserImage();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         users.setImage(image);
-        return ImageMapper.toDto(image);
+        return "/users/image" + usersRepository.save(users).getImage().getId();
     }
 }

@@ -1,14 +1,17 @@
 package ru.work.graduatework.Entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "Image")
 @Getter
 @Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Image {
 
     @Id
@@ -26,15 +29,19 @@ public class Image {
     private Long fileSize;
     private String mediaType;
 
-   // @Lob
-    private String data;
+    @Lob
+    private byte[] data;
 
-    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "ads_id")
-    private Ads ads;
+//    @OneToOne(fetch = FetchType.LAZY)
+////    @JoinColumn(name = "ads_id")
+//    private Ads ads;
 
-    @OneToOne
-//    @JoinColumn(name = "user_id")
-    private Users users;
+//    @OneToOne
+////    @JoinColumn(name = "user_id")
+//    private Users users;
+
+    public String toString() {
+        return "Ads(id=" + this.getId() + ", image=" + Arrays.toString((this.getData())) + ")";
+    }
 
 }

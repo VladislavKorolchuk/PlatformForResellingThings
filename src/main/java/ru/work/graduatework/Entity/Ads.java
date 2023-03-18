@@ -17,8 +17,8 @@ public class Ads {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "primary_key")
     private Integer pk;                         // User ID
-    @Column(name = "Ads_author")
-    private Integer author;                     // ID
+//    @Column(name = "Ads_author")
+//    private Integer author;                     // ID
 
 //    @Column(name = "Ads_image")
 //    private String image;
@@ -26,6 +26,7 @@ public class Ads {
     @Column(name = "Ads_price")
     private Integer price;                      // Price
 
+    @JsonIgnore
     @Column(name = "Ads_description")
     private String description;
 
@@ -36,10 +37,12 @@ public class Ads {
     @JoinColumn(name = "Ads_user_id")
     private Users user;
 
-    @OneToOne(mappedBy = "ads")
-    @JsonIgnore  // Many images to one ads
+    @OneToOne()
+//    @JsonIgnore  // Many images to one ads
+    @JoinColumn()
     private Image image;
 
-    @OneToMany(mappedBy = "ads")                       // type of database connection
-    Collection<Comment> commentCollection;
+
+//    @OneToMany(mappedBy = "ads")                       // type of database connection
+//    Collection<Comment> commentCollection;
 }

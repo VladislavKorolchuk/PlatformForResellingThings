@@ -56,7 +56,7 @@ public class ImageServiceImpl implements ImageService {
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
       //  image.setData(imageFile.getBytes());
-        image.setAds(ads);
+//        image.s(ads);
         imageRepository.save(image);
         return image;
     }
@@ -82,7 +82,7 @@ public class ImageServiceImpl implements ImageService {
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
      //   image.setData(imageFile.getBytes());
-        image.setUsers(users);
+//        image.setUsers(users);
         imageRepository.save(image);
         return image;
     }

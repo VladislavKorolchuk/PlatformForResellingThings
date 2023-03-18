@@ -1,8 +1,7 @@
 package ru.work.graduatework.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +20,9 @@ import java.util.Set;
 @Entity  // A special class whose objects are saved to the database
 @Getter
 @Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Users implements UserDetails {
 
     @Id
@@ -49,28 +51,15 @@ public class Users implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")                       // type of database connection
-    Collection<Ads> adsCollection;
-
-    @OneToMany(mappedBy = "user")                       // type of database connection
-    Collection<Comment> commentCollection;
+//    @OneToMany(mappedBy = "user")                       // type of database connection
+//    Collection<Ads> adsCollection;
+//
+//    @OneToMany(mappedBy = "user")                       // type of database connection
+//    Collection<Comment> commentCollection;
 
     @OneToOne
-    @JoinColumn(name = "image_id")
+//    @JoinColumn(name = "image_id")
     private Image image;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return Objects.equals(id, users.id) && Objects.equals(phone, users.phone) && Objects.equals(email, users.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, phone, email);
-    }
 
     @Override
     public Set<GrantedAuthority> getAuthorities() {
