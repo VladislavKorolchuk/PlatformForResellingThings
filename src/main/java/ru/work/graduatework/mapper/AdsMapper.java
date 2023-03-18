@@ -11,14 +11,14 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
 
     String PUTH_IMAGE = "/ads/image/";
 
-    @Mapping(target = "pk", source = "pk")
-    @Mapping(target = "user.id", source = "author")
+    @Mapping(target = "id", source = "pk")
+    @Mapping(target = "author.id", source = "author")
     @Mapping(target = "image", ignore = true)
     Ads toEntity(AdsDto dto);
 
-    @Mapping(target = "pk", source = "pk")
-    @Mapping(target = "author", source = "user.id")
-    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "pk", source = "id")
+    @Mapping(target = "author", source = "author.id")
+    @Mapping(target = "image", ignore = true)
     AdsDto toDto(Ads entity);
 
 //    @Mapping(target = "id", ignore = true)
