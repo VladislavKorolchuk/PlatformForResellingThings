@@ -47,10 +47,10 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseEntity<ResponseWrapper<AdsDto>> getAllAds() {
+    public ResponseWrapper<AdsDto> getAllAds() {
         logger.info("Current Method is - getAds");
         Collection<AdsDto> adsCollection = adsRepository.findAll().stream().map(AdsMapper1::toDto).collect(Collectors.toList());
-        return ResponseEntity.ok(ResponseWrapper.of(adsCollection));
+        return ResponseWrapper.of(adsCollection);
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
