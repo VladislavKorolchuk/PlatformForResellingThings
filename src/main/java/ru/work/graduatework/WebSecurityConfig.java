@@ -20,7 +20,7 @@ public class WebSecurityConfig  {
             "/swagger-ui.html",
             "/v3/api-docs",
             "/webjars/**",
-            "/login", "/register"
+            "/login", "/register","/ads"
     };
 
     @Bean
@@ -42,18 +42,17 @@ public class WebSecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(session -> session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
-                        .maxSessionsPreventsLogin(true)) //запрет второго логина
+//                .sessionManagement(session -> session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
+//                        .maxSessionsPreventsLogin(true)) //запрет второго логина
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
                         authz
                                 .mvcMatchers(AUTH_WHITELIST).permitAll()
-//                                .mvcMatchers("/ads/**", "/users/**").authenticated()
-                                .mvcMatchers("/ads/getAllAds").permitAll() // разрешить всем(и не авторизированным ?)
+                                .mvcMatchers("/ads/**", "/users/**").authenticated()
+                                .mvcMatchers("/users/**").hasAnyAuthority("ADMIN", "USER")
                         // TODO: Разделение методов Юзера-Админа
                                                 )
-                .cors().disable()
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults()).cors();
         return http.build();
     }
 

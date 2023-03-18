@@ -73,7 +73,6 @@ public class AdsServiceImpl implements AdsService {
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
         ads.setDescription(createAdsDto.getDescription());
-        ads.setAuthor(1);
 //        ads.setAuthor(users.getId()); не работает
         adsRepository.save(ads);
         try {
@@ -122,10 +121,10 @@ public class AdsServiceImpl implements AdsService {
     public ResponseWrapperAdsDto getAdsMe() {
         Users user = usersRepository.findByEmail((SecurityContextHolder.
                 getContext().getAuthentication().getName())).orElseThrow();
-        List<Ads> adsList = new ArrayList<>(user.getAdsCollection());
+//        List<Ads> adsList = new ArrayList<>(user.getAdsCollection()); убрал отношение
         ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
-        responseWrapperAdsDto.setCount(adsList.size());
-        responseWrapperAdsDto.setResults(adsList);
+//        responseWrapperAdsDto.setCount(adsList.size());
+//        responseWrapperAdsDto.setResults(adsList);
         return responseWrapperAdsDto;
     }
 
@@ -133,9 +132,9 @@ public class AdsServiceImpl implements AdsService {
     public ResponseWrapperCommentDto getComments(Integer ad_pk) {
         ResponseWrapperCommentDto responseWrapperCommentDto = new ResponseWrapperCommentDto();
         Ads ads = adsRepository.findById(ad_pk).orElseThrow();
-        List<Comment> dtoList = new ArrayList<>(ads.getCommentCollection());
-        responseWrapperCommentDto.setCount(dtoList.size());
-        responseWrapperCommentDto.setResults(dtoList);
+//        List<Comment> dtoList = new ArrayList<>(ads.getCommentCollection()); убрал отношение
+//        responseWrapperCommentDto.setCount(dtoList.size());
+//        responseWrapperCommentDto.setResults(dtoList);
         return responseWrapperCommentDto;
     }
 
@@ -145,14 +144,14 @@ public class AdsServiceImpl implements AdsService {
         logger.info("Current Method is - addCommentsService");
         Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
         Comment comment = CommentMapper.toEntity(commentDto);
-        ads.getCommentCollection().add(comment);
+//        ads.getCommentCollection().add(comment);
         return CommentMapper.toDto(commentRepository.save(comment));
     }
 
     @Override
     public CommentDto getCommentsId(Integer ad_pk, Integer id) {
         Ads ads = adsRepository.findById(ad_pk).orElseThrow();
-        return new CommentDto(null, null, null, null);
+        return new CommentDto(null, null, null);
     }
 
     @Override

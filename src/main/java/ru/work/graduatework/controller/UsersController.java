@@ -171,10 +171,11 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<byte[]> updateUserImage(@RequestParam MultipartFile imageDto) {
+    public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
         logger.info("Class UsersController, current method is - updateUserImage");
 //        Users users = usersService.getUser(principal.getName());
-        ImageDto image = usersService.updateUserImage(1, imageDto);
-        return ResponseEntity.ok(image.getData());
+//        ImageDto image = usersService.updateUserImage(1, imageDto);
+//        return ResponseEntity.ok(image.getData());
+        return ResponseEntity.ok().body(usersService.updateUserImage(image));
     }
 }
