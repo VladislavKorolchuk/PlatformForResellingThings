@@ -1,24 +1,112 @@
 package ru.work.graduatework.service;
 
-import org.springframework.security.core.Authentication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
+import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.mapper.UsersMapper;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
 
-public interface UsersService {
+@Service
+public class UsersService {
 
-    Collection<Users> getUsers(); // Получить пользователя
+    private final Logger logger = LoggerFactory.getLogger(UsersService.class);
+    private final UsersRepository usersRepository;
+    private final ImageService imageService;
 
-    Users getUser(String emailUser);
+    public UsersService(UsersRepository usersRepository, ImageService imageService) {
+        this.usersRepository = usersRepository;
+        this.imageService = imageService;
+    }
 
-    NewPasswordDto setPassword();  // Установка пароля
+    Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
 
-    UserDto updateUser(UserDto userDto);   // Обновить пользователя
+    /**
+     * @return Collection activeUsers
+     * @author Korolchuk Vladislav
+     * <br> <b> Method get Users </b> </br>
+     */
 
-    String updateUserImage(MultipartFile imageDto);   // Обновление изображение пользователя
+    public Collection<Users> getUsers() {
+
+        Collection<Users> usersCollection = new HashSet();
+        for (Integer idUser : activeUsers) {
+            Optional<Users> userFindById = usersRepository.findById(idUser);
+            if (userFindById.isPresent()) {
+                Users user = new Users();
+                user.setId(userFindById.get().getId());
+                user.setFirstName(userFindById.get().getFirstName());
+                user.setLastName(userFindById.get().getLastName());
+                user.setEmail(userFindById.get().getEmail());
+                user.setPhone(userFindById.get().getPhone());
+                usersCollection.add(user);
+            }
+        }
+        return usersCollection;
+
+    }
+
+    /**
+     * @param emailUser Input parameter
+     *                  <br> Is used entity Users {@link Users} </br>
+     *                  <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *                  <br> Uses the active Users collection which contains active users </br>
+     * @return {@link Users}
+     * @author Korolchuk Vladislav
+     * <br> <b> Method get User </b> </br>
+     */
+
+    public Users getUser(String emailUser) {
+
+        logger.info("Class UsersServiceImpl, current method is - getUser");
+
+        Optional<Users> userFindByEmail = usersRepository.findByEmail(emailUser);
+        //---- Creating a User entity that has been authenticated by the system----
+        if (userFindByEmail.isPresent()) {
+            activeUsers.add(userFindByEmail.get().getId());
+        }
+        return userFindByEmail.orElse(null);
+
+    }
+
+
+
+    public NewPasswordDto setPassword() {
+        return null;
+    }
+
+
+    public UserDto updateUser(UserDto userDto) {
+        Users user;
+        user = UsersMapper.toEntity(userDto);
+        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
+        if (updateUser.get() != null) {
+            usersRepository.save(updateUser.get());
+            return UsersMapper.toDto(updateUser.get());
+        }
+        return null;
+    }
+
+
+    public String updateUserImage(MultipartFile imageDto) {
+        logger.info("Class UsersController, current method is - updateUserImage");
+        Users users = new Users();  //
+        usersRepository.save(users);
+        Image image = new Image();
+//        try {
+//            imageService.addUserImage();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        users.setImage(image);
+        return "/users/image" + usersRepository.save(users).getImage().getId();
+    }
 }
-
-
