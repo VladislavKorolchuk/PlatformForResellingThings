@@ -40,7 +40,6 @@ public class AdsController {
     private final AdsMapper adsMapper;
 
 
-
     @Operation(
             operationId = "getALLAds",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
@@ -220,13 +219,10 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @GetMapping("/me")   // Получить рекламу
-    public ResponseEntity<ResponseWrapperAdsDto> getAdsMe() { // параметры нужно разобрать и дописать
+    public ResponseWrapper<AdsDto> getAdsMe() { // параметры нужно разобрать и дописать
         logger.info("Current Method is - getAdsMe");
-        ResponseWrapperAdsDto responseWrapperAdsDto = adsService.getAdsMe();
-        if (responseWrapperAdsDto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(responseWrapperAdsDto);
+        Collection<Ads> adsCollection = adsService.getAllAds();
+         return ResponseWrapper.of(adsMapper.toDto(adsCollection));
     }
-
 }
+
