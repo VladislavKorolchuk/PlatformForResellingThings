@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.work.graduatework.Entity.Ads;
 import ru.work.graduatework.dto.AdsDto;
+import ru.work.graduatework.dto.CreateAdsDto;
 
 
 @Mapper(componentModel = "spring")
@@ -16,15 +17,18 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
     @Mapping(target = "image", ignore = true)
     Ads toEntity(AdsDto dto);
 
+    @Override
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "author", source = "author.id")
-    @Mapping(target = "image", ignore = true)
-    AdsDto toDto(Ads entity);
+    @Mapping(target = "image", source = "entity.image", qualifiedByName = "imageMapping")
+    default AdsDto toDto(Ads entity) {
+        return null;
+    }
 
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "author", ignore = true)
-//    @Mapping(target = "image", ignore = true)
-//    Ads toEntity(CreateAdsDto dto);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "image", ignore = true)
+    Ads toEntity(CreateAdsDto dto);
 
 //    @Mapping(target = "authorFirstName", source = "authorFirstName")
 //    @Mapping(target = "authorLastName", source = "authorLastName")

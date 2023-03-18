@@ -16,14 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
 import ru.work.graduatework.mapper.AdsMapper;
-import ru.work.graduatework.mapper.AdsMapper1;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @RestController()
 @RequiredArgsConstructor

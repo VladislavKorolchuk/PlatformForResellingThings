@@ -3,7 +3,7 @@ package ru.work.graduatework.mapper;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.UserDto;
 
-public class UsersMapper {
+public class UsersMapper1 {
 
     public static UserDto toDto(Users users) {
         return new UserDto(users.getId(), users.getFirstName(), users.getLastName(), users.getPhone(),

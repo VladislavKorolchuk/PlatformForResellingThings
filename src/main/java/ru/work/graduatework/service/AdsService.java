@@ -8,19 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.AdsMapper1;
 import ru.work.graduatework.mapper.CommentMapper;
 
 import java.io.IOException;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdsService {
@@ -79,15 +76,15 @@ public class AdsService {
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
         ads.setDescription(createAdsDto.getDescription());
-        ads.setUser(users1);
+       // ads.setUser(users1);
         adsRepository.save(ads);
         try {
-            Image image = imageService.addAdsImage(ads.getPk(), adsImage);
+            Image image = imageService.addAdsImage(ads.getId(), adsImage);
             ads.setImage(image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return AdsMapper1.toDto(ads);
+        return null;
     }
 
 
@@ -120,7 +117,7 @@ public class AdsService {
         ads.setTitle(createAdsDto.getTitle());
         ads.setDescription(createAdsDto.getDescription());
         ads.setPrice(createAdsDto.getPrice());
-        return AdsMapper1.toDto(adsRepository.save(ads));
+        return null;
     }
 
 

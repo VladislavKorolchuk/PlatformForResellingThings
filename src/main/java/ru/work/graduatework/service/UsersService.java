@@ -9,7 +9,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
+import ru.work.graduatework.mapper.UsersMapper1;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -86,11 +86,11 @@ public class UsersService {
 
     public UserDto updateUser(UserDto userDto) {
         Users user;
-        user = UsersMapper.toEntity(userDto);
+        user = UsersMapper1.toEntity(userDto);
         Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
         if (updateUser.get() != null) {
             usersRepository.save(updateUser.get());
-            return UsersMapper.toDto(updateUser.get());
+            return UsersMapper1.toDto(updateUser.get());
         }
         return null;
     }
