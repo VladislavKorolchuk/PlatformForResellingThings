@@ -44,8 +44,7 @@ public class AdsService {
 
 
     public Collection<Ads> getAllAds() {
-        Collection<Ads> ads = adsRepository.findAll();
-        return ads;
+        return adsRepository.findAll();
 //        logger.info("Current Method is - getAllAds-Service");
 //        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
 //        List<Ads> dtoList = adsRepository.findAll();
@@ -70,13 +69,17 @@ public class AdsService {
     @Transactional
     public AdsDto addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
         logger.info("Current Method is - serviceAddAds");
-//        Users users = usersRepository.findByEmail((SecurityContextHolder
-//                .getContext().getAuthentication().getName())).orElseThrow();  //не работает
+//        Users users1 = usersRepository.findByEmail((SecurityContextHolder
+//                .getContext().getAuthentication().getName())).orElseThrow();  //не свагер
+
+        Users users = new Users();        //свагер
+        usersRepository.save(users);      //свагер
+        Users users1 = usersRepository.findById(1).orElseThrow();  //ещё свагер
         Ads ads = new Ads();
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
         ads.setDescription(createAdsDto.getDescription());
-//        ads.setAuthor(users.getId()); не работает
+        ads.setUser(users1);
         adsRepository.save(ads);
         try {
             Image image = imageService.addAdsImage(ads.getPk(), adsImage);
