@@ -1,4 +1,4 @@
-package ru.work.graduatework.dto.repository;
+package ru.work.graduatework.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.work.graduatework.Entity.Image;

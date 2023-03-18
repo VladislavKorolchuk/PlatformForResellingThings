@@ -17,7 +17,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.ImageDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
-import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
