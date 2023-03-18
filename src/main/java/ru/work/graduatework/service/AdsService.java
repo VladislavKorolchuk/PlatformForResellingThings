@@ -12,11 +12,12 @@ import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.mapper.AdsMapper1;
 import ru.work.graduatework.mapper.CommentMapper;
 
 import java.io.IOException;
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -40,13 +41,14 @@ public class AdsService {
     }
 
 
-    public ResponseWrapperAdsDto getAllAds() {
-        logger.info("Current Method is - getAllAds-Service");
-        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
-        List<Ads> dtoList = adsRepository.findAll();
-        responseWrapperAdsDto.setCount(dtoList.size());
-        responseWrapperAdsDto.setResults(dtoList);
-        return responseWrapperAdsDto;
+    public Collection<Ads> getAllAds() {
+        return adsRepository.findAll();
+//        logger.info("Current Method is - getAllAds-Service");
+//        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
+//        List<Ads> dtoList = adsRepository.findAll();
+//        responseWrapperAdsDto.setCount(dtoList.size());
+//        responseWrapperAdsDto.setResults(dtoList);
+//        return responseWrapperAdsDto;
 //        return adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
     }
 
@@ -79,7 +81,7 @@ public class AdsService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return AdsMapper.toDto(ads);
+        return AdsMapper1.toDto(ads);
     }
 
 
@@ -112,7 +114,7 @@ public class AdsService {
         ads.setTitle(createAdsDto.getTitle());
         ads.setDescription(createAdsDto.getDescription());
         ads.setPrice(createAdsDto.getPrice());
-        return AdsMapper.toDto(adsRepository.save(ads));
+        return AdsMapper1.toDto(adsRepository.save(ads));
     }
 
 
