@@ -19,8 +19,8 @@ import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.mapper.CommentMapper;
-import ru.work.graduatework.service.impl.AdsServiceImpl;
-import ru.work.graduatework.service.impl.ImageServiceImpl;
+import ru.work.graduatework.service.AdsService;
+import ru.work.graduatework.service.ImageService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class AdsServiceTest {
     @Autowired
     public ImageRepository imageRepository;
     @Autowired
-    public AdsServiceImpl adsServiceImpl;
+    public AdsService adsServiceImpl;
     @Autowired
-    public ImageServiceImpl imageServiceImpl;
+    public ImageService imageServiceImpl;
     Ads ads = new Ads();
     Users users = new Users();
     Integer author = 1;
