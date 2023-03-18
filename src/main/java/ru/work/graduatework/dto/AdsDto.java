@@ -1,27 +1,27 @@
 package ru.work.graduatework.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import ru.work.graduatework.Entity.Image;
 
-import java.util.List;
 
 @Data
 public class AdsDto {
-    private Integer author;
-    private String description;
-    private Integer pk;
-    private Integer price;
+    private int author;
+    private int pk;
+    private int price;
     private String title;
 
-    private Image images;
+    private byte[] images;
 
-    public AdsDto(Integer author, String description, Image images, Integer pk, Integer price, String title) {
-        this.description = description;
+    @JsonIgnore
+    private String description;
+
+    public AdsDto(int author, int pk, int price, String title, byte[] images, String description) {
         this.author = author;
-        this.images = images;
         this.pk = pk;
         this.price = price;
         this.title = title;
+        this.images = images;
+        this.description = description;
     }
-
 }
