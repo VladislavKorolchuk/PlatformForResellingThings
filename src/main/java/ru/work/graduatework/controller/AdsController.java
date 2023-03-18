@@ -37,7 +37,7 @@ public class AdsController {
 
     private final AdsService adsService;
 
-    private AdsMapper adsMapper;
+    private final AdsMapper adsMapper;
 
 
 
