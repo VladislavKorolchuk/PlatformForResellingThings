@@ -6,7 +6,7 @@ import ru.work.graduatework.dto.ImageDto;
 public class ImageMapper {
 
     public static ImageDto toDto(Image image) {
-        return new ImageDto(image.getId(), image.getFilePath(), image.getFileSize(), image.getMediaType(), image.getData().getBytes());
+        return new ImageDto(image.getId(), image.getFilePath(), image.getFileSize(), image.getMediaType(), image.getData());
     }
 
     public static Image toEntity(ImageDto imageDto) {
