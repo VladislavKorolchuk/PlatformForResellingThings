@@ -6,9 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Ads;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.repository.AdsRepository;
-import ru.work.graduatework.dto.repository.ImageRepository;
-import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.ImageRepository;
+import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.service.ImageService;
 
 import java.io.*;
@@ -55,7 +55,7 @@ public class ImageServiceImpl implements ImageService {
         image.setFilePath(path.toString());
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
-        image.setData(imageFile.getBytes());
+      //  image.setData(imageFile.getBytes());
         image.setAds(ads);
         imageRepository.save(image);
         return image;
@@ -81,7 +81,7 @@ public class ImageServiceImpl implements ImageService {
         image.setFilePath(path.toString());
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
-        image.setData(imageFile.getBytes());
+     //   image.setData(imageFile.getBytes());
         image.setUsers(users);
         imageRepository.save(image);
         return image;

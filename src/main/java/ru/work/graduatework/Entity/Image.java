@@ -26,8 +26,8 @@ public class Image {
     private Long fileSize;
     private String mediaType;
 
-    @Lob
-    private byte[] data;
+   // @Lob
+    private String data;
 
     @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "ads_id")

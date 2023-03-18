@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.dto.repository.AdsRepository;
-import ru.work.graduatework.dto.repository.CommentRepository;
-import ru.work.graduatework.dto.repository.ImageRepository;
-import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.CommentRepository;
+import ru.work.graduatework.repository.ImageRepository;
+import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.service.AdsService;
@@ -19,7 +19,6 @@ import ru.work.graduatework.service.AdsService;
 import java.io.IOException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service

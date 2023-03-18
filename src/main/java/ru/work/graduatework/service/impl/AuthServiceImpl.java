@@ -8,11 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.work.graduatework.Entity.RegisterReq;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
-import ru.work.graduatework.dto.repository.UsersRepository;
+import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.mapper.RegisterReqMapper;
 import ru.work.graduatework.service.AuthService;
 
