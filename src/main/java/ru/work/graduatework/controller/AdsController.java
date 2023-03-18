@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
+import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController()
 @RequiredArgsConstructor
@@ -42,9 +46,10 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseWrapperAdsDto getAllAds() {
+    public ResponseWrapper<AdsDto> getAllAds() {
         logger.info("Current Method is - getAds");
-        return adsService.getAllAds();
+      Collection<AdsDto> adsCollection=  adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
+            return ResponseWrapper.of(adsCollection);
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
