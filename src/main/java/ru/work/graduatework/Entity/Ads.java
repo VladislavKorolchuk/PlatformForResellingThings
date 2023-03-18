@@ -16,33 +16,18 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "primary_key")
-    private Integer pk;                         // User ID
-//    @Column(name = "Ads_author")
-//    private Integer author;                     // ID
-
-//    @Column(name = "Ads_image")
-//    private String image;
-
-    @Column(name = "Ads_price")
-    private Integer price;                      // Price
-
-    @JsonIgnore
-    @Column(name = "Ads_description")
+    private int id;
+    private String title;
     private String description;
-
-    @Column(name = "Ads_title")
-    private String title;                       // Title
+    private int price;                      // Price
 
     @ManyToOne(fetch = FetchType.LAZY)          // Many-to-one communication
-    @JoinColumn(name = "Ads_user_id")
-    private Users user;
+    @JoinColumn(name = "author_id")
+    private Users author;
 
     @OneToOne()
-//    @JsonIgnore  // Many images to one ads
+
     @JoinColumn()
     private Image image;
 
-
-//    @OneToMany(mappedBy = "ads")                       // type of database connection
-//    Collection<Comment> commentCollection;
 }

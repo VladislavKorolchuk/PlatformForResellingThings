@@ -17,7 +17,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
+import ru.work.graduatework.mapper.UsersMapper1;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
 
@@ -149,7 +149,7 @@ public class UsersController {
             user.setPhone(userDto.getPhone());
             usersRepository.save(user);
         } else {
-            Users user = UsersMapper.toEntity(userDto);
+            Users user = UsersMapper1.toEntity(userDto);
             logger.info("-----------------------------------------");
             usersRepository.save(user);
         }
