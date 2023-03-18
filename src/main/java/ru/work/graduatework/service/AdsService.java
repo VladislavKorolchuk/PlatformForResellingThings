@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
+import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdsService {
@@ -42,7 +44,8 @@ public class AdsService {
 
 
     public Collection<Ads> getAllAds() {
-        return adsRepository.findAll();
+        Collection<Ads> ads = adsRepository.findAll();
+        return ads;
 //        logger.info("Current Method is - getAllAds-Service");
 //        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
 //        List<Ads> dtoList = adsRepository.findAll();

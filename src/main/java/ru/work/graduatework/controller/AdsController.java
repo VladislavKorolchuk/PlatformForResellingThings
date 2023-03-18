@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
 import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.mapper.AdsMapper1;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 
@@ -46,10 +47,10 @@ public class AdsController {
             },
             tags = "Объявления")
     @GetMapping()    // Получить объявление
-    public ResponseWrapper<AdsDto> getAllAds() {
+    public ResponseEntity<ResponseWrapper<AdsDto>> getAllAds() {
         logger.info("Current Method is - getAds");
-      Collection<AdsDto> adsCollection=  adsRepository.findAll().stream().map(AdsMapper::toDto).collect(Collectors.toList());
-            return ResponseWrapper.of(adsCollection);
+        Collection<AdsDto> adsCollection = adsRepository.findAll().stream().map(AdsMapper1::toDto).collect(Collectors.toList());
+        return ResponseEntity.ok(ResponseWrapper.of(adsCollection));
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
