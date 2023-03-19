@@ -3,18 +3,20 @@ package ru.work.graduatework.dto;
 import lombok.Data;
 
 @Data
-public class CommentDto {
+public class AdsCommentDto {
 
-    private String createdAt;
     private Integer pk;
 
     private int author;
+
+    private String createdAt;
+
     private String text;
 
-    public CommentDto(String createdAt, Integer pk, String text) {
-        this.createdAt = createdAt;
+    public AdsCommentDto( Integer pk, String createdAt,  String text) {
         this.pk = pk;
         this.text = text;
+        this.createdAt = createdAt;
     }
 
 }

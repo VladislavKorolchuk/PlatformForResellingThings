@@ -1,5 +1,7 @@
 package ru.work.graduatework.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class ImageService {
 
+    private final Logger logger = LoggerFactory.getLogger(ImageService.class);
+
     @Value("${path.to.image.folder}")
     private String imageDir;
 
@@ -34,9 +38,9 @@ public class ImageService {
         this.usersRepository = usersRepository;
     }
 
-    public Image addAdsImage(Integer id, MultipartFile imageFile) throws IOException {
-        Ads ads = adsRepository.findById(id).orElseThrow();
-        Path path = Path.of(imageDir, id + "." + getExtensions(
+    public Image addAdsImage(Ads ads, MultipartFile imageFile) throws IOException {
+        logger.info("Current Method is - addAdsImage ");
+        Path path = Path.of(imageDir, ads.getId() + "." + getExtensions(
                 Objects.requireNonNull(imageFile.getOriginalFilename())));
         if (!Files.exists(path.getParent())) {
             Files.createDirectory(path.getParent());
@@ -54,8 +58,8 @@ public class ImageService {
         image.setFilePath(path.toString());
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
-      //  image.setData(imageFile.getBytes());
-//        image.s(ads);
+      //  image.setData(imageFile.getBytes())
+//        image.setAds
         imageRepository.save(image);
         return image;
     }

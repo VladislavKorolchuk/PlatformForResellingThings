@@ -48,8 +48,7 @@ public class AdsController {
     @GetMapping    // Получить объявление
     public ResponseWrapper<AdsDto> getAllAds() {
         logger.info("Current Method is - getAds");
-        Collection<Ads> adsCollection = adsService.getAllAds();
-        return ResponseWrapper.of(adsMapper.toDto(adsCollection));
+        return ResponseWrapper.of(adsMapper.toDto(adsService.getAllAds()));
     }
 
     @Operation(summary = "addAds", operationId = "addAds",
@@ -88,23 +87,23 @@ public class AdsController {
         return ResponseEntity.ok(comment);
     }
 
-    @Operation(summary = "addComments", operationId = "addComments",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommentDto.class))), //Comments.класс
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
-    @PostMapping("/{ad_pk}/comments") // Добавить Комментарии
-    public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") int ad_pk, @RequestBody CommentDto commentDto) {
-        logger.info("Current Method is - addComments");
-        CommentDto comment = adsService.addComments(ad_pk, commentDto);
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else return ResponseEntity.ok(comment);
-    }
+//    @Operation(summary = "addComments", operationId = "addComments",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = AdsCommentDto.class))), //Comments.класс
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @PostMapping("/{ad_pk}/comments") // Добавить Комментарии
+//    public ResponseEntity<AdsCommentDto> addComments(@PathVariable("ad_pk") int ad_pk, @RequestBody AdsCommentDto adsCommentDto) {
+//        logger.info("Current Method is - addComments");
+//        AdsCommentDto comment = adsService.addComments(ad_pk, adsCommentDto);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } else return ResponseEntity.ok(comment);
+//    }
 
     @Operation(summary = "getFullAd", operationId = "getAds",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
@@ -156,15 +155,15 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = CommentDto.class))), // Comment.class
+                            schema = @Schema(implementation = AdsCommentDto.class))), // Comment.class
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
             }, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments/{id}")   // Получить комментарии по id
-    public ResponseEntity<CommentDto> getCommentsId(@PathVariable("ad_pk") Integer ad_pk,
-                                                    @PathVariable("id") Integer id) {
+    public ResponseEntity<AdsCommentDto> getCommentsId(@PathVariable("ad_pk") Integer ad_pk,
+                                                       @PathVariable("id") Integer id) {
         logger.info("Current Method is - getCommentsId");
-        CommentDto comment = adsService.getCommentsId(ad_pk, id);
+        AdsCommentDto comment = adsService.getCommentsId(ad_pk, id);
         if (comment == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -178,8 +177,8 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @DeleteMapping("/{ad_pk}/comments/{id}")   // Удалить комментарии по id
-    public ResponseEntity<CommentDto> deleteCommentsId(@PathVariable("ad_pk") String ad_pk,
-                                                       @PathVariable int id) {
+    public ResponseEntity<AdsCommentDto> deleteCommentsId(@PathVariable("ad_pk") String ad_pk,
+                                                          @PathVariable int id) {
         logger.info("Current Method is - deleteCommentsId");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -194,11 +193,11 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/{ad_pk}/comments/{id}")    // Обновление комментария по id
-    public ResponseEntity<CommentDto> updateCommentsId(@PathVariable("ad_pk") String adPk,
-                                                       @PathVariable int id,
-                                                       @RequestBody CommentDto commentDto) {
+    public ResponseEntity<AdsCommentDto> updateCommentsId(@PathVariable("ad_pk") String adPk,
+                                                          @PathVariable int id,
+                                                          @RequestBody AdsCommentDto adsCommentDto) {
         logger.info("Current Method is - updateCommentsId");
-        CommentDto comment = adsService.updateCommentsId();
+        AdsCommentDto comment = adsService.updateCommentsId();
         if (comment == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

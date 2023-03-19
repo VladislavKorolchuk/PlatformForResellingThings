@@ -111,50 +111,50 @@ public class UsersController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Обновить данные пользователя",
-            operationId = "updateUser",
-            responses = {@ApiResponse
-                    (responseCode = "200",
-                            description = "OK",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    schema = @Schema(implementation = Users.class)
-                            )),
-                    @ApiResponse(
-                            responseCode = "204",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden"
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not Found"
-                    )
-            }, tags = "USER"
-    )
-    @PatchMapping("/me")
-    public void updateUser(@RequestBody UserDto userDto, Principal principal) {
-
-        logger.info("Class UsersController, current method is - updateUser");
-        if (principal != null) {
-            Users user = usersService.getUser(principal.getName());
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setPhone(userDto.getPhone());
-            usersRepository.save(user);
-        } else {
-            Users user = UsersMapper1.toEntity(userDto);
-            logger.info("-----------------------------------------");
-            usersRepository.save(user);
-        }
-        return;
-    }
+//    @Operation(summary = "Обновить данные пользователя",
+//            operationId = "updateUser",
+//            responses = {@ApiResponse
+//                    (responseCode = "200",
+//                            description = "OK",
+//                            content = @Content(
+//                                    mediaType = MediaType.ALL_VALUE,
+//                                    schema = @Schema(implementation = Users.class)
+//                            )),
+//                    @ApiResponse(
+//                            responseCode = "204",
+//                            description = "Unauthorized"
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "401",
+//                            description = "Unauthorized"
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "403",
+//                            description = "Forbidden"
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "404",
+//                            description = "Not Found"
+//                    )
+//            }, tags = "USER"
+//    )
+//    @PatchMapping("/me")
+//    public void updateUser(@RequestBody UserDto userDto, Principal principal) {
+//
+//        logger.info("Class UsersController, current method is - updateUser");
+//        if (principal != null) {
+//            Users user = usersService.getUser(principal.getName());
+//            user.setFirstName(userDto.getFirstName());
+//            user.setLastName(userDto.getLastName());
+//            user.setPhone(userDto.getPhone());
+//            usersRepository.save(user);
+//        } else {
+//            Users user = UsersMapper1.toEntity(userDto);
+//            logger.info("-----------------------------------------");
+//            usersRepository.save(user);
+//        }
+//        return;
+//    }
 
     @Operation(summary = "Обновление изображение пользователя",
             responses = {@ApiResponse

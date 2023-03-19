@@ -8,15 +8,15 @@ import java.util.List;
 @Data
 public class FullAdsDto {
 
-    private String authorFirstName;
+    private String image;
     private String authorLastName;
-    private String description;
-    private String email;
-    private Image image;
+    private String authorFirstName;
     private String phone;
-    private Integer pk;
-    private Integer price;
+    private int price;
+    private String description;
+    private int pk;
     private String title;
+    private String email;
 
 //    public FullAdsDto(String authorFirstName, String authorLastName, String description, String email,
 //                      List<String> image, String phone, Integer pk, Integer price, String title) {

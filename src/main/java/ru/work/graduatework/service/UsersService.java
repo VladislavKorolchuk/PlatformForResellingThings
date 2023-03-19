@@ -84,16 +84,16 @@ public class UsersService {
     }
 
 
-    public UserDto updateUser(UserDto userDto) {
-        Users user;
-        user = UsersMapper1.toEntity(userDto);
-        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
-        if (updateUser.get() != null) {
-            usersRepository.save(updateUser.get());
-            return UsersMapper1.toDto(updateUser.get());
-        }
-        return null;
-    }
+//    public UserDto updateUser(UserDto userDto) {
+//        Users user;
+//        user = UsersMapper1.toEntity(userDto);
+//        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
+//        if (updateUser.get() != null) {
+//            usersRepository.save(updateUser.get());
+//            return UsersMapper1.toDto(updateUser.get());
+//        }
+//        return null;
+//    }
 
 
     public String updateUserImage(MultipartFile imageDto) {

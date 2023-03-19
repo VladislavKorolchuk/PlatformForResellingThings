@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
+import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.mapper.AdsMapper1;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
@@ -29,14 +31,16 @@ public class AdsService {
     private final ImageRepository imageRepository;
     private final UsersRepository usersRepository;
     private final ImageService imageService;
+    private final AdsMapper adsMapper;
 
     public AdsService(AdsRepository adsRepository, CommentRepository commentRepository,
-                      UsersRepository usersRepository, ImageService imageService, ImageRepository imageRepository) {
+                      UsersRepository usersRepository, ImageService imageService, ImageRepository imageRepository, AdsMapper adsMapper) {
         this.adsRepository = adsRepository;
         this.commentRepository = commentRepository;
         this.usersRepository = usersRepository;
         this.imageService = imageService;
         this.imageRepository = imageRepository;
+        this.adsMapper = adsMapper;
     }
 
 
@@ -71,20 +75,20 @@ public class AdsService {
 
         Users users = new Users();        //свагер
         usersRepository.save(users);      //свагер
-        Users users1 = usersRepository.findById(1).orElseThrow();  //ещё свагер
+//        Users users1 = usersRepository.findById(1L).orElseThrow();  //ещё свагер
         Ads ads = new Ads();
         ads.setTitle(createAdsDto.getTitle());
         ads.setPrice(createAdsDto.getPrice());
         ads.setDescription(createAdsDto.getDescription());
-       // ads.setUser(users1);
+        ads.setAuthor(users);
         adsRepository.save(ads);
         try {
-            Image image = imageService.addAdsImage(ads.getId(), adsImage);
+            Image image = imageService.addAdsImage(ads, adsImage);
             ads.setImage(image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return AdsMapper1.toDto(ads);
     }
 
 
@@ -142,19 +146,19 @@ public class AdsService {
     }
 
 
-    @Transactional
-    public CommentDto addComments(int ad_pk, CommentDto commentDto) {
-        logger.info("Current Method is - addCommentsService");
-        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
-        Comment comment = CommentMapper.toEntity(commentDto);
-//        ads.getCommentCollection().add(comment);
-        return CommentMapper.toDto(commentRepository.save(comment));
-    }
+//    @Transactional
+//    public AdsCommentDto addComments(int ad_pk, AdsCommentDto adsCommentDto) {
+//        logger.info("Current Method is - addCommentsService");
+//        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
+//        Comment comment = CommentMapper.toEntity(adsCommentDto);
+////        ads.getCommentCollection().add(comment);
+//        return CommentMapper.toDto(commentRepository.save(comment));
+//    }
 
 
-    public CommentDto getCommentsId(Integer ad_pk, Integer id) {
+    public AdsCommentDto getCommentsId(Integer ad_pk, Integer id) {
         Ads ads = adsRepository.findById(ad_pk).orElseThrow();
-        return new CommentDto(null, null, null);
+        return new AdsCommentDto(null, null, null);
     }
 
 
@@ -162,7 +166,7 @@ public class AdsService {
     }
 
 
-    public CommentDto updateCommentsId() {
+    public AdsCommentDto updateCommentsId() {
         return null;
     }
 }

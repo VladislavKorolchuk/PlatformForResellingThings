@@ -15,7 +15,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "primary_key")
-    private int pk;
+    private long id;
 //    @Column(name = "Comment_author") //user id
 //    private int author;
     @Column(name = "created_at")
@@ -30,7 +30,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ads")
-    private Ads ads;
+    private Ads ad;
 
 
 }
