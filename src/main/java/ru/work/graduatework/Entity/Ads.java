@@ -26,7 +26,6 @@ public class Ads {
     private Users author;
 
     @OneToOne()
-
     @JoinColumn()
     private Image image;
 

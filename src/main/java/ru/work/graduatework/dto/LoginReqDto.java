@@ -4,13 +4,12 @@ import lombok.Data;
 
 @Data
 public class LoginReqDto {
+    private String password;
     private String username;
 
-    private String password;
-
-    public LoginReqDto(String password, String username) {
-        this.username = username;
+    public LoginReqDto(String username, String password) {
         this.password = password;
+        this.username = username;
 
     }
 

@@ -10,21 +10,21 @@ import java.util.List;
 @Data
 public class UserDto {
 
-    private Integer id;
+    private int id;
 
     private String firstName;
 
     private String lastName;
 
-    private String phone;
-
     private String email;
 
-    private String regDate;
+    private String phone;
 
     private String city;
 
-    private Image image;
+    private String regDate;
+
+    private String image;
 
     // private Collection<Ads> adsCollection;
 
@@ -32,16 +32,16 @@ public class UserDto {
 
     }
 
-    public UserDto(Integer id, String firstName, String lastName, String phone,
-                   String email, String regDate, String city, Image image) {
+    public UserDto(int id, String firstName, String lastName, String email, String phone,
+                   String city, String regDate, String image) {
         //, Collection<Ads> adsCollection
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
         this.email = email;
-        this.regDate = regDate;
+        this.phone = phone;
         this.city = city;
+        this.regDate = regDate;
         this.image = image;
         //   this.adsCollection = adsCollection;
     }
