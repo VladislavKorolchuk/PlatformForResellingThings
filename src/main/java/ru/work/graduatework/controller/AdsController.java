@@ -64,11 +64,12 @@ public class AdsController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   // Добавить объявления
     public ResponseEntity<AdsDto> addAds(@RequestParam MultipartFile adsImage, CreateAdsDto createAdsDto) throws IOException {
         logger.info("Current Method is - addAds");
-        AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
-        if (adsDto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else
-            return ResponseEntity.ok(adsDto); //нужен Created
+//        AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
+//        if (adsDto == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } else
+//            return ResponseEntity.ok(adsDto); //нужен Created
+        return null;
     }
 
 //    @Operation(summary = "getComments", operationId = "getComments",
@@ -118,8 +119,9 @@ public class AdsController {
     @GetMapping("/{id}")
     public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) {
         logger.info("Current Method is - getFullAd");
-        FullAdsDto fullAdsDto = adsService.getFullAd(id);
-        return ResponseEntity.ok(fullAdsDto);
+//        FullAdsDto fullAdsDto = adsService.getF(id);
+//        return ResponseEntity.ok(fullAdsDto);
+     return  ResponseEntity.ok().build();
     }
 
     @Operation(summary = "removeAds", operationId = "removeAds",
@@ -145,13 +147,13 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/{id}")   // Обновить рекламу
-    public ResponseEntity<AdsDto> updateAds(@PathVariable int id, @RequestBody CreateAdsDto createAds) {
+    public ResponseEntity<AdsDto> updateAds(@PathVariable long id, @RequestBody CreateAdsDto createAds) {
         logger.info("Current Method is - updateAds");
-        AdsDto adsDtoUpdate = adsService.updateAds(id, createAds);
-        if (adsDtoUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else return ResponseEntity.ok(adsDtoUpdate);
-
+//        AdsDto adsDtoUpdate = adsService.updateAds(id, createAds);
+//        if (adsDtoUpdate == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } else return ResponseEntity.ok(adsDtoUpdate);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "getComments", operationId = "getComments_1",
@@ -166,11 +168,11 @@ public class AdsController {
     public ResponseEntity<CommentDto> getCommentsId(@PathVariable("ad_pk") Integer ad_pk,
                                                     @PathVariable("id") Integer id) {
         logger.info("Current Method is - getCommentsId");
-        CommentDto comment = adsService.getCommentsId(ad_pk, id);
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(comment);
+//        CommentDto comment = adsService.getCommentsId(ad_pk, id);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "deleteComments", operationId = "deleteComments",
@@ -200,11 +202,11 @@ public class AdsController {
                                                        @PathVariable int id,
                                                        @RequestBody CommentDto commentDto) {
         logger.info("Current Method is - updateCommentsId");
-        CommentDto comment = adsService.updateCommentsId();
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(comment);
+//        CommentDto comment = adsService.updateComments(adPk,id,commentDto);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+        return ResponseEntity.ok().build();
 
     }
 

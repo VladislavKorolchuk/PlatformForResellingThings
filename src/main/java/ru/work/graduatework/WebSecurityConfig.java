@@ -3,6 +3,7 @@ package ru.work.graduatework;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -44,8 +45,8 @@ public class WebSecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .sessionManagement(session -> session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
-//                        .maxSessionsPreventsLogin(true)) //запрет второго логина
+                .sessionManagement(session -> session.maximumSessions(1)//запрет на лог одного пользователя больше 1 раза
+                        .maxSessionsPreventsLogin(true)) //запрет второго логина
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
                         authz

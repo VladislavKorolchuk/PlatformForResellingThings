@@ -1,19 +1,21 @@
 package ru.work.graduatework.service;
 
+import liquibase.repackaged.net.sf.jsqlparser.util.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.NewPasswordDto;
+import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
 
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 
 @Service
 public class UsersService {
@@ -22,40 +24,24 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final ImageService imageService;
 
-    public UsersService(UsersRepository usersRepository, ImageService imageService) {
+    private final PasswordEncoder passwordEncoder;
+    public UsersService(UsersRepository usersRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
         this.imageService = imageService;
+        this.passwordEncoder = passwordEncoder;
     }
-
-    Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
-
     /**
      * @return Collection activeUsers
      * @author Korolchuk Vladislav
      * <br> <b> Method get Users </b> </br>
      */
 
-    public Collection<Users> getUsers() {
-
-        Collection<Users> usersCollection = new HashSet();
-        for (Integer idUser : activeUsers) {
-            Optional<Users> userFindById = usersRepository.findById(idUser);
-            if (userFindById.isPresent()) {
-                Users user = new Users();
-                user.setId(userFindById.get().getId());
-                user.setFirstName(userFindById.get().getFirstName());
-                user.setLastName(userFindById.get().getLastName());
-                user.setEmail(userFindById.get().getEmail());
-                user.setPhone(userFindById.get().getPhone());
-                usersCollection.add(user);
-            }
-        }
-        return usersCollection;
-
+    public Users getUsers() {
+        return usersRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
     }
 
     /**
-     * @param emailUser Input parameter
+     * @param id Input parameter
      *                  <br> Is used entity Users {@link Users} </br>
      *                  <br> Is used repository {@link UsersRepository#save(Object)} </br>
      *                  <br> Uses the active Users collection which contains active users </br>
@@ -64,50 +50,54 @@ public class UsersService {
      * <br> <b> Method get User </b> </br>
      */
 
-    public Users getUser(String emailUser) {
-
-        logger.info("Class UsersServiceImpl, current method is - getUser");
-
-        Optional<Users> userFindByEmail = usersRepository.findByEmail(emailUser);
-        //---- Creating a User entity that has been authenticated by the system----
-//        if (userFindByEmail.isPresent()) {
-//            activeUsers.add(userFindByEmail.get().getId());
-//        }
-//        return userFindByEmail.orElse(null);
-        return null;
+    public Users getUserById(long id) {
+        return usersRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
     }
 
+    public Users createUser(Users user) {
+        if (usersRepository.existsByEmail(user.getEmail())) {
+            throw new ValidationException(String.format("Пользователь \"%s\" уже существует!", user.getEmail()));
+        }
+        if (user.getRole() == null) {
+            user.setRole(Role.USER);
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRegDate(dateUserRegistration());
+        return usersRepository.save(user);
+    }
+
+    public String dateUserRegistration() {
+        return String.valueOf(LocalDate.now());
+    }
+    public boolean setPassword(String newPassword, String currentPassword) {
+        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
+                .getAuthentication().getName()).orElseThrow();
 
 
-    public NewPasswordDto setPassword() {
-        return null;
+        if (passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            usersRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
 
     public UserDto updateUser(UserDto userDto) {
-        Users user;
-//        user = UsersMapper1.toEntity(userDto);
-//        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
-//        if (updateUser.get() != null) {
-//            usersRepository.save(updateUser.get());
-//            return UsersMapper1.toDto(updateUser.get());
-//        }
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        usersRepository.setFirstName(userDto.getFirstName());
+//        usersRepository.setLastName(userDto.getLastName());
+//        usersRepository.setPhone(userDto.getPhone());
+//
+//        return userRepository.save(user);
         return null;
     }
 
 
     public String updateUserImage(MultipartFile imageDto) {
-        logger.info("Class UsersController, current method is - updateUserImage");
-        Users users = new Users();  //
-        usersRepository.save(users);
-        Image image = new Image();
-//        try {
-//            imageService.addUserImage();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        users.setImage(image);
-        return "/users/image" + usersRepository.save(users).getImage().getId();
+        return null;
     }
+
 }

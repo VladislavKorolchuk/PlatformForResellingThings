@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.work.graduatework.Entity.Users;
 import java.util.Optional;
 @Repository
-public interface UsersRepository extends JpaRepository<Users, Integer> {
+public interface UsersRepository extends JpaRepository<Users, Long> {
 
    Optional<Users> findByEmail(String email);
-
+   boolean existsByEmail(String email);
 }

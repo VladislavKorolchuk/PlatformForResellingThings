@@ -2,6 +2,7 @@ package ru.work.graduatework.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
 import ru.work.graduatework.Entity.Ads;
 import ru.work.graduatework.Entity.Image;
 
