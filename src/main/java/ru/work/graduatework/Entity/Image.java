@@ -1,12 +1,12 @@
 package ru.work.graduatework.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "Image")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,8 +16,8 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Image_id")
-    private int id;                        // ID
+    @Column
+    private long id;                        // ID
 
 //    @Column(name = "Image_idAds")
 //    private Long idAds;                     // ID ads
@@ -30,6 +30,7 @@ public class Image {
     private String mediaType;
 
     @Lob
+    @Type(type = "binary")
     private byte[] data;
 
 //    @OneToOne(fetch = FetchType.LAZY)

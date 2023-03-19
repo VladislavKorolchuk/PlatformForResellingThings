@@ -71,21 +71,22 @@ public class AdsController {
             return ResponseEntity.ok(adsDto); //нужен Created
     }
 
-    @Operation(summary = "getComments", operationId = "getComments",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperCommentDto.class)))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found")}, tags = "Объявления")
+//    @Operation(summary = "getComments", operationId = "getComments",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperCommentDto.class)))),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found")}, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments")  // Получить комментарии
-    public ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") Integer add_pk) {
-        logger.info("Current Method is - getCommentsId");
-        ResponseWrapperCommentDto comment = adsService.getComments(add_pk);
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(comment);
+    public ResponseEntity<?> getComments(@PathVariable("ad_pk") Integer add_pk) {
+//        logger.info("Current Method is - getCommentsId");
+//        ResponseWrapperCommentDto comment = adsService.getComments(add_pk);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        return ResponseEntity.ok(comment);
+    return     ResponseEntity.ok().build();
     }
 
     @Operation(summary = "addComments", operationId = "addComments",
@@ -99,11 +100,12 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping("/{ad_pk}/comments") // Добавить Комментарии
     public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") int ad_pk, @RequestBody CommentDto commentDto) {
-        logger.info("Current Method is - addComments");
-        CommentDto comment = adsService.addComments(ad_pk, commentDto);
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else return ResponseEntity.ok(comment);
+//        logger.info("Current Method is - addComments");
+//        CommentDto comment = adsService.addComments(ad_pk, commentDto);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        } else return ResponseEntity.ok(comment);
+      return   ResponseEntity.ok().build();
     }
 
     @Operation(summary = "getFullAd", operationId = "getAds",

@@ -9,7 +9,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper1;
+
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -70,10 +70,11 @@ public class UsersService {
 
         Optional<Users> userFindByEmail = usersRepository.findByEmail(emailUser);
         //---- Creating a User entity that has been authenticated by the system----
-        if (userFindByEmail.isPresent()) {
-            activeUsers.add(userFindByEmail.get().getId());
-        }
-        return userFindByEmail.orElse(null);
+//        if (userFindByEmail.isPresent()) {
+//            activeUsers.add(userFindByEmail.get().getId());
+//        }
+//        return userFindByEmail.orElse(null);
+        return null;
 
     }
 
@@ -86,12 +87,12 @@ public class UsersService {
 
     public UserDto updateUser(UserDto userDto) {
         Users user;
-        user = UsersMapper1.toEntity(userDto);
-        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
-        if (updateUser.get() != null) {
-            usersRepository.save(updateUser.get());
-            return UsersMapper1.toDto(updateUser.get());
-        }
+//        user = UsersMapper1.toEntity(userDto);
+//        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
+//        if (updateUser.get() != null) {
+//            usersRepository.save(updateUser.get());
+//            return UsersMapper1.toDto(updateUser.get());
+//        }
         return null;
     }
 

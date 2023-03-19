@@ -2,19 +2,20 @@ package ru.work.graduatework.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Data
 public class CommentDto {
 
-    private String createdAt;
-    private Integer pk;
+    private int pk;
 
     private int author;
-    private String text;
 
-    public CommentDto(String createdAt, Integer pk, String text) {
-        this.createdAt = createdAt;
-        this.pk = pk;
-        this.text = text;
-    }
+    private String createdAt;
+
+    @NotBlank
+    @Size(min = 8)
+    private String text;
 
 }

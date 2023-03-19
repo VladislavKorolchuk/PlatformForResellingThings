@@ -5,19 +5,21 @@ import lombok.Data;
 import java.util.Collection;
 
 @Data
-public class ResponseWrapper<A> {
-    private int count;
-    private Collection <A> result;
+public class ResponseWrapper<T> {
 
-    public static <A> ResponseWrapper<A> of(Collection<A> results) {
-        ResponseWrapper<A> responseWrapper= new ResponseWrapper<>();
+    private int count;
+    private Collection<T> results;
+
+    public static <T> ResponseWrapper<T> of(Collection<T> results) {
+        ResponseWrapper<T> responseWrapper = new ResponseWrapper<>();
+
         if (results == null) {
             return responseWrapper;
         }
-        responseWrapper.result=results;
-        responseWrapper.count=results.size();
+
+        responseWrapper.results = results;
+        responseWrapper.count = results.size();
+
         return responseWrapper;
     }
-
-
 }

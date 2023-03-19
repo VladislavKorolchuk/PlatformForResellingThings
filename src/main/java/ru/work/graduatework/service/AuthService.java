@@ -12,7 +12,6 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.RegisterReqMapper;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -85,7 +84,7 @@ public class AuthService {
                     user.setFirstName(registerReqDto.getFirstName());
                     user.setLastName(registerReqDto.getLastName());
                     user.setPhone(registerReqDto.getPhone());
-                    user.setCurrentPassword(encoder.encode(registerReqDto.getPassword()));
+                    user.setPassword(encoder.encode(registerReqDto.getPassword()));
                     user.setRegDate(dateUserRegistration());
                     user.setRole(Role.USER);
                     usersRepository.save(user);

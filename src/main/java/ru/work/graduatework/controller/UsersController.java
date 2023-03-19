@@ -17,7 +17,6 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper1;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
 
@@ -104,11 +103,12 @@ public class UsersController {
         logger.info("Class UsersController, current method is - setPassword");
         Users currentUser = usersService.getUser(principal.getName());
         //TODO: Проверить на фронте
-        if (this.passwordEncoder.matches(newPasswordDto.getCurrentPassword(), currentUser.getCurrentPassword())) {
-            currentUser.setNewPassword(this.passwordEncoder.encode(newPasswordDto.getNewPassword()));
-            this.usersRepository.save(currentUser);
-        }
-        return ResponseEntity.status(HttpStatus.OK).build();
+//        if (this.passwordEncoder.matches(newPasswordDto.getCurrentPassword(), currentUser.getCurrentPassword())) {
+//            currentUser.setNewPassword(this.passwordEncoder.encode(newPasswordDto.getNewPassword()));
+//            this.usersRepository.save(currentUser);
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Обновить данные пользователя",
@@ -148,11 +148,12 @@ public class UsersController {
             user.setLastName(userDto.getLastName());
             user.setPhone(userDto.getPhone());
             usersRepository.save(user);
-        } else {
-            Users user = UsersMapper1.toEntity(userDto);
-            logger.info("-----------------------------------------");
-            usersRepository.save(user);
-        }
+        } else
+//        {
+//            Users user = UsersMapper1.toEntity(userDto);
+//            logger.info("-----------------------------------------");
+//            usersRepository.save(user);
+//        }
         return;
     }
 

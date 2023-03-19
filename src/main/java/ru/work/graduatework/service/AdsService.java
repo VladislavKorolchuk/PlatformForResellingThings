@@ -12,7 +12,6 @@ import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.CommentMapper;
 
 import java.io.IOException;
 import javax.transaction.Transactional;
@@ -78,12 +77,12 @@ public class AdsService {
         ads.setDescription(createAdsDto.getDescription());
        // ads.setUser(users1);
         adsRepository.save(ads);
-        try {
-            Image image = imageService.addAdsImage(ads.getId(), adsImage);
-            ads.setImage(image);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+////            Image image = imageService.addAdsImage(ads.getId(), adsImage);
+//            ads.setImage(image);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return null;
     }
 
@@ -132,29 +131,29 @@ public class AdsService {
     }
 
 
-    public ResponseWrapperCommentDto getComments(Integer ad_pk) {
-        ResponseWrapperCommentDto responseWrapperCommentDto = new ResponseWrapperCommentDto();
-        Ads ads = adsRepository.findById(ad_pk).orElseThrow();
-//        List<Comment> dtoList = new ArrayList<>(ads.getCommentCollection()); убрал отношение
-//        responseWrapperCommentDto.setCount(dtoList.size());
-//        responseWrapperCommentDto.setResults(dtoList);
-        return responseWrapperCommentDto;
-    }
+//    public ResponseWrapperCommentDto getComments(Integer ad_pk) {
+//        ResponseWrapperCommentDto responseWrapperCommentDto = new ResponseWrapperCommentDto();
+//        Ads ads = adsRepository.findById(ad_pk).orElseThrow();
+////        List<Comment> dtoList = new ArrayList<>(ads.getCommentCollection()); убрал отношение
+////        responseWrapperCommentDto.setCount(dtoList.size());
+////        responseWrapperCommentDto.setResults(dtoList);
+//        return responseWrapperCommentDto;
+//    }
 
 
-    @Transactional
-    public CommentDto addComments(int ad_pk, CommentDto commentDto) {
-        logger.info("Current Method is - addCommentsService");
-        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
-        Comment comment = CommentMapper.toEntity(commentDto);
-//        ads.getCommentCollection().add(comment);
-        return CommentMapper.toDto(commentRepository.save(comment));
-    }
+//    @Transactional
+//    public CommentDto addComments(int ad_pk, CommentDto commentDto) {
+//        logger.info("Current Method is - addCommentsService");
+//        Ads ads = this.adsRepository.findById(ad_pk).orElseThrow();
+//        Comment comment = CommentMapper.toEntity(commentDto);
+////        ads.getCommentCollection().add(comment);
+//        return CommentMapper.toDto(commentRepository.save(comment));
+//    }
 
 
     public CommentDto getCommentsId(Integer ad_pk, Integer id) {
         Ads ads = adsRepository.findById(ad_pk).orElseThrow();
-        return new CommentDto(null, null, null);
+        return null;
     }
 
 

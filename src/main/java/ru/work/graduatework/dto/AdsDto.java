@@ -8,16 +8,20 @@ import javax.validation.constraints.NotBlank;
 
 
 @Data
-@NoArgsConstructor
 public class AdsDto {
 
     private int author;
+
     private String image;
+
     private int pk;
+
     private int price;
-  //  @NotBlank
+
+    @NotBlank
     private String title;
-  //  @NotBlank
+
+    @NotBlank
     @JsonIgnore
     private String description;
 

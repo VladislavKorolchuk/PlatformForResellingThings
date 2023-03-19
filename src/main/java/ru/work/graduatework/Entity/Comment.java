@@ -14,23 +14,23 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "primary_key")
-    private int pk;
+    @Column
+    private long id;
 //    @Column(name = "Comment_author") //user id
 //    private int author;
-    @Column(name = "created_at")
+    @Column
     private String createdAt;
 
-    @Column(name = "text")
+    @Column
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)                  // Many-to-one communication
-    @JoinColumn(name = "Ads_user_id")
-    private Users user;
+    @JoinColumn
+    private Users author;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ads")
-    private Ads ads;
+    private Ads ad;
 
 
 }
