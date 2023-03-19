@@ -24,12 +24,12 @@ public class Comment {
     @Column
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)                  // Many-to-one communication
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Users author;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_ads")
+    @JoinColumn(name = "pk_ads")
     private Ads ad;
 
 

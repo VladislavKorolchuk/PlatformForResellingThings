@@ -1,5 +1,8 @@
 package ru.work.graduatework.mapper;
 
+import org.mapstruct.Named;
+import ru.work.graduatework.Entity.Image;
+
 import java.util.Collection;
 import java.util.List;
 
