@@ -37,54 +37,56 @@ public class AdsController {
     private final AdsMapper adsMapper;
 
 
-    @Operation(
-            operationId = "getALLAds",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = Ads.class))))
-            },
-            tags = "Объявления")
+//    @Operation(
+//            operationId = "getALLAds",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            array = @ArraySchema(schema = @Schema(implementation = Ads.class))))
+//            },
+//            tags = "Объявления")
     @GetMapping    // Получить объявление
     public ResponseWrapper<AdsDto> getAllAds() {
-        logger.info("Current Method is - getAds");
+        logger.info("Current Method is - getAllAds");
         return ResponseWrapper.of(adsMapper.toDto(adsService.getAllAds()));
     }
 
-    @Operation(summary = "addAds", operationId = "addAds",
-            responses = {@ApiResponse(responseCode = "201", description = "Created",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Ads.class)
-                    )),
-                    @ApiResponse(responseCode = "404", description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   // Добавить объявления
+//    @Operation(summary = "addAds", operationId = "addAds",
+//            responses = {@ApiResponse(responseCode = "201", description = "Created",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = Ads.class)
+//                    )),
+//                    @ApiResponse(responseCode = "404", description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   // Добавить объявления
     public ResponseEntity<AdsDto> addAds(@RequestParam MultipartFile adsImage, CreateAdsDto createAdsDto) throws IOException {
         logger.info("Current Method is - addAds");
-        AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
-        if (adsDto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else
-            return ResponseEntity.ok(adsDto); //нужен Created
+     //   AdsDto adsDto = adsService.addAds(createAdsDto, adsImage);
+      //  if (adsDto == null) {
+      //      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      //  } else
+       //     return ResponseEntity.ok(adsDto); //нужен Created
+        return null;
     }
 
-    @Operation(summary = "getComments", operationId = "getComments",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperCommentDto.class)))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found")}, tags = "Объявления")
-    @GetMapping("/{ad_pk}/comments")  // Получить комментарии
+//    @Operation(summary = "getComments", operationId = "getComments",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            array = @ArraySchema(schema = @Schema(implementation = ResponseWrapperCommentDto.class)))),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found")}, tags = "Объявления")
+//    @GetMapping("/{ad_pk}/comments")  // Получить комментарии
     public ResponseEntity<ResponseWrapperCommentDto> getComments(@PathVariable("ad_pk") Integer add_pk) {
         logger.info("Current Method is - getCommentsId");
-        ResponseWrapperCommentDto comment = adsService.getComments(add_pk);
-        if (comment == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(comment);
+      //  ResponseWrapperCommentDto comment = adsService.getComments(add_pk);
+//        if (comment == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        return ResponseEntity.ok(comment);
+        return null;
     }
 
 //    @Operation(summary = "addComments", operationId = "addComments",
@@ -105,13 +107,13 @@ public class AdsController {
 //        } else return ResponseEntity.ok(comment);
 //    }
 
-    @Operation(summary = "getFullAd", operationId = "getAds",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = FullAdsDto.class))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),}, tags = "Объявления")
+//    @Operation(summary = "getFullAd", operationId = "getAds",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            schema = @Schema(implementation = FullAdsDto.class))),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),}, tags = "Объявления")
     @GetMapping("/{id}")
     public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) {
         logger.info("Current Method is - getFullAd");
@@ -119,28 +121,28 @@ public class AdsController {
         return ResponseEntity.ok(fullAdsDto);
     }
 
-    @Operation(summary = "removeAds", operationId = "removeAds",
-            responses = {@ApiResponse(responseCode = "204", description = "No Content", content = {}),
-                    @ApiResponse(responseCode = "401",
-                            description = "Unauthorized"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-            }, tags = "Объявления")
-    @DeleteMapping("/{id}")   // Убрать рекламу
+//    @Operation(summary = "removeAds", operationId = "removeAds",
+//            responses = {@ApiResponse(responseCode = "204", description = "No Content", content = {}),
+//                    @ApiResponse(responseCode = "401",
+//                            description = "Unauthorized"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//            }, tags = "Объявления")
+//    @DeleteMapping("/{id}")   // Убрать рекламу
     public void removeAds(@PathVariable int id) { // параметры
         logger.info("Current Method is - removeAds");
         adsService.removeAds(id);
         return;
     }
 
-    @Operation(summary = "updateAds", operationId = "updateAds",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ads.class))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @Operation(summary = "updateAds", operationId = "updateAds",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            schema = @Schema(implementation = Ads.class))),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/{id}")   // Обновить рекламу
     public ResponseEntity<AdsDto> updateAds(@PathVariable int id, @RequestBody CreateAdsDto createAds) {
         logger.info("Current Method is - updateAds");
@@ -151,14 +153,14 @@ public class AdsController {
 
     }
 
-    @Operation(summary = "getComments", operationId = "getComments_1",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = AdsCommentDto.class))), // Comment.class
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-            }, tags = "Объявления")
+//    @Operation(summary = "getComments", operationId = "getComments_1",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            schema = @Schema(implementation = AdsCommentDto.class))), // Comment.class
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//            }, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments/{id}")   // Получить комментарии по id
     public ResponseEntity<AdsCommentDto> getCommentsId(@PathVariable("ad_pk") Integer ad_pk,
                                                        @PathVariable("id") Integer id) {
@@ -170,12 +172,12 @@ public class AdsController {
         return ResponseEntity.ok(comment);
     }
 
-    @Operation(summary = "deleteComments", operationId = "deleteComments",
-            responses = {@ApiResponse(responseCode = "200", description = "OK"),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @Operation(summary = "deleteComments", operationId = "deleteComments",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK"),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @DeleteMapping("/{ad_pk}/comments/{id}")   // Удалить комментарии по id
     public ResponseEntity<AdsCommentDto> deleteCommentsId(@PathVariable("ad_pk") String ad_pk,
                                                           @PathVariable int id) {
@@ -183,15 +185,15 @@ public class AdsController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "updateComments", operationId = "updateComments",
-            responses = {@ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ads.class))), //  Comment.class
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @Operation(summary = "updateComments", operationId = "updateComments",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            schema = @Schema(implementation = Ads.class))), //  Comment.class
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PatchMapping("/{ad_pk}/comments/{id}")    // Обновление комментария по id
     public ResponseEntity<AdsCommentDto> updateCommentsId(@PathVariable("ad_pk") String adPk,
                                                           @PathVariable int id,
@@ -205,20 +207,20 @@ public class AdsController {
 
     }
 
-    @Operation(summary = "getAdsMe", operationId = "getAdsMeUsingGET",
-            responses = {@ApiResponse(responseCode = "200",
-                    content = @Content(
-                            mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = Ads.class)))), //ResponseWrapperAds
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found"),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
+//    @Operation(summary = "getAdsMe", operationId = "getAdsMeUsingGET",
+//            responses = {@ApiResponse(responseCode = "200",
+//                    content = @Content(
+//                            mediaType = MediaType.ALL_VALUE,
+//                            array = @ArraySchema(schema = @Schema(implementation = Ads.class)))), //ResponseWrapperAds
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found"),
+//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+//                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @GetMapping("/me")   // Получить рекламу
     public ResponseWrapper<AdsDto> getAdsMe() { // параметры нужно разобрать и дописать
         logger.info("Current Method is - getAdsMe");
         Collection<Ads> adsCollection = adsService.getAllAds();
-         return ResponseWrapper.of(adsMapper.toDto(adsCollection));
+         return ResponseWrapper.of(adsMapper.toDto(adsService.getAdsMe()));
     }
 }
 
