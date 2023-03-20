@@ -58,13 +58,13 @@ public class ImageService {
         image.setFilePath(path.toString());
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
-      //  image.setData(imageFile.getBytes())
+        //  image.setData(imageFile.getBytes())
 //        image.setAds
         imageRepository.save(image);
         return image;
     }
 
-    public Image addUserImage(Integer id, MultipartFile imageFile) throws IOException {
+    public Image addUserImage(long id, MultipartFile imageFile) throws IOException {
         Users users = usersRepository.findById(id).orElseThrow();
         Path path = Path.of(imageDir, id + "." + getExtensions(
                 Objects.requireNonNull(imageFile.getOriginalFilename())));
@@ -84,7 +84,7 @@ public class ImageService {
         image.setFilePath(path.toString());
         image.setMediaType(imageFile.getContentType());
         image.setFileSize(imageFile.getSize());
-     //   image.setData(imageFile.getBytes());
+        //   image.setData(imageFile.getBytes());
 //        image.setUsers(users);
         imageRepository.save(image);
         return image;
@@ -92,5 +92,10 @@ public class ImageService {
 
     private String getExtensions(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    public Image uploadImage(MultipartFile multipartFile) throws IOException {
+        Image image = new Image();
+        return null;
     }
 }

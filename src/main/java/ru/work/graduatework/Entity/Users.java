@@ -28,7 +28,7 @@ public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // delegates the installation of the ID to the database level
     @Column(name = "primary_key")
-    private int id;                                 // Primary key
+    private long id;                                 // Primary key
     @Column(name = "first_name")
     private String firstName;                           // User's name
     @Column(name = "last_name")

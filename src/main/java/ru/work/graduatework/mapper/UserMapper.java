@@ -22,15 +22,15 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
     @Mapping(target = "role", ignore = true)
     Users toEntity(UserDto dto);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "imageMappimg")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
     UserDto toDto(Users entity);
 
     @Named("imageMapping")
-    default byte[] imageMapping(Image image) {
+    default String imageMapping(Image image) {
         if (image == null) {
             return null;
         }
-        return  image.getData();
+        return  "/user/image/" + image.getId();
 
     }
 

@@ -18,17 +18,4 @@ public class FullAdsDto {
     private String title;
     private String email;
 
-//    public FullAdsDto(String authorFirstName, String authorLastName, String description, String email,
-//                      List<String> image, String phone, Integer pk, Integer price, String title) {
-//        this.authorFirstName = authorFirstName;
-//        this.authorLastName = authorLastName;
-//        this.description = description;
-//        this.email = email;
-//        this.image = image;
-//        this.phone = phone;
-//        this.pk = pk;
-//        this.price = price;
-//        this.title = title;
-//    }
-
 }
