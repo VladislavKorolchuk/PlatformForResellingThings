@@ -8,7 +8,6 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.UserDto;
-
 @Mapper(componentModel = "spring")
 public interface UserMapper extends MapperScheme<UserDto, Users> {
     CreateUserDto toCreateUserDto(Users entity);
@@ -27,13 +26,12 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
     @Mapping(target = "image", expression = "java(\"/ads/images/\" + entity.getImage().getId())")
     UserDto toDto(Users entity);
 
-//    @Named("imageMapping")
-//    default byte[] imageMapping(Image image) {
-//        if (image == null) {
-//            return null;
-//        }
-//        return image.getData();
-//
-//    }
+    @Named("imageMapping")
+    default String imageMapping(Image image) {
+        if (image == null) {
+            return null;
+        }
+        return "/users/image/" + image.getId();
+    }
 
 }
