@@ -8,6 +8,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.UserDto;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper extends MapperScheme<UserDto, Users> {
     CreateUserDto toCreateUserDto(Users entity);
@@ -15,7 +16,7 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
     Users createUserDtoToEntity(CreateUserDto dto);
 
     @Mapping(target = "role", defaultValue = "USER")
-    @Mapping(source = "username", target="email")
+    @Mapping(source = "username", target = "email")
     Users toEntity(RegisterReqDto dto);
 
     @Mapping(target = "password", ignore = true)
@@ -23,16 +24,16 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
     @Mapping(target = "role", ignore = true)
     Users toEntity(UserDto dto);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
+    @Mapping(target = "image", expression = "java(\"/ads/images/\" + entity.getImage().getId())")
     UserDto toDto(Users entity);
 
-    @Named("imageMapping")
-    default byte[] imageMapping(Image image) {
-        if (image == null) {
-            return null;
-        }
-        return  image.getData();
-
-    }
+//    @Named("imageMapping")
+//    default byte[] imageMapping(Image image) {
+//        if (image == null) {
+//            return null;
+//        }
+//        return image.getData();
+//
+//    }
 
 }

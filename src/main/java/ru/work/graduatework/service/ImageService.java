@@ -49,7 +49,6 @@ public class ImageService {
         image.setFileSize(imageFile.getSize());
         image.setMediaType(imageFile.getContentType());
         image.setData(imageFile.getBytes());
-
         return imageRepository.save(image);
     }
     public Image getImageById(long id) {

@@ -54,18 +54,24 @@ public class AdsService {
     @SneakyThrows
     @Transactional
     public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
-        Ads ads = adsMapper.toEntity(createAdsDto);
-        Users users = usersRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(EntityExistsException::new);
+//        Ads ads = adsMapper.toEntity(createAdsDto);
+        Ads ads = new Ads();
+        ads.setTitle(createAdsDto.getTitle());
+        ads.setPrice(createAdsDto.getPrice());
+        ads.setDescription(createAdsDto.getDescription());
+//        Users users = usersRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(EntityExistsException::new);
+      Users users = new Users();
+      users.setRole(Role.USER);
+      usersRepository.save(users);
         ads.setAuthor(users);
         ads.setImage(imageService.uploadImage(adsImage));
         return adsRepository.save(ads);
     }
 
-    public List<AdsDto> getAdsMe() {
-        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).orElseThrow();
-        Collection<Ads> adsList = adsRepository.findAllByAuthorId(user.getId());
-        return adsMapper.toDto(adsList);
+    public  Collection<Ads> getAdsMe() {
+        Users users = usersRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().
+                getName()).orElseThrow(EntityExistsException::new);
+        return adsRepository.findAllByAuthorId(users.getId());
     }
 
 
@@ -75,15 +81,14 @@ public class AdsService {
 
 
     public void removeAds(long id) {
-        Ads dbAds = this.adsRepository.findById(id).orElseThrow(ObjectCollectedException::new);
+        Ads ads = getAdsById(id);
         commentRepository.deleteAdsCommentsByAdId(id);
-        this.adsRepository.delete(dbAds);
+        this.adsRepository.delete(ads);
     }
 
     public Comment getAdsComment(long adPk, long id) {
-        Comment comment = commentRepository.findByIdAndAdId(id, adPk)
+        return commentRepository.findByIdAndAdId(id, adPk)
                 .orElseThrow(ObjectCollectedException::new);
-        return comment;
     }
 
 
