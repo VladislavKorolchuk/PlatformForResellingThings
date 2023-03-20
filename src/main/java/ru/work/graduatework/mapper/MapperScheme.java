@@ -3,12 +3,11 @@ package ru.work.graduatework.mapper;
 import java.util.Collection;
 import java.util.List;
 
-public interface MapperScheme<D, E> {
+public interface MapperScheme<A, B> {
 
-    E toEntity(D dto);
-
-    D toDto(E entity);
-    List<D> toDto (Collection<E> entity);
-    List<E> toEntity (Collection<D> dto);
+    B toEntity(A dto);
+    A toDto(B entity);
+    List<A> toDto (Collection<B> entity);
+    List<B> toEntity (Collection<A> dto);
 
 }

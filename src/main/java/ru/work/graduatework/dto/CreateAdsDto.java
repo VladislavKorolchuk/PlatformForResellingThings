@@ -9,10 +9,4 @@ public class CreateAdsDto {
     private Integer price;
     private String title;
 
-    public CreateAdsDto(String description, Integer price, String title) {
-        this.description = description;
-        this.price = price;
-        this.title = title;
-    }
-
 }

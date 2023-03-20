@@ -1,20 +1,19 @@
 package ru.work.graduatework.mapper;
 
+import org.mapstruct.Mapping;
 import ru.work.graduatework.Entity.Comment;
-import ru.work.graduatework.dto.CommentDto;
+import ru.work.graduatework.dto.AdsCommentDto;
 
-public class CommentMapper {
+public interface CommentMapper extends MapperScheme<AdsCommentDto, Comment> {
 
-    public static CommentDto toDto(Comment comment){
-        return new CommentDto(comment.getCreatedAt(), comment.getPk(), comment.getText());
-    }
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "id", source="pk")
+    @Mapping(target = "createAt", ignore = true)
+    Comment toEntity(AdsCommentDto dto);
 
-    public static Comment toEntity(CommentDto commentDto){
-        Comment comment = new Comment();
-        comment.setCreatedAt(commentDto.getCreatedAt());
-        comment.setPk(commentDto.getPk());
-        comment.setText(commentDto.getText());
-        return comment;
-    }
+    @Mapping(target = "author", source = "author.id")
+    @Mapping(source = "id", target = "pk")
+    @Mapping(target = "createAt", source = "entity.CreateAt")
+    AdsCommentDto toDto(Comment entity);
 
 }

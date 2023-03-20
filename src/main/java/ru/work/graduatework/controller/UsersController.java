@@ -16,14 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.UserDto;
+import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
-
 import java.security.Principal;
-import java.util.Collection;
-import java.util.HashSet;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +34,8 @@ public class UsersController {
 
     private final ImageService imageService;
     private final UsersRepository usersRepository;
+
+    private  UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
     @Operation(summary = "Получить пользователя",
@@ -64,15 +64,10 @@ public class UsersController {
             }, tags = "USER"
     )
     @GetMapping("/me")
-    public Collection<Users> getUsers(Principal principal) {
+    public UserDto getUsers() {
 
         logger.info("Class UsersController, current method is - getUsers");
-        if (principal != null) {
-            Collection<Users> usersCollection = new HashSet<>();
-            usersCollection.add(usersService.getUser(principal.getName()));
-            return usersCollection;
-        }
-        return usersService.getUsers();
+        return  userMapper.toDto(usersService.getUsers());
 
     }
 
@@ -111,51 +106,6 @@ public class UsersController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @Operation(summary = "Обновить данные пользователя",
-            operationId = "updateUser",
-            responses = {@ApiResponse
-                    (responseCode = "200",
-                            description = "OK",
-                            content = @Content(
-                                    mediaType = MediaType.ALL_VALUE,
-                                    schema = @Schema(implementation = Users.class)
-                            )),
-                    @ApiResponse(
-                            responseCode = "204",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden"
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not Found"
-                    )
-            }, tags = "USER"
-    )
-    @PatchMapping("/me")
-    public void updateUser(@RequestBody UserDto userDto, Principal principal) {
-
-        logger.info("Class UsersController, current method is - updateUser");
-        if (principal != null) {
-            Users user = usersService.getUser(principal.getName());
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setPhone(userDto.getPhone());
-            usersRepository.save(user);
-        } else {
-            Users user = UsersMapper.toEntity(userDto);
-            logger.info("-----------------------------------------");
-            usersRepository.save(user);
-        }
-        return;
-    }
-
     @Operation(summary = "Обновление изображение пользователя",
             responses = {@ApiResponse
                     (responseCode = "200",
@@ -177,4 +127,11 @@ public class UsersController {
 //        return ResponseEntity.ok(image.getData());
         return ResponseEntity.ok().body(usersService.updateUserImage(image));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser (@PathVariable("id") long id) {
+        Users user = usersService.getUserById(id);
+        return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
 }

@@ -7,9 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
-import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper;
+import ru.work.graduatework.security.SecurityUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +26,7 @@ public class UsersService {
         this.imageService = imageService;
     }
 
-    Collection<Integer> activeUsers = new HashSet<>(); // Collection active Users
+    Collection<Long> activeUsers = new HashSet<>(); // Collection active Users
 
     /**
      * @return Collection activeUsers
@@ -35,23 +34,9 @@ public class UsersService {
      * <br> <b> Method get Users </b> </br>
      */
 
-    public Collection<Users> getUsers() {
+    public Users getUsers() {
 
-        Collection<Users> usersCollection = new HashSet();
-        for (Integer idUser : activeUsers) {
-            Optional<Users> userFindById = usersRepository.findById(idUser);
-            if (userFindById.isPresent()) {
-                Users user = new Users();
-                user.setId(userFindById.get().getId());
-                user.setFirstName(userFindById.get().getFirstName());
-                user.setLastName(userFindById.get().getLastName());
-                user.setEmail(userFindById.get().getEmail());
-                user.setPhone(userFindById.get().getPhone());
-                usersCollection.add(user);
-            }
-        }
-        return usersCollection;
-
+        return usersRepository.findByEmail(SecurityUtils.getUserDetailsFromContext().getUsername()).orElseThrow();
     }
 
     /**
@@ -84,16 +69,16 @@ public class UsersService {
     }
 
 
-    public UserDto updateUser(UserDto userDto) {
-        Users user;
-        user = UsersMapper.toEntity(userDto);
-        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
-        if (updateUser.get() != null) {
-            usersRepository.save(updateUser.get());
-            return UsersMapper.toDto(updateUser.get());
-        }
-        return null;
-    }
+//    public UserDto updateUser(UserDto userDto) {
+//        Users user;
+//        user = UsersMapper1.toEntity(userDto);
+//        Optional<Users> updateUser = usersRepository.findByEmail(userDto.getEmail());
+//        if (updateUser.get() != null) {
+//            usersRepository.save(updateUser.get());
+//            return UsersMapper1.toDto(updateUser.get());
+//        }
+//        return null;
+//    }
 
 
     public String updateUserImage(MultipartFile imageDto) {
@@ -109,4 +94,11 @@ public class UsersService {
         users.setImage(image);
         return "/users/image" + usersRepository.save(users).getImage().getId();
     }
+
+    public Users getUserById(long id) {
+        return usersRepository.findById(id).orElseThrow();
+    }
+
+
+
 }

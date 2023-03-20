@@ -12,7 +12,6 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.RegisterReqMapper;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -37,10 +36,17 @@ public class AuthService {
         if (!manager.userExists(userName)) {
             return false;
         }
-        UserDetails userDetails = manager.loadUserByUsername(userName);
-        String encryptedPassword = userDetails.getPassword();
-        String encryptedPasswordWithoutEncryptionType = encryptedPassword.substring(8);
-        return encoder.matches(password, encryptedPasswordWithoutEncryptionType);
+        logger.info("Current method is - login");
+        logger.info("login - " + userName);
+        logger.info("password - " + password);
+        if (usersRepository.findByEmail(userName).isPresent() == true) {
+            logger.info("The user is found in the database");
+            Users user = usersRepository.findByEmail(userName).orElseThrow();
+            if (encoder.matches(password, user.getCurrentPassword()) == true) {
+                return true;
+            }
+        }
+       return false;
 
     }
 
