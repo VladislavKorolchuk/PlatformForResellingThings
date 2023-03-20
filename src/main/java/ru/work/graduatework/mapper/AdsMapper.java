@@ -24,9 +24,7 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "author", source = "author.id")
     @Mapping(target = "image", source = "entity.image", qualifiedByName = "imageMapping")
-    default AdsDto toDto(Ads entity) {
-        return null;
-    }
+    AdsDto toDto(Ads entity);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
@@ -42,11 +40,10 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
     FullAdsDto toFullAdsDto(Ads entity);
 
     @Named("imageMapping")
-    default byte[] imageMapping(Image image) {
+    default String imageMapping(Image image) {
         if (image == null) {
-            byte[] byteImage = new byte[1];
-            return byteImage;
+            return null;
         }
-        return image.getData();
+        return PUTH_IMAGE + image.getId();
     }
 }
