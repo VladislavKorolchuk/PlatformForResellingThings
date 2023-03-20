@@ -33,7 +33,6 @@ public class UsersService implements UserDetails {
     private final UserDetailsServiceImpl userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    private final Role role;
 
     /**
      * @return Collection activeUsers
@@ -120,9 +119,10 @@ public class UsersService implements UserDetails {
 
     @Override
     public Set<GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(this.role.name()));
-        return authorities;
+//        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+//        authorities.add(new SimpleGrantedAuthority(this.role.name()));
+//        return authorities;
+        return null;
     }
 
     @Override
