@@ -2,19 +2,13 @@ package ru.work.graduatework.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.NewPasswordDto;
-import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UsersRepository;
-import ru.work.graduatework.mapper.UsersMapper1;
 import ru.work.graduatework.security.SecurityUtils;
-
-import static ru.work.graduatework.security.SecurityUtils.getUserDetailsFromContext;
 
 import java.util.Collection;
 import java.util.HashSet;

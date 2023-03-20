@@ -40,7 +40,6 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
     @Named("imageMapping")
     default String imageMapping(Image image) {
        if (image == null) {
-            byte[] byteImage = new byte[1];
             return null;
         }
         return "/ads/image/" +image.getId();
