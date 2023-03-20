@@ -20,6 +20,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -61,11 +62,12 @@ public class AdsService {
         return adsRepository.save(ads);
     }
 
-    public List<AdsDto> getAdsMe() {
+    public Collection<Ads> getAdsMe() {
         Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
                 .getAuthentication().getName()).orElseThrow();
         Collection<Ads> adsList = adsRepository.findAllByAuthorId(user.getId());
-        return adsMapper.toDto(adsList);
+        return adsRepository.findAll().stream()
+                .filter(ads -> ads.getAuthor().equals(user)).collect(Collectors.toList());
     }
 
 
@@ -109,7 +111,7 @@ public class AdsService {
         return comment;
     }
 
-    public Comment updateComments(int adPk, int id, Comment commentUpdated) {
+    public Comment updateComments(long adPk, int id, Comment commentUpdated) {
         Comment adsComment = getAdsComment(adPk, id);
         adsComment.setText(commentUpdated.getText());
         return commentRepository.save(adsComment);
