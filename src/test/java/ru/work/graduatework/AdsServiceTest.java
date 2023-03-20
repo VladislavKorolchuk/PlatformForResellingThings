@@ -11,14 +11,12 @@
 //import ru.work.graduatework.Entity.Comment;
 //import ru.work.graduatework.Entity.Image;
 //import ru.work.graduatework.Entity.Users;
-//import ru.work.graduatework.dto.AdsDto;
-//import ru.work.graduatework.dto.AdsCommentDto;
-//import ru.work.graduatework.dto.CreateAdsDto;
-//import ru.work.graduatework.dto.ResponseWrapperAdsDto;
+//import ru.work.graduatework.dto.*;
 //import ru.work.graduatework.repository.AdsRepository;
 //import ru.work.graduatework.repository.CommentRepository;
 //import ru.work.graduatework.repository.ImageRepository;
 //import ru.work.graduatework.mapper.CommentMapper;
+//import ru.work.graduatework.repository.UsersRepository;
 //import ru.work.graduatework.service.AdsService;
 //import ru.work.graduatework.service.ImageService;
 //
@@ -37,9 +35,11 @@
 //    @Autowired
 //    public ImageRepository imageRepository;
 //    @Autowired
-//    public AdsService adsServiceImpl;
+//    public UsersRepository usersRepository;
 //    @Autowired
-//    public ImageService imageServiceImpl;
+//    public AdsService adsService;
+//    @Autowired
+//    public ImageService imageService;
 //    Ads ads = new Ads();
 //    Users users = new Users();
 //    Integer author = 1;
@@ -56,15 +56,11 @@
 //
 //    @BeforeEach
 //    public void setUp() {
-//        ads.setAuthor(author);
-//        ads.setPk(pk);
+//        ads.setAuthor(users);
 //        ads.setPrice(price);
 //        ads.setTitle(title);
-//        ads.setUser(ads.getUser());
 //        ads.setImage(ads.getImage());
 //        ads.setDescription(description);
-//        ads.setUser(ads.getUser());
-//        ads.setCommentCollection(commentCollection);
 //
 //        adsRepository.save(ads);
 //    }
@@ -75,57 +71,138 @@
 //    }
 //
 //    @Test
+//    public void getAllAdsTest() {
+//        Collection<Ads> ads = this.adsService.getAllAds();
+//        Assertions
+//                .assertThat(ads).isNotEmpty();
+//    }
+//
+//    @Test
 //    public void getAdsTest() {
-//        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAllAds();
+//        List<Ads> list = adsRepository.findByTitleIgnoreCase(title);
+//        ResponseWrapperAdsDto expected = new ResponseWrapperAdsDto();
+//        expected.setCount(list.size());
+//        expected.setResults(list);
+//
+//        ResponseWrapperAdsDto actual = adsService.getAds(title);
 //        Assertions
-//                .assertThat(adsDto).isNotNull();
+//                .assertThat(actual).isEqualTo(expected);
 //    }
+//
+////    @Test
+////    public void addAdsTest() throws IOException {
+////
+////        imageRepository.save(image);
+////
+////        AdsDto request = new AdsDto(author, description, image, pk, price, title);
+////        CreateAdsDto createAdsDto = new CreateAdsDto(description, price, title);
+////        AdsDto result = adsService.addAds(createAdsDto, kmlfile);
+////
+////        Assertions
+////                .assertThat(request.getAuthor()).isEqualTo(result.getAuthor());
+////        Assertions
+////                .assertThat(request.getDescription()).isEqualTo(result.getDescription());
+////        Assertions
+////                .assertThat(request.getPrice()).isEqualTo(result.getPrice());
+////        Assertions
+////                .assertThat(request.getTitle()).isEqualTo(result.getTitle());
+////        imageRepository.deleteAll();
+////    }
 //
 //    @Test
-//    public void addAdsTest() throws IOException {
+//    public void getFullAdTest() {
+//        FullAdsDto expected = new FullAdsDto();
+//        expected.setAuthorFirstName(users.getFirstName());
+//        expected.setAuthorLastName(users.getLastName());
+//        //  fullAdsDto.setDescription(ads.getDescription());
+//        expected.setEmail(users.getEmail());
+//        //  fullAdsDto.setPrice(ads.getPrice());
+//        //  fullAdsDto.setTitle(ads.getTitle());
 //
-//        imageRepository.save(image);
-//
-//        AdsDto request = new AdsDto(author, description, image, pk, price, title);
-//        CreateAdsDto createAdsDto = new CreateAdsDto(description, price, title);
-//        AdsDto result = adsServiceImpl.addAds(createAdsDto, kmlfile);
-//
+//        FullAdsDto actual = adsService.getFullAd(pk);
 //        Assertions
-//                .assertThat(request.getAuthor()).isEqualTo(result.getAuthor());
-//        Assertions
-//                .assertThat(request.getDescription()).isEqualTo(result.getDescription());
-//        Assertions
-//                .assertThat(request.getPrice()).isEqualTo(result.getPrice());
-//        Assertions
-//                .assertThat(request.getTitle()).isEqualTo(result.getTitle());
-//        imageRepository.deleteAll();
-//
+//                .assertThat(actual).isEqualTo(expected);
 //    }
+////    @Test
+////    public void removeAdsTest() {
+////        CreateAdsDto createAdsDto2 = new CreateAdsDto("description", 2, "title");
+////        AdsDto part2 = adsService.addAds(createAdsDto2, kmlfile);
+////        adsService.removeAds(part2.getPk());
+////        ResponseWrapperAdsDto adsDto = this.adsService.getAllAds();
+////
+////        Assertions
+////                .assertThat(adsDto.getResults()).hasSize(1);
+////        imageRepository.deleteAll();
+////    }
+//
+////    @Test
+////    public void updateAdsTest() {
+////
+////    }
 //
 //    @Test
-//    public void removeAdsTest() {
-//        CreateAdsDto createAdsDto2 = new CreateAdsDto("description", 2, "title");
-//        AdsDto part2 = adsServiceImpl.addAds(createAdsDto2, kmlfile);
-//        adsServiceImpl.removeAds(part2.getPk());
-//        ResponseWrapperAdsDto adsDto = this.adsServiceImpl.getAllAds();
-//
+//    public void getAdsMe() {
+//        Collection<Ads> expected = adsRepository.findAll();
+//        Collection<Ads> actual = adsService.getAdsMe();
 //        Assertions
-//                .assertThat(adsDto.getResults()).hasSize(1);
-//        imageRepository.deleteAll();
+//                .assertThat(expected).isEqualTo(actual);
 //    }
+//
+////    @Test
+////    public void getCommentsTest() {
+////    }
+//
+////    @Test
+////    public void getCommentsIdTest() {
+////    }
+////
+////    @Test
+////    public void deleteCommentsIdTest() {
+////    }
+//
+////    @Test
+////    public void updateCommentsIdTest() {
+////    }
 //
 //    @Test
-//    public void addCommentsTest() {
-//        AdsCommentDto adsCommentDto = new AdsCommentDto(author, "createdAt", pk, "Text");
-//
-//        Comment comment = CommentMapper.toEntity(adsCommentDto);
-//        ads.getCommentCollection().add(comment);
-//        commentRepository.save(comment);
-//
-//        AdsCommentDto actual = adsServiceImpl.addComments(pk, adsCommentDto);
+//    public void getAdsByID() {
+//        Ads expected = adsRepository.findById(pk).orElseThrow();
+//        Ads actual = adsService.getAdsById(pk);
 //        Assertions
-//                .assertThat(adsCommentDto).isEqualTo(actual);
-//
-//        commentRepository.delete(comment);
+//                .assertThat(actual).isEqualTo(expected);
 //    }
+//
+////    @Test
+////    public void removeAdsByMeTest() {
+////    }
+//
+//    @Test
+//    public void getAdsComment() {
+//        Comment expected = new Comment(pk, "createdAT", "text", users, ads);
+//        Comment actual = adsService.getAdsComment(pk, pk);
+//
+//        Assertions
+//                .assertThat(actual).isEqualTo(expected);
+//        commentRepository.deleteAll();
+//    }
+//
+////    @Test
+////    public void addAdsCommentsTest() {
+////    }
+//
+////    СОВСЕМ УДАЛЕН??
+////    @Test
+////    public void addCommentsTest() {
+////        AdsCommentDto adsCommentDto = new AdsCommentDto(author, "createdAt", pk, "Text");
+////
+////        Comment comment = CommentMapper.toEntity(adsCommentDto);
+////        ads.getCommentCollection().add(comment);
+////        commentRepository.save(comment);
+////
+////        AdsCommentDto actual = adsServiceImpl.addComments(pk, adsCommentDto);
+////        Assertions
+////                .assertThat(adsCommentDto).isEqualTo(actual);
+////
+////        commentRepository.delete(comment);
+////    }
 //}
