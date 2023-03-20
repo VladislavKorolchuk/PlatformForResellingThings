@@ -24,6 +24,7 @@ import ru.work.graduatework.service.ImageService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.Collection;
 
 @RestController()
@@ -65,12 +66,9 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   // сделано
-    public ResponseEntity<AdsDto> addAds(@Parameter(description = "Данные нового объявления")
-                                         @RequestPart("image") MultipartFile imageFile,
-                                         @Valid @RequestPart("properties") CreateAdsDto createAdsDto) {
+    public ResponseEntity<AdsDto> addAds(@RequestParam MultipartFile adsImage, CreateAdsDto createAdsDto) throws IOException {
         logger.info("Current Method is - addAds");
-        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, imageFile)));
-
+        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage)));
     }
 
     //    @Operation(summary = "getComments", operationId = "getComments",
