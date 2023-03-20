@@ -121,13 +121,13 @@ public class AdsController {
         return ResponseEntity.ok(fullAdsDto);
     }
 
-//    @Operation(summary = "removeAds", operationId = "removeAds",
-//            responses = {@ApiResponse(responseCode = "204", description = "No Content", content = {}),
-//                    @ApiResponse(responseCode = "401",
-//                            description = "Unauthorized"),
-//                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
-//            }, tags = "Объявления")
-//    @DeleteMapping("/{id}")   // Убрать рекламу
+    @Operation(summary = "removeAds", operationId = "removeAds",
+            responses = {@ApiResponse(responseCode = "204", description = "No Content", content = {}),
+                    @ApiResponse(responseCode = "401",
+                            description = "Unauthorized"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+            }, tags = "Объявления")
+    @DeleteMapping("/{id}")   // Убрать рекламу
     public void removeAds(@PathVariable int id) { // параметры
         logger.info("Current Method is - removeAds");
         adsService.removeAds(id);
