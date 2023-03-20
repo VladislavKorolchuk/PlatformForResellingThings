@@ -1,5 +1,6 @@
 package ru.work.graduatework.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
@@ -11,11 +12,13 @@ import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
+import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.repository.UsersRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service()
 public class AuthService {
 
@@ -24,11 +27,7 @@ public class AuthService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder encoder;
 
-    public AuthService(UserDetailsManager manager, UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-        this.manager = manager;
-        this.encoder = new BCryptPasswordEncoder();
-    }
+    private UserMapper userMapper;
 
 
     public boolean login(String userName, String password) {
@@ -53,6 +52,18 @@ public class AuthService {
 
     public boolean register(RegisterReqDto registerReqDto, Role role) {
         logger.info("Current method is - register");
+        // --------------Никита! Посмотри плиз здесь------------
+
+
+        Users users = userMapper.toEntity(registerReqDto);
+
+
+        // -------------------возвращает null-------------------
+
+
+
+
+
         createUser(registerReqDto);   // method of adding a new user
         if (manager.userExists(registerReqDto.getUsername())) {
             return false;
