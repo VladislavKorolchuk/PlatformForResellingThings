@@ -10,17 +10,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.NewPasswordDto;
-import ru.work.graduatework.dto.UserDto;
+import ru.work.graduatework.dto.*;
 import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,8 +36,6 @@ public class UsersController {
     private final UsersService usersService;
 
     private final ImageService imageService;
-    private final UsersRepository usersRepository;
-
     private final UserMapper userMapper;
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
@@ -64,18 +63,30 @@ public class UsersController {
             }, tags = "USER"
     )
     @GetMapping("/me")
-    public Collection<Users> getUsers(Principal principal) {
-
+    public ResponseWrapper<UserDto> getUsers() {
         logger.info("Class UsersController, current method is - getUsers");
-        if (principal != null) {
-            Collection<Users> usersCollection = new HashSet<>();
-//            usersCollection.add(usersService.getUser(principal.getName()));
-            return usersCollection;
-        }
-//        return usersService.getUsers();
-        return (Collection<Users>) ResponseEntity.ok().build();
+        Collection<Users> users = usersService.getUsers();
+        return ResponseWrapper.of(userMapper.toDto(users));
     }
 
+    @Operation(summary = "getUser", description = "getUser")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
+        Users user = usersService.getUserById(id);
+        return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    @Operation(summary = "addUser", description = "addUser",operationId = "addUser",tags = "USER")
+    @PostMapping
+    public ResponseEntity<CreateUserDto> addUser(@RequestBody CreateUserDto createUserDto) {
+        Users user = usersService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+        return ResponseEntity.ok(userMapper.toCreateUserDto(user));
+    }
+    @Operation(summary = "getImageById", description = "getImageById",operationId = "getImageById",tags = "USER")
+    @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
+    public ResponseEntity<byte[]> getImageById(@PathVariable("id") int id) {
+        return ResponseEntity.ok(imageService.getImageById(id).getData());
+    }
     @Operation(summary = "Установить пароль",
             operationId = "setPassword",
             responses = {@ApiResponse
@@ -100,16 +111,9 @@ public class UsersController {
             }, tags = "USER"
     )
     @PostMapping("/set_password")
-    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto, Principal principal) {
-        logger.info("Class UsersController, current method is - setPassword");
-//        Users currentUser = usersService.getUser(principal.getName());
-        //TODO: Проверить на фронте
-//        if (this.passwordEncoder.matches(newPasswordDto.getCurrentPassword(), currentUser.getCurrentPassword())) {
-//            currentUser.setNewPassword(this.passwordEncoder.encode(newPasswordDto.getNewPassword()));
-//            this.usersRepository.save(currentUser);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).build();
-        return ResponseEntity.ok().build();
+    public ResponseEntity<NewPasswordDto> setPassword(@Valid @RequestBody NewPasswordDto newPasswordDto) {
+        usersService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword());
+        return ResponseEntity.ok(newPasswordDto);
     }
 
     @Operation(summary = "Обновить данные пользователя",
@@ -140,8 +144,9 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping("/me")
-    public UserDto updateUser(@RequestBody UserDto userDto, Principal principal) {
-        return userMapper.toDto((usersService.getUsers()));
+    public ResponseEntity<UserDto>  updateUser(@RequestBody UserDto userDto) {// сделано
+        Users user = userMapper.toEntity(userDto);
+        return ResponseEntity.ok(userMapper.toDto(usersService.updateUser(user)));
     }
 
     @Operation(summary = "Обновление изображение пользователя",
@@ -158,11 +163,14 @@ public class UsersController {
             }, tags = "USER"
     )
     @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
-        logger.info("Class UsersController, current method is - updateUserImage");
-//        Users users = usersService.getUser(principal.getName());
-//        ImageDto image = usersService.updateUserImage(1, imageDto);
-//        return ResponseEntity.ok(image.getData());
+    public ResponseEntity<String> updateUserImage(@RequestBody MultipartFile image) {
         return ResponseEntity.ok().body(usersService.updateUserImage(image));
+    }
+
+    @Operation(summary = "updateRole", description = "updateRole",tags = "USER")
+    @PutMapping("/{id}/updateRole")
+    public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
+        UserDto userDto = userMapper.toDto(usersService.updateRole(id, role));
+        return ResponseEntity.ok(userDto);
     }
 }
