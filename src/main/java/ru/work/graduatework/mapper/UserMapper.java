@@ -23,7 +23,7 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
     @Mapping(target = "role", ignore = true)
     Users toEntity(UserDto dto);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping", ignore = true)
     UserDto toDto(Users entity);
 
     @Named("imageMapping")
