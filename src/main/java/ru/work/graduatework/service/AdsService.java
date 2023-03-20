@@ -14,6 +14,7 @@ import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
+
 import static ru.work.graduatework.security.SecurityUtils.*;
 
 import java.io.IOException;
@@ -63,11 +64,11 @@ public class AdsService {
 
     @SneakyThrows
     public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
-        logger.info("Current Method is - serviceAddAds");
+        logger.info("Current Method is - service AddAds");
         Ads ads = adsMapper.toEntity(createAdsDto);
-        Users user=usersService.getUserById(getUserIdFromContext());
+        Users user = usersService.getUserById(getUserIdFromContext());
         ads.setAuthor(user);
-      //  ads.setImage(imageService.u); / Работа с картинкой /
+        ads.setImage(imageService.uploadImage(adsImage));
         return adsRepository.save(ads);
     }
 
@@ -75,14 +76,14 @@ public class AdsService {
     public FullAdsDto getFullAd(int id) {
         Users users = usersRepository.findByEmail((SecurityContextHolder
                 .getContext().getAuthentication().getName())).orElseThrow();
-      //  Ads ads = adsRepository.findById(id).orElseThrow();
+        //  Ads ads = adsRepository.findById(id).orElseThrow();
         FullAdsDto fullAdsDto = new FullAdsDto();
         fullAdsDto.setAuthorFirstName(users.getFirstName());
         fullAdsDto.setAuthorLastName(users.getLastName());
-      //  fullAdsDto.setDescription(ads.getDescription());
+        //  fullAdsDto.setDescription(ads.getDescription());
         fullAdsDto.setEmail(users.getEmail());
-      //  fullAdsDto.setPrice(ads.getPrice());
-      //  fullAdsDto.setTitle(ads.getTitle());
+        //  fullAdsDto.setPrice(ads.getPrice());
+        //  fullAdsDto.setTitle(ads.getTitle());
         return fullAdsDto;
     }
 
@@ -109,9 +110,9 @@ public class AdsService {
     }
 
 
-//    public ResponseWrapperCommentDto getComments(long ad_pk) {
-//        return commentRepository.findAllById(Collections.singleton(ad_pk));
-//    }
+    public Collection<Comment> getComments(long adPk) {
+        return commentRepository.findAllByAdId(adPk);
+    }
 
 
     public AdsCommentDto getCommentsId(int ad_pk, int id) {
@@ -126,11 +127,11 @@ public class AdsService {
         return null;
     }
 
-    public Ads getAdsById (int asId) {
+    public Ads getAdsById(int asId) {
         return adsRepository.findById(asId).orElseThrow();
     }
 
-    public Ads removeAdsByMe (int adId) {
+    public Ads removeAdsByMe(int adId) {
 
         Ads ads = getAdsById(adId);
         checkPermissionToAds(ads);
@@ -140,16 +141,11 @@ public class AdsService {
 
     }
 
-    public Comment getAdsComment (long adPk, long id) {
+    public Comment getAdsComment(long adPk, long id) {
 
-        Comment comment = commentRepository.findByIdAndAdId(id,adPk).orElseThrow();
+        Comment comment = commentRepository.findByIdAndAdId(id, adPk).orElseThrow();
         return comment;
 
     }
-
-//    public Comment addAdsComments(long adPk, AdsCommentDto adsCommentDto) {
-//        Comment comment = adsCo
-//    }
-
 
 }
