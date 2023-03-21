@@ -37,6 +37,9 @@ public class Users  {//implements UserDetails {
   //  @Column(name = "email")
     private String email;                               // User's email address
   //  @Column(name = "phone_number")
+
+  private String currentPassword;
+
     private String phone;
   //  @Column(name = "city")
     private String city;
@@ -45,15 +48,15 @@ public class Users  {//implements UserDetails {
     // The user's location city
 
   //  @Column(name = "currPass")
-    private String currentPassword;
+
   //  @Column(name = "newPass", nullable = true)
-    private String newPassword;
+   // private String newPassword;
 
 
     @OneToOne
 //    @JoinColumn(name = "image_id")
     private Image image;
-    @Column(name = "role")
+   // @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 

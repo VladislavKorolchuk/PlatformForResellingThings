@@ -11,13 +11,24 @@ import ru.work.graduatework.dto.UserDto;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper extends MapperScheme<UserDto, Users> {
-    CreateUserDto toCreateUserDto(Users entity);
 
+    CreateUserDto toCreateUserDto(Users entity);
     Users createUserDtoToEntity(CreateUserDto dto);
 
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "email", source = "username")
+    @Mapping(target = "currentPassword", source = "password")
+    @Mapping(target = "city", ignore = true)
+    @Mapping(target = "regDate", ignore = true)
+    @Mapping(target = "image", ignore = true)
     @Mapping(target = "role", defaultValue = "USER")
-    @Mapping(source = "username", target="email")
+//    @Mapping(target = "id", ignore = true)
+//    @Mapping(target = "role", defaultValue = "USER")
+//    @Mapping(source = "username", target = "email")
+//    @Mapping(target = "currentPassword", source = "password")
     Users toEntity(RegisterReqDto dto);
+
 
     @Mapping(target = "currentPassword", ignore = true)
     @Mapping(target = "image", ignore = true)
@@ -32,7 +43,7 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
         if (image == null) {
             return null;
         }
-        return  "/user/image/" + image.getId();
+        return "/user/image/" + image.getId();
 
     }
 
