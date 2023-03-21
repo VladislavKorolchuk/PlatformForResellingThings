@@ -140,7 +140,7 @@ public class UsersService {
     if (user.getRole() == null) {
       user.setRole(USER);
     }
-    // user.setCurrentPassword(passwordEncoder.encode(user.getCurrentPassword()));
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRegDate(Instant.now());
     return usersRepository.save(user);
   }
