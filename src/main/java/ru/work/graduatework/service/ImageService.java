@@ -3,7 +3,6 @@ package ru.work.graduatework.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,11 +16,6 @@ import ru.work.graduatework.repository.UsersRepository;
 
 import javax.transaction.Transactional;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Objects;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Transactional
 @RequiredArgsConstructor
@@ -89,8 +83,14 @@ public class ImageService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-
-    // Uses method - updateUserImage    service - UsersService
+    /**
+     * @param 'MultipartFile multipartFile' Input parameter
+     *                       <br> Is used entity Users {@link Image} </br
+     *                       <br> Is used repository {@link ImageRepository#save(Object)} </br>
+     *                       Uses method {@link  ru.work.graduatework.service.UsersService#updateUserImage(MultipartFile, String)}    getImageById(int)}
+     * @return {@link ru.work.graduatework.Entity.Image}
+     * @author Korolchuk Vladislav
+     */
     public Image uploadImage(MultipartFile multipartFile) throws IOException {
         Image image = new Image();
         image.setData(multipartFile.getBytes());
@@ -100,13 +100,19 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
-    // Uses method - getImageById    controller - UserController
-    // Uses method - getAdsImage    controller - AdsController
-    public Image getImageById (int id) {
+    /**
+     * @param 'id image' Input parameter
+     *            <br> Is used entity Users {@link Users} </br
+     *            <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *            Uses method {@link  ru.work.graduatework.controller.UsersController#getImageById(int)}
+     *            Uses method {@link  ru.work.graduatework.controller.AdsController#getAdsImage(int, MultipartFile)}
+     * @return {@link ru.work.graduatework.Entity.Users}
+     * @author Korolchuk Vladislav
+     */
+    public Image getImageById(int id) {
+
         return imageRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
     }
-
-
-
 
 }
