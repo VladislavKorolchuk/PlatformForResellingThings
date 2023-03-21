@@ -20,7 +20,7 @@ public class Image {
 
     private Long fileSize;
 
-    private String filePath;
+    //private String filePath;
     private String mediaType;
 
     @Lob
