@@ -1,5 +1,6 @@
 package ru.work.graduatework.mapper;
 
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.dto.AdsCommentDto;

@@ -122,8 +122,8 @@ public class AdsController {
                             description = "Unauthorized"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
             }, tags = "ADS")
-    @DeleteMapping("/{id}")   // Убрать рекламу
-    public void removeAds(@PathVariable int id) { // параметры
+    @DeleteMapping("/{id}")  
+    public void removeAds(@PathVariable int id) {
         logger.info("Current Method is - removeAds");
         adsService.removeAds(id);
         return;

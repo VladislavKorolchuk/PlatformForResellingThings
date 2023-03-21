@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,7 @@ import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.repository.UsersRepository;
 
+import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -27,9 +26,11 @@ public class AuthService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder encoder;
 
+    // --------------Ask Alexey why not put final  ------------------
+
     private UserMapper userMapper;
 
-
+    // ---------------------------------------------------
     public boolean login(String userName, String password) {
         logger.info("Current method is - login");
         if (!manager.userExists(userName)) {
@@ -45,26 +46,21 @@ public class AuthService {
                 return true;
             }
         }
-       return false;
+        return false;
 
     }
 
 
     public boolean register(RegisterReqDto registerReqDto, Role role) {
         logger.info("Current method is - register");
-        // --------------Никита! Посмотри плиз здесь------------
+
+       //  Users user = userMapper.toEntity(registerReqDto);
+      //  if (usersRepository.existsByEmail(user.getEmail())) {
+    //        throw new ValidationException(String.format("Пользователь \"%s\" уже зарегистрирован!", user.getEmail()));
+     //   }
 
 
-        Users users = userMapper.toEntity(registerReqDto);
-
-
-        // -------------------возвращает null-------------------
-
-
-
-
-
-        createUser(registerReqDto);   // method of adding a new user
+          createUser(registerReqDto);   // method of adding a new user
         if (manager.userExists(registerReqDto.getUsername())) {
             return false;
         }
@@ -103,7 +99,7 @@ public class AuthService {
                     user.setLastName(registerReqDto.getLastName());
                     user.setPhone(registerReqDto.getPhone());
                     user.setCurrentPassword(encoder.encode(registerReqDto.getPassword()));
-                    user.setRegDate(dateUserRegistration());
+               //     user.setRegDate(dateUserRegistration());
                     user.setRole(Role.USER);
                     usersRepository.save(user);
                     return true;  // New user added

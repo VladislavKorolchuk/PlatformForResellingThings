@@ -1,5 +1,7 @@
 package ru.work.graduatework.mapper;
 
+import org.mapstruct.Mapper;
+
 import java.util.Collection;
 import java.util.List;
 
