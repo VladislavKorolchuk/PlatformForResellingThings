@@ -16,6 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+      @Column(name = "created_ad")
     private String createdAt;
 
     private String text;

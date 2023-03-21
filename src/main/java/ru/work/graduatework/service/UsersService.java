@@ -134,7 +134,7 @@ public class UsersService {
         if (user.getRole() == null) {
             user.setRole(USER);
         }
-        user.setCurrentPassword(passwordEncoder.encode(user.getCurrentPassword()));
+        // user.setCurrentPassword(passwordEncoder.encode(user.getCurrentPassword()));
         user.setRegDate(Instant.now());
         return usersRepository.save(user);
     }
