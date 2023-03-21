@@ -78,7 +78,7 @@ public class UsersService implements UserDetails {
 
     public boolean setPassword(String newPassword, String currentPassword) {
         Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).orElseThrow();
+                .getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
 
 
         if (passwordEncoder.matches(currentPassword, user.getPassword())) {

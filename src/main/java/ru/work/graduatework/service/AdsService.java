@@ -71,7 +71,7 @@ public class AdsService {
 
     public Collection<Ads> getAdsMe() {
         Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).orElseThrow();
+                .getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
         Collection<Ads> adsList = adsRepository.findAllByAuthorId(user.getId());
         return adsRepository.findAll().stream()
                 .filter(ads -> ads.getAuthor().equals(user)).collect(Collectors.toList());

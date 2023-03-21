@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.UserMapper;
+import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.repository.UsersRepository;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
@@ -36,7 +36,7 @@ public class UsersController {
     private final UsersService usersService;
 
     private final ImageService imageService;
-    private final UserMapper userMapper;
+    private final UsersMapper userMapper;
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
             responses = {@ApiResponse

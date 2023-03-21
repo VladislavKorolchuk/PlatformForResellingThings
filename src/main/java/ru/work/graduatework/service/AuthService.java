@@ -18,7 +18,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.MySecurityConfig.UserDetailsServiceImpl;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
-import ru.work.graduatework.mapper.UserMapper;
+import ru.work.graduatework.mapper.UsersMapper;
 import ru.work.graduatework.repository.UsersRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,7 +33,7 @@ public class AuthService {
     private final UserDetailsServiceImpl userDetailsService;
     private final PasswordEncoder encoder;
     private final UsersRepository usersRepository;
-    private final UserMapper userMapper;
+    private final UsersMapper userMapper;
     private final UsersService usersService;
     private final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
