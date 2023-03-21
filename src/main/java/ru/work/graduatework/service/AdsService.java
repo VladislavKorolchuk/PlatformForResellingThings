@@ -4,9 +4,11 @@ import com.sun.jdi.ObjectCollectedException;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
 import ru.work.graduatework.mapper.AdsMapper;
@@ -47,7 +49,7 @@ public class AdsService {
         this.adsMapper = adsMapper;
     }
 
-
+    // Uses method - getAllAds    controller - AdsController
     public Collection<Ads> getAllAds() {
         return adsRepository.findAll();
     }
@@ -95,21 +97,22 @@ public class AdsService {
         this.adsRepository.delete(dbAds);
     }
 
-
-    public AdsDto updateAds(int id, CreateAdsDto createAdsDto) {
-        Ads ads = adsRepository.findById(id).orElseThrow((ObjectCollectedException::new));
+    // Uses method - updateAds    controller - AdsController
+    public Ads updateAds(int adId, CreateAdsDto createAdsDto) {
+        Ads ads = getAdsById(adId);
         ads.setTitle(createAdsDto.getTitle());
         ads.setDescription(createAdsDto.getDescription());
         ads.setPrice(createAdsDto.getPrice());
-        return null;
+        return adsRepository.save(ads);
     }
 
-
-    public Collection<Ads> getAdsMe() {
-        return adsRepository.findAllByAuthorId(getUserIdFromContext());
+    // Uses method - getAdsMe    controller - AdsController
+    public Collection<Ads> getAdsMe(String Email) {
+        Users user = usersRepository.findByEmail(Email).orElseThrow();
+        return adsRepository.findAllByAuthorId(user.getId());
     }
 
-
+    // Uses method - getComments    controller - AdsController
     public Collection<Comment> getComments(long adPk) {
         return commentRepository.findAllByAdId(adPk);
     }
@@ -123,12 +126,20 @@ public class AdsService {
     public void deleteCommentsId() {
     }
 
-    public AdsCommentDto updateCommentsId() {
-        return null;
+    // Uses method - updateComments    controller - AdsController
+    public Comment updateComments(int adPk, int id, Comment commentUpdated) {
+
+        Comment comment = getAdsComment(adPk, id);
+        comment.setText(commentUpdated.getText());
+        return commentRepository.save(comment);
+
     }
 
+    // Uses method - updateAds
     public Ads getAdsById(int asId) {
-        return adsRepository.findById(asId).orElseThrow();
+        return adsRepository.findById(asId).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "The ad was not found"));
     }
 
     public Ads removeAdsByMe(int adId) {
@@ -141,11 +152,42 @@ public class AdsService {
 
     }
 
+    // Uses method - getAdsComment    controller - AdsController
     public Comment getAdsComment(long adPk, long id) {
 
-        Comment comment = commentRepository.findByIdAndAdId(id, adPk).orElseThrow();
+        Comment comment = commentRepository.findByIdAndAdId(id, adPk)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("Ads %d " +
+                                "belonging to an ad with id %d not found", id, adPk)));
         return comment;
 
     }
+
+    // Uses method - deleteAdsComment    controller - AdsController
+    public Comment deleteAdsComment(long adPk, long id) {
+        Comment comment = getAdsComment(adPk, id);
+        commentRepository.delete(comment);
+        return comment;
+    }
+
+    // Uses method - updateAdsImage    controller - AdsController
+    @SneakyThrows
+    public void updateAdsImage (int id, MultipartFile image){
+        Ads ads = getAdsById(id);
+
+        ads.setImage(imageService.uploadImage(image));
+        adsRepository.save(ads);
+    }
+
+
+    // Uses method - removeAds    controller - AdsController
+    public Ads removeAdsById(int adId) {
+        Ads ads = getAdsById(adId);
+        commentRepository.deleteAdsCommentsByAdId(adId);
+        adsRepository.delete(ads);
+        return ads;
+    }
+
+
 
 }
