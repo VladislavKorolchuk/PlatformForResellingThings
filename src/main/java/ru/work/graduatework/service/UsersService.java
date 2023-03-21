@@ -3,6 +3,7 @@ package ru.work.graduatework.service;
 import static ru.work.graduatework.dto.Role.USER;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -60,6 +61,9 @@ public class UsersService {
     return usersRepository.findByEmail(email).orElseThrow();
   }
 
+  public String dateUserRegistration() {
+    return String.valueOf(LocalDate.now());
+  }
 
   /**
    * @param emailUser Input parameter
