@@ -27,8 +27,6 @@ import ru.work.graduatework.service.ImageService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
@@ -101,22 +99,6 @@ public class AdsController {
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
-//    @PostMapping("/{ad_pk}/comments") // Добавить Комментарии
-//    public ResponseEntity<AdsCommentDto> addComments(@PathVariable("ad_pk") int ad_pk, @RequestBody AdsCommentDto adsCommentDto) {
-//        logger.info("Current Method is - addComments");
-//        AdsCommentDto comment = adsService.addComments(ad_pk, adsCommentDto);
-//        if (comment == null) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        } else return ResponseEntity.ok(comment);
-//    }
-
-//    @Operation(summary = "getFullAd", operationId = "getAds",
-//           responses = {@ApiResponse(responseCode = "200", description = "OK",
-//                   content = @Content(
-//                            mediaType = MediaType.ALL_VALUE,
-//                            schema = @Schema(implementation = FullAdsDto.class)))})
-//                    @ApiResponse(responseCode = "404",
-//                            description = "Not Found"),}, tags = "ADS")
     @GetMapping("/{id}")
     public ResponseEntity<FullAdsDto> getFullAd(@PathVariable int id) {
         logger.info("Current Method is - getFullAd");
