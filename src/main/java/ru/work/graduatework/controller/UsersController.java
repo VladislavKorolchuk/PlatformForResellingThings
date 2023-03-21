@@ -7,24 +7,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.UsersMapper;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UsersService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Collection;
-import java.util.HashSet;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +30,7 @@ public class UsersController {
     private final UsersService usersService;
 
     private final ImageService imageService;
-    private final UsersMapper userMapper;
+    private final UserMapper userMapper;
     @Operation(summary = "Получить пользователя",
             operationId = "getUser_1",
             responses = {@ApiResponse

@@ -10,7 +10,7 @@ import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.UserDto;
 
 @Mapper(componentModel = "spring")
-public interface UsersMapper extends MapperScheme<UserDto, Users> {
+public interface UserMapper extends MapperScheme<UserDto, Users> {
     CreateUserDto toCreateUserDto(Users entity);
 
     Users createUserDtoToEntity(CreateUserDto dto);

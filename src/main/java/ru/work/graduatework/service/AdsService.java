@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsCommentMapper;
+import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.repository.CommentRepository;
@@ -19,7 +19,6 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -33,17 +32,17 @@ public class AdsService {
     private final AdsRepository adsRepository;
     private final CommentRepository commentRepository;
     private final AdsMapper adsMapper;
-    private final AdsCommentMapper adsCommentMapper;
+    private final CommentMapper commentMapper;
     private final UsersRepository usersRepository;
 
 
-    public AdsService(UsersService userService, ImageService imageService, AdsRepository adsRepository, CommentRepository adsCommentRepository, CommentRepository commentRepository, AdsMapper adsMapper, AdsCommentMapper adsCommentMapper, UsersRepository usersRepository) {
+    public AdsService(UsersService userService, ImageService imageService, AdsRepository adsRepository, CommentRepository adsCommentRepository, CommentRepository commentRepository, AdsMapper adsMapper, CommentMapper commentMapper, UsersRepository usersRepository) {
         this.userService = userService;
         this.imageService = imageService;
         this.adsRepository = adsRepository;
         this.commentRepository = commentRepository;
         this.adsMapper = adsMapper;
-        this.adsCommentMapper = adsCommentMapper;
+        this.commentMapper = commentMapper;
         this.usersRepository = usersRepository;
     }
 
@@ -100,7 +99,7 @@ public class AdsService {
     }
 
     public Comment addAdsComments(long adPk, CommentDto commentDto) {
-        Comment adsComment = adsCommentMapper.toEntity(commentDto);
+        Comment adsComment = commentMapper.toEntity(commentDto);
         Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
                 .getAuthentication().getName()).orElseThrow(EntityExistsException::new);
         adsComment.setAuthor(user);

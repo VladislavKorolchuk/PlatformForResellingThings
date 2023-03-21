@@ -6,7 +6,7 @@ import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.dto.CommentDto;
 
 @Mapper(componentModel = "spring")
-public interface AdsCommentMapper extends MapperScheme<CommentDto, Comment>{
+public interface CommentMapper extends MapperScheme<CommentDto, Comment>{
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "id", source = "pk")
     @Mapping(target = "createdAt", ignore = true)

@@ -19,8 +19,6 @@ import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@EnableWebSecurity
-@EnableMethodSecurity
 @Configuration
 public class WebSecurityConfig {
     private static final String[] AUTH_WHITELIST = {

@@ -1,7 +1,6 @@
 package ru.work.graduatework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,13 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsCommentMapper;
+import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.mapper.AdsMapper;
 import ru.work.graduatework.repository.AdsRepository;
 import ru.work.graduatework.service.AdsService;
 import ru.work.graduatework.service.ImageService;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Collection;
@@ -38,7 +36,7 @@ public class AdsController {
     private final AdsRepository adsRepository;
     private final AdsService adsService;
     private final AdsMapper adsMapper;
-    private final AdsCommentMapper adsCommentMapper;
+    private final CommentMapper commentMapper;
     private final ImageService imageService;
 
 
@@ -80,7 +78,7 @@ public class AdsController {
 //                            description = "Not Found")}, tags = "Объявления")
     @GetMapping("/{ad_pk}/comments")  // сделано
     public ResponseWrapper<CommentDto> getComments(@PathVariable("ad_pk") long ad_pk) {
-        return ResponseWrapper.of(adsCommentMapper.toDto(adsService.getComments(ad_pk)));
+        return ResponseWrapper.of(commentMapper.toDto(adsService.getComments(ad_pk)));
     }
 
     @Operation(summary = "addComments", operationId = "addComments",
@@ -94,7 +92,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "Объявления")
     @PostMapping("/{ad_pk}/comments") // сделано
     public ResponseEntity<CommentDto> addComments(@PathVariable("ad_pk") long ad_pk, @RequestBody CommentDto commentDto) {
-        return ResponseEntity.ok(adsCommentMapper.toDto(adsService.addAdsComments(ad_pk, commentDto)));
+        return ResponseEntity.ok(commentMapper.toDto(adsService.addAdsComments(ad_pk, commentDto)));
     }
 
     @Operation(summary = "getFullAd", operationId = "getAds",
@@ -159,7 +157,7 @@ public class AdsController {
     public ResponseEntity<CommentDto> getComments(@PathVariable("ad_pk") long ad_pk,
                                                   @PathVariable("id") long id) {
         logger.info("Current Method is - getCommentsId");
-        return ResponseEntity.ok(adsCommentMapper.toDto(adsService.getAdsComment(ad_pk, id)));
+        return ResponseEntity.ok(commentMapper.toDto(adsService.getAdsComment(ad_pk, id)));
     }
 
     @Operation(summary = "deleteComments", operationId = "deleteComments",
@@ -190,7 +188,7 @@ public class AdsController {
                                                        @PathVariable("id") int id,
                                                        @RequestBody CommentDto commentDto) {
         logger.info("Current Method is - updateCommentsId");
-        return ResponseEntity.ok(adsCommentMapper.toDto(adsService.updateComments(adPk, id, adsCommentMapper.toEntity(commentDto))));
+        return ResponseEntity.ok(commentMapper.toDto(adsService.updateComments(adPk, id, commentMapper.toEntity(commentDto))));
 
     }
 
