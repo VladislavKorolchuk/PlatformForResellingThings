@@ -12,39 +12,36 @@ import ru.work.graduatework.dto.UserDto;
 @Mapper(componentModel = "spring")
 public interface UserMapper extends MapperScheme<UserDto, Users> {
 
-    CreateUserDto toCreateUserDto(Users entity);
-    Users createUserDtoToEntity(CreateUserDto dto);
+  CreateUserDto toCreateUserDto(Users entity);
+
+  Users createUserDtoToEntity(CreateUserDto dto);
 
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "email", source = "username")
-    @Mapping(target = "currentPassword", source = "password")
-    @Mapping(target = "city", ignore = true)
-    @Mapping(target = "regDate", ignore = true)
-    @Mapping(target = "image", ignore = true)
-    @Mapping(target = "role", defaultValue = "USER")
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "role", defaultValue = "USER")
-//    @Mapping(source = "username", target = "email")
-//    @Mapping(target = "currentPassword", source = "password")
-    Users toEntity(RegisterReqDto dto);
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "email", source = "username")
+  @Mapping(target = "password", source = "password")
+  @Mapping(target = "city", ignore = true)
+  @Mapping(target = "regDate", ignore = true)
+  @Mapping(target = "image", ignore = true)
+  @Mapping(target = "role", defaultValue = "USER")
+  Users toEntity(RegisterReqDto dto);
 
 
-    @Mapping(target = "currentPassword", ignore = true)
-    @Mapping(target = "image", ignore = true)
-    @Mapping(target = "role", ignore = true)
-    Users toEntity(UserDto dto);
+  @Mapping(target = "password", ignore = true)
+  @Mapping(target = "image", ignore = true)
+  @Mapping(target = "role", ignore = true)
+  Users toEntity(UserDto dto);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
-    UserDto toDto(Users entity);
+  @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
+  UserDto toDto(Users entity);
 
-    @Named("imageMapping")
-    default String imageMapping(Image image) {
-        if (image == null) {
-            return null;
-        }
-        return "/user/image/" + image.getId();
-
+  @Named("imageMapping")
+  default String imageMapping(Image image) {
+    if (image == null) {
+      return "";
     }
+    return "/user/image/" + image.getId();
+
+  }
 
 }

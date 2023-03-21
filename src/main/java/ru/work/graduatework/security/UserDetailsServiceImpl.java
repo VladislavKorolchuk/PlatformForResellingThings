@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService,
     @Override
     public UserDetails updatePassword(UserDetails userDetails, String newPassword) {
         Users user = getUserByUsername(userDetails.getUsername());
-        user.setCurrentPassword(newPassword);
+        user.setPassword(newPassword);
         MyUserDetails updateUserDetails = new MyUserDetails(usersRepository.save(user));
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(updateUserDetails,

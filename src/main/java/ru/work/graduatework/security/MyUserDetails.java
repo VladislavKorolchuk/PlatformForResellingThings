@@ -11,7 +11,7 @@ public class MyUserDetails extends org.springframework.security.core.userdetails
     private final Long id;
 
     public MyUserDetails (Users user) {
-        super(user.getEmail(), user.getCurrentPassword(), List.of(user.getRole()));
+        super(user.getEmail(), user.getPassword(), List.of(user.getRole()));
         this.id=user.getId();
     }
 
