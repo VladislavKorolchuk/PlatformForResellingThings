@@ -3,6 +3,7 @@ package ru.work.graduatework.security;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.work.graduatework.Entity.Ad;
+import ru.work.graduatework.Entity.Comment;
 import ru.work.graduatework.dto.Role;
 
 public class SecurityUtils {
@@ -24,6 +25,14 @@ public class SecurityUtils {
         if (!userDetails.getAuthorities().contains(Role.ADMIN)
                 && userDetails.getId() != ad.getAuthor().getId()) {
             throw new AccessDeniedException("No access rights only Owner or Admin");
+        }
+    }
+
+    public static void checkPermissionToAdsComment(Comment adsComment) {
+        MyUserDetails userDetails = getUserDetailsFromContext();
+
+        if (!userDetails.getAuthorities().contains(Role.ADMIN) && userDetails.getId() != adsComment.getAuthor().getId()) {
+            throw new AccessDeniedException("Чтобы изменить/удалить комментарий, нужно иметь роль ADMIN или быть владельцем этого комментария");
         }
     }
 

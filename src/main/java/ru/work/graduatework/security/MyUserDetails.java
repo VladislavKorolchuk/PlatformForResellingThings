@@ -6,7 +6,8 @@ import ru.work.graduatework.Entity.Users;
 import java.util.List;
 
 @Getter
-public class MyUserDetails extends org.springframework.security.core.userdetails.User{
+public class MyUserDetails extends org.springframework.security.core.userdetails.User
+{
 
     private final Long id;
 

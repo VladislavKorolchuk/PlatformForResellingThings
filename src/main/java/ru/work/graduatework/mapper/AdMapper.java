@@ -21,7 +21,7 @@ public interface AdMapper extends MapperScheme<AdDto, Ad> {
 
     @Mapping(target = "pk", source = "id")
     @Mapping(target = "author", source = "author.id")
-    @Mapping(target = "image", source = "entity.image", qualifiedByName = "imageMapping")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
     AdDto toDto(Ad entity);
 
     @Mapping(target = "id", ignore = true)
@@ -33,7 +33,7 @@ public interface AdMapper extends MapperScheme<AdDto, Ad> {
     @Mapping(target = "authorLastName", source = "author.lastName")
     @Mapping(target = "phone", source = "author.phone")
     @Mapping(target = "email", source = "author.email")
-    @Mapping(target = "image", source = "entity.image", qualifiedByName = "imageMapping")
+    @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
     @Mapping(target = "pk", source = "id")
     FullAdDto toFullAdsDto(Ad entity);
 
@@ -42,7 +42,7 @@ public interface AdMapper extends MapperScheme<AdDto, Ad> {
        if (image == null) {
             return null;
         }
-        return "/ads/image/" +image.getId();
+        return PUTH_IMAGE +image.getId();
     }
 
 }

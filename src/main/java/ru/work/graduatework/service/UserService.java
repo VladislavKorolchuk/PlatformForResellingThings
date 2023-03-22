@@ -1,6 +1,7 @@
 package ru.work.graduatework.service;
 
 import static ru.work.graduatework.dto.Role.USER;
+import static ru.work.graduatework.security.SecurityUtils.getUserDetailsFromContext;
 
 import java.time.Instant;
 import javax.annotation.PostConstruct;
@@ -8,9 +9,11 @@ import javax.annotation.PostConstruct;
 import liquibase.repackaged.net.sf.jsqlparser.util.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,8 @@ import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UserRepository;
+import ru.work.graduatework.security.SecurityUtils;
+import ru.work.graduatework.security.UserDetailsServiceImpl;
 
 @Transactional
 @RequiredArgsConstructor
@@ -32,6 +37,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailsServiceImpl userDetailsService;
 
 
     /**
@@ -65,9 +71,9 @@ public class UserService {
      * @return {@link ru.work.graduatework.Entity.Users}
      * @author Korolchuk Vladislav
      */
-    public Users getUsers(String email) {
+    public Users getUsers() {
 
-        return userRepository.findByEmail(email).orElseThrow();
+        return userRepository.findByEmail(SecurityUtils.getUserDetailsFromContext().getUsername()).orElseThrow();
 
     }
 
@@ -78,13 +84,13 @@ public class UserService {
      *                                      Uses method {@link  ru.work.graduatework.controller.UsersController#setPassword(NewPasswordDto)}  }
      * @author Korolchuk Vladislav
      */
-    public void newPassword(String newPassword, String currentPassword, String email) {
+    public void newPassword(String newPassword, String currentPassword) {
 
-        Users user = userRepository.findByEmail(email).orElseThrow();
-        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new BadCredentialsException("The password is incorrect");
+        UserDetails userDetails = getUserDetailsFromContext();
+        if (!passwordEncoder.matches(currentPassword, userDetails.getPassword())) {
+            throw new BadCredentialsException("The current password is incorrect!");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDetailsService.updatePassword(userDetails, passwordEncoder.encode(newPassword));
 
     }
 
@@ -97,9 +103,8 @@ public class UserService {
      * @return {@link ru.work.graduatework.Entity.Users}
      * @author Korolchuk Vladislav
      */
-    public Users updateUser(UserDto userDto, String email) {
-
-        Users user = userRepository.findByEmail(email).orElseThrow();
+    public Users updateUser(UserDto userDto) {
+        Users user = getUserById(getUserDetailsFromContext().getId());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPhone(userDto.getPhone());
@@ -116,10 +121,8 @@ public class UserService {
      * @author Korolchuk Vladislav
      */
     @SneakyThrows
-    public String updateUserImage(MultipartFile image, String email) {
-
-        logger.info("Current method is - updateUserImage");
-        Users user = userRepository.findByEmail(email).orElseThrow();
+    public String updateUserImage(MultipartFile image) {
+        Users user = getUserById(getUserDetailsFromContext().getId());
         user.setImage(imageService.uploadImage(image));
         return "/users/image/" + userRepository.save(user).getImage().getId();
 

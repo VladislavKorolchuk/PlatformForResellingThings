@@ -74,8 +74,9 @@ public class AdsController {
                                          @RequestPart("image") MultipartFile adsImage,
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage,authentication.getName())));
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage,authentication.getName())));
+      return   ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage)));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -100,11 +101,11 @@ public class AdsController {
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
-    @GetMapping("/{id}")
-    public ResponseEntity<FullAdDto> getFullAd(@PathVariable int id) {
+    @GetMapping("/{adId}")
+    public ResponseEntity<FullAdDto> getFullAd(@PathVariable long adId) {
         logger.info("Current Method is - getFullAd");
-        FullAdDto fullAdDto = adservice.getFullAd(id);
-        return ResponseEntity.ok(fullAdDto);
+        FullAdDto fullAdDto = adservice.getFullAd(adId);
+        return ResponseEntity.ok(adMapper.toFullAdsDto(adservice.getAdsById(adId)));
     }
 
     @Operation(summary = "removeAds", operationId = "removeAds",
@@ -114,7 +115,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
             }, tags = "ADS")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeAds(@PathVariable("id") int adId) {
+    public ResponseEntity<Void> removeAds(@PathVariable("id") long adId) {
         logger.info("Current Method is - removeAds");
         adservice.removeAdsById(adId);
         return ResponseEntity.ok().build();
@@ -130,7 +131,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PatchMapping("/{adId}")
-    public ResponseEntity<AdDto> updateAds(@P @PathVariable("adId") Integer adId, @RequestBody CreateAdDto createAds) {
+    public ResponseEntity<AdDto> updateAds(@PathVariable("adId") long adId, @RequestBody CreateAdDto createAds) {
 
         logger.info("Current Method is - updateAds");
         return ResponseEntity.ok(adMapper.toDto(adservice.updateAds(adId, createAds)));
@@ -185,6 +186,13 @@ public class AdsController {
 
     }
 
+    @Operation(summary = "addAdsComments", description = "addAdsComments")
+    @PostMapping("/{ad_pk}/comments")
+    public ResponseEntity<AdCommentDto> addAdsComments(@PathVariable("ad_pk") long adPk,
+                                                        @RequestBody @Valid AdCommentDto adsCommentDto) {
+        return ResponseEntity.ok(commentMapper.toDto(adservice.addAdsComments(adPk, adsCommentDto)));
+    }
+
     @Operation(summary = "getAdsMe", operationId = "getAdsMe",
             responses = {@ApiResponse(responseCode = "200",
                     content = @Content(
@@ -197,13 +205,14 @@ public class AdsController {
     @GetMapping("/me")
     public ResponseWrapper<AdDto> getAdsMe() {
         logger.info("Current Method is - getAdsMe");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
+        return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe()));
     }
 
     @Operation(tags = "ADS")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
+    public ResponseEntity<?> updateAdsImage(@PathVariable("id") long id, @NotNull @RequestBody MultipartFile image) {
 
         adservice.updateAdsImage(id, image);
         return ResponseEntity.ok().build();

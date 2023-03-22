@@ -21,14 +21,14 @@ public class ImageController {
 
     private final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
-    @Operation(summary = "updateAdsImage", operationId = "updateAdsImage",
-            responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE, schema = @Schema(type = "array", format = "byte"))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Not Found")}, tags = "Image")
-    @PostMapping("/{id}")
-    public ResponseEntity<?> updateAdsImage(@PathVariable int id, @RequestParam MultipartFile imageFile) {
-        logger.info("Class ImageController, current method is - updateAdsImage");
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+//    @Operation(summary = "updateAdsImage", operationId = "updateAdsImage",
+//            responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE, schema = @Schema(type = "array", format = "byte"))),
+//                    @ApiResponse(responseCode = "404",
+//                            description = "Not Found")}, tags = "Image")
+//    @PostMapping("/{id}")
+//    public ResponseEntity<?> updateAdsImage(@PathVariable int id, @RequestParam MultipartFile imageFile) {
+//        logger.info("Class ImageController, current method is - updateAdsImage");
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 
 }

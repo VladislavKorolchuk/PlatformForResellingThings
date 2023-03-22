@@ -38,9 +38,9 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
   @Named("imageMapping")
   default String imageMapping(Image image) {
     if (image == null) {
-      return "";
+      return null;
     }
-    return "/user/image/" + image.getId();
+    return "/users/image/" + image.getId();
 
   }
 

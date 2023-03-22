@@ -50,7 +50,8 @@ public class UsersController {
   @Operation(tags = "USER")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
-    return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
+    Users user = userService.getUserById(id);
+    return ResponseEntity.ok(userMapper.toDto(user));
   }
 
   @Operation(summary = "Получить пользователя",
@@ -81,8 +82,7 @@ public class UsersController {
   @GetMapping("/me")
   public UserDto getUsers() {
     logger.info("Class UsersController, current method is - getUsers");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return userMapper.toDto(userService.getUsers(authentication.getName()));
+    return userMapper.toDto((userService.getUsers()));
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
@@ -118,10 +118,7 @@ public class UsersController {
   )
   @PostMapping("/set_password")
   public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
-    logger.info("Current method is - setPassword");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword(),
-        authentication.getName());
+    userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword());
     return ResponseEntity.ok(newPasswordDto);
   }
 
@@ -141,8 +138,8 @@ public class UsersController {
   @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
     logger.info("Current method is - updateUserImage");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ResponseEntity.ok().body(userService.updateUserImage(image, authentication.getName()));
+
+    return ResponseEntity.ok().body(userService.updateUserImage(image));
   }
 
 
@@ -150,9 +147,8 @@ public class UsersController {
   @Operation(tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return ResponseEntity.ok(
-        userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
+            userMapper.toDto(userService.updateUser(userDto)));
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
