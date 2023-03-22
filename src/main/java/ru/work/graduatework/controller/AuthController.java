@@ -35,7 +35,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Authorization")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
         logger.info("Class AuthController, current method is - login");
@@ -52,7 +52,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "201",
                             description = "Created", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Authorization")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReqDto req) {
         logger.info("Class AuthController, current method is - register");
