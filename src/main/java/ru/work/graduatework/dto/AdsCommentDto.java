@@ -1,8 +1,10 @@
 package ru.work.graduatework.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class AdsCommentDto {
 
     private int pk;
