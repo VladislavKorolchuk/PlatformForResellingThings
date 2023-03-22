@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.repository.AdRepository;
@@ -27,9 +27,9 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
 
-    public Image addAdsImage(Ads ads, MultipartFile imageFile) throws IOException {
+    public Image addAdsImage(Ad ad, MultipartFile imageFile) throws IOException {
         logger.info("Current Method is - addAdsImage ");
-//        Path path = Path.of(imageDir, ads.getId() + "." + getExtensions(
+//        Path path = Path.of(imageDir, ad.getId() + "." + getExtensions(
 //                Objects.requireNonNull(imageFile.getOriginalFilename())));
 //        if (!Files.exists(path.getParent())) {
 //            Files.createDirectory(path.getParent());
@@ -87,7 +87,7 @@ public class ImageService {
      * @param 'MultipartFile multipartFile' Input parameter
      *                       <br> Is used entity Users {@link Image} </br
      *                       <br> Is used repository {@link ImageRepository#save(Object)} </br>
-     *                       Uses method {@link  ru.work.graduatework.service.UsersService#updateUserImage(MultipartFile, String)}    getImageById(int)}
+     *                       Uses method {@link  UserService#updateUserImage(MultipartFile, String)}    getImageById(int)}
      * @return {@link ru.work.graduatework.Entity.Image}
      * @author Korolchuk Vladislav
      */

@@ -7,7 +7,7 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.mock.web.MockMultipartFile;
-//import ru.work.graduatework.Entity.Ads;
+//import ru.work.graduatework.Entity.Ad;
 //import ru.work.graduatework.Entity.Comment;
 //import ru.work.graduatework.Entity.Image;
 //import ru.work.graduatework.Entity.Users;
@@ -17,7 +17,7 @@
 //import ru.work.graduatework.repository.ImageRepository;
 //import ru.work.graduatework.mapper.CommentMapper;
 //import ru.work.graduatework.repository.UserRepository;
-//import ru.work.graduatework.service.AdsService;
+//import ru.work.graduatework.service.AdService;
 //import ru.work.graduatework.service.ImageService;
 //
 //import java.io.IOException;
@@ -37,10 +37,10 @@
 //    @Autowired
 //    public UserRepository usersRepository;
 //    @Autowired
-//    public AdsService adsService;
+//    public AdService adsService;
 //    @Autowired
 //    public ImageService imageService;
-//    Ads ads = new Ads();
+//    Ad ads = new Ad();
 //    Users users = new Users();
 //    Integer author = 1;
 //    Integer pk = 1;
@@ -51,7 +51,7 @@
 //    MockMultipartFile kmlfile = new MockMultipartFile("data", "filename.kml", "text/plain", "some kml".getBytes());
 //    List<Image> images = new ArrayList<>();
 //    Collection<Comment> commentCollection = new HashSet<>();
-//    Collection<Ads> adsCollection = new HashSet<>();
+//    Collection<Ad> adsCollection = new HashSet<>();
 //    String description = "1";
 //
 //    @BeforeEach
@@ -72,19 +72,19 @@
 //
 //    @Test
 //    public void getAllAdsTest() {
-//        Collection<Ads> ads = this.adsService.getAllAds();
+//        Collection<Ad> ads = this.adsService.getAllAds();
 //        Assertions
 //                .assertThat(ads).isNotEmpty();
 //    }
 //
 //    @Test
 //    public void getAdsTest() {
-//        List<Ads> list = adsRepository.findByTitleIgnoreCase(title);
-//        ResponseWrapperAdsDto expected = new ResponseWrapperAdsDto();
+//        List<Ad> list = adsRepository.findByTitleIgnoreCase(title);
+//        ResponseWrapperAdDto expected = new ResponseWrapperAdDto();
 //        expected.setCount(list.size());
 //        expected.setResults(list);
 //
-//        ResponseWrapperAdsDto actual = adsService.getAds(title);
+//        ResponseWrapperAdDto actual = adsService.getAds(title);
 //        Assertions
 //                .assertThat(actual).isEqualTo(expected);
 //    }
@@ -94,9 +94,9 @@
 ////
 ////        imageRepository.save(image);
 ////
-////        AdsDto request = new AdsDto(author, description, image, pk, price, title);
-////        CreateAdsDto createAdsDto = new CreateAdsDto(description, price, title);
-////        AdsDto result = adsService.addAds(createAdsDto, kmlfile);
+////        AdDto request = new AdDto(author, description, image, pk, price, title);
+////        CreateAdDto createAdsDto = new CreateAdDto(description, price, title);
+////        AdDto result = adsService.addAds(createAdsDto, kmlfile);
 ////
 ////        Assertions
 ////                .assertThat(request.getAuthor()).isEqualTo(result.getAuthor());
@@ -111,7 +111,7 @@
 //
 //    @Test
 //    public void getFullAdTest() {
-//        FullAdsDto expected = new FullAdsDto();
+//        FullAdDto expected = new FullAdDto();
 //        expected.setAuthorFirstName(users.getFirstName());
 //        expected.setAuthorLastName(users.getLastName());
 //        //  fullAdsDto.setDescription(ads.getDescription());
@@ -119,16 +119,16 @@
 //        //  fullAdsDto.setPrice(ads.getPrice());
 //        //  fullAdsDto.setTitle(ads.getTitle());
 //
-//        FullAdsDto actual = adsService.getFullAd(pk);
+//        FullAdDto actual = adsService.getFullAd(pk);
 //        Assertions
 //                .assertThat(actual).isEqualTo(expected);
 //    }
 ////    @Test
 ////    public void removeAdsTest() {
-////        CreateAdsDto createAdsDto2 = new CreateAdsDto("description", 2, "title");
-////        AdsDto part2 = adsService.addAds(createAdsDto2, kmlfile);
+////        CreateAdDto createAdsDto2 = new CreateAdDto("description", 2, "title");
+////        AdDto part2 = adsService.addAds(createAdsDto2, kmlfile);
 ////        adsService.removeAds(part2.getPk());
-////        ResponseWrapperAdsDto adsDto = this.adsService.getAllAds();
+////        ResponseWrapperAdDto adsDto = this.adsService.getAllAds();
 ////
 ////        Assertions
 ////                .assertThat(adsDto.getResults()).hasSize(1);
@@ -142,8 +142,8 @@
 //
 //    @Test
 //    public void getAdsMe() {
-//        Collection<Ads> expected = adsRepository.findAll();
-//        Collection<Ads> actual = adsService.getAdsMe();
+//        Collection<Ad> expected = adsRepository.findAll();
+//        Collection<Ad> actual = adsService.getAdsMe();
 //        Assertions
 //                .assertThat(expected).isEqualTo(actual);
 //    }
@@ -166,8 +166,8 @@
 //
 //    @Test
 //    public void getAdsByID() {
-//        Ads expected = adsRepository.findById(pk).orElseThrow();
-//        Ads actual = adsService.getAdsById(pk);
+//        Ad expected = adsRepository.findById(pk).orElseThrow();
+//        Ad actual = adsService.getAdsById(pk);
 //        Assertions
 //                .assertThat(actual).isEqualTo(expected);
 //    }
@@ -193,13 +193,13 @@
 ////    СОВСЕМ УДАЛЕН??
 ////    @Test
 ////    public void addCommentsTest() {
-////        AdsCommentDto adsCommentDto = new AdsCommentDto(author, "createdAt", pk, "Text");
+////        AdCommentDto adsCommentDto = new AdCommentDto(author, "createdAt", pk, "Text");
 ////
 ////        Comment comment = CommentMapper.toEntity(adsCommentDto);
 ////        ads.getCommentCollection().add(comment);
 ////        commentRepository.save(comment);
 ////
-////        AdsCommentDto actual = adsServiceImpl.addComments(pk, adsCommentDto);
+////        AdCommentDto actual = adsServiceImpl.addComments(pk, adsCommentDto);
 ////        Assertions
 ////                .assertThat(adsCommentDto).isEqualTo(actual);
 ////

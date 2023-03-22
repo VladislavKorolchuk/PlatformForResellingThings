@@ -12,7 +12,7 @@
 //import ru.work.graduatework.repository.ImageRepository;
 //import ru.work.graduatework.repository.UserRepository;
 //import ru.work.graduatework.service.ImageService;
-//import ru.work.graduatework.service.UsersService;
+//import ru.work.graduatework.service.UserService;
 //
 //import java.util.Collection;
 //import java.util.Optional;
@@ -24,7 +24,7 @@
 //    @Autowired
 //    ImageRepository imageRepository;
 //    @Autowired
-//    UsersService usersService;
+//    UserService usersService;
 //    @Autowired
 //    ImageService imageService;
 //
