@@ -43,27 +43,27 @@ public class AuthService {
 
     }
 
-//    public boolean register(RegisterReqDto registerReqDto, Role role) {
-//        logger.info("Current method is - register");
-//        Users user = userMapper.toEntity(registerReqDto);
-//        userService.createUser(user);
-//        manager.createUser(
-//                User.withDefaultPasswordEncoder()
-//                        .password(registerReqDto.getPassword())
-//                        .username(registerReqDto.getUsername())
-//                        .roles(role.name())
-//                        .build()
-//        );
-//        return true;
-//    }
-
     public boolean register(RegisterReqDto registerReqDto, Role role) {
+        logger.info("Current method is - register");
         Users user = userMapper.toEntity(registerReqDto);
-// if (usersRepository.existsByEmail(user.getEmail())) {
-// throw new EntityNotFoundException();}
-        user.setPassword(encoder.encode(registerReqDto.getPassword()));
         userService.createUser(user);
+        manager.createUser(
+                User.withDefaultPasswordEncoder()
+                        .password(registerReqDto.getPassword())
+                        .username(registerReqDto.getUsername())
+                        .roles(role.name())
+                        .build()
+        );
         return true;
     }
+
+//    public boolean register(RegisterReqDto registerReqDto, Role role) {
+//        Users user = userMapper.toEntity(registerReqDto);
+//// if (usersRepository.existsByEmail(user.getEmail())) {
+//// throw new EntityNotFoundException();}
+//        user.setPassword(encoder.encode(user.getPassword()));
+//        userService.createUser(user);
+//        return true;
+//    }
 
 }
