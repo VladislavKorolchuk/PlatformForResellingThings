@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.mapper.AdMapper;
 import ru.work.graduatework.mapper.CommentMapper;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.service.AdsService;
 import ru.work.graduatework.service.ImageService;
 
@@ -35,9 +35,9 @@ import javax.validation.constraints.NotNull;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final AdsService adsService;
-    private final AdsMapper adsMapper;
+    private final AdMapper adMapper;
 
     private CommentMapper commentMapper;
 
@@ -56,7 +56,7 @@ public class AdsController {
     public ResponseWrapper<AdsDto> getAllAds() {
 
         logger.info("Current Method is - getAllAds");
-        return ResponseWrapper.of(adsMapper.toDto(adsService.getAllAds()));
+        return ResponseWrapper.of(adMapper.toDto(adsService.getAllAds()));
 
     }
 
@@ -75,7 +75,7 @@ public class AdsController {
                                          @Valid @RequestPart("properties") CreateAdsDto createAdsDto) {
         logger.info("Current Method is - addAds");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage,authentication.getName())));
+        return ResponseEntity.ok(adMapper.toDto(adsService.addAds(createAdsDto, adsImage,authentication.getName())));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -133,7 +133,7 @@ public class AdsController {
     public ResponseEntity<AdsDto> updateAds(@P @PathVariable("adId") Integer adId, @RequestBody CreateAdsDto createAds) {
 
         logger.info("Current Method is - updateAds");
-        return ResponseEntity.ok(adsMapper.toDto(adsService.updateAds(adId, createAds)));
+        return ResponseEntity.ok(adMapper.toDto(adsService.updateAds(adId, createAds)));
 
     }
 
@@ -198,7 +198,7 @@ public class AdsController {
     public ResponseWrapper<AdsDto> getAdsMe() {
         logger.info("Current Method is - getAdsMe");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseWrapper.of(adsMapper.toDto(adsService.getAdsMe(authentication.getName())));
+        return ResponseWrapper.of(adMapper.toDto(adsService.getAdsMe(authentication.getName())));
     }
 
     @Operation(tags = "ADS")

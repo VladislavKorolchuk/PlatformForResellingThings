@@ -11,16 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsMapper;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.mapper.AdMapper;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.repository.UserRepository;
 
-import java.io.IOException;
-import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,33 +27,33 @@ public class AdsService {
 
 
     private UsersService usersService;
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final CommentRepository commentRepository;
     private final ImageRepository imageRepository;
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
     private final ImageService imageService;
-    private final AdsMapper adsMapper;
+    private final AdMapper adMapper;
 
-    public AdsService(AdsRepository adsRepository, CommentRepository commentRepository,
-                      UsersRepository usersRepository, ImageService imageService, ImageRepository imageRepository, AdsMapper adsMapper) {
-        this.adsRepository = adsRepository;
+    public AdsService(AdRepository adRepository, CommentRepository commentRepository,
+                      UserRepository userRepository, ImageService imageService, ImageRepository imageRepository, AdMapper adMapper) {
+        this.adRepository = adRepository;
         this.commentRepository = commentRepository;
-        this.usersRepository = usersRepository;
+        this.userRepository = userRepository;
         this.imageService = imageService;
         this.imageRepository = imageRepository;
-        this.adsMapper = adsMapper;
+        this.adMapper = adMapper;
     }
 
     // Uses method - getAllAds    controller - AdsController
     public Collection<Ads> getAllAds() {
-        return adsRepository.findAll();
+        return adRepository.findAll();
     }
 
 
     public ResponseWrapperAdsDto getAds(String title) {
         logger.info("Current Method is - getAds-Service");
         ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
-        List<Ads> list = adsRepository.findByTitleIgnoreCase(title);
+        List<Ads> list = adRepository.findByTitleIgnoreCase(title);
         responseWrapperAdsDto.setCount(list.size());
         responseWrapperAdsDto.setResults(list);
         return responseWrapperAdsDto;
@@ -65,16 +62,16 @@ public class AdsService {
     @SneakyThrows
     public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage, String Email) {
         logger.info("Current Method is - service AddAds");
-        Users user = usersRepository.findByEmail(Email).orElseThrow();
-        Ads ads = adsMapper.toEntity(createAdsDto);
+        Users user = userRepository.findByEmail(Email).orElseThrow();
+        Ads ads = adMapper.toEntity(createAdsDto);
         ads.setAuthor(user);
         ads.setImage(imageService.uploadImage(adsImage));
-        return adsRepository.save(ads);
+        return adRepository.save(ads);
     }
 
 
     public FullAdsDto getFullAd(int id) {
-        Users users = usersRepository.findByEmail((SecurityContextHolder
+        Users users = userRepository.findByEmail((SecurityContextHolder
                 .getContext().getAuthentication().getName())).orElseThrow();
         //  Ads ads = adsRepository.findById(id).orElseThrow();
         FullAdsDto fullAdsDto = new FullAdsDto();
@@ -89,10 +86,10 @@ public class AdsService {
 
 
     public void removeAds(int id) {
-        Ads dbAds = this.adsRepository.findById(id).orElseThrow(ObjectCollectedException::new);
+        Ads dbAds = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
         Image image = dbAds.getImage();
         this.imageRepository.delete(image);
-        this.adsRepository.delete(dbAds);
+        this.adRepository.delete(dbAds);
     }
 
     // Uses method - updateAds    controller - AdsController
@@ -101,13 +98,13 @@ public class AdsService {
         ads.setTitle(createAdsDto.getTitle());
         ads.setDescription(createAdsDto.getDescription());
         ads.setPrice(createAdsDto.getPrice());
-        return adsRepository.save(ads);
+        return adRepository.save(ads);
     }
 
     // Uses method - getAdsMe    controller - AdsController
     public Collection<Ads> getAdsMe(String Email) {
-        Users user = usersRepository.findByEmail(Email).orElseThrow();
-        return adsRepository.findAllByAuthorId(user.getId());
+        Users user = userRepository.findByEmail(Email).orElseThrow();
+        return adRepository.findAllByAuthorId(user.getId());
     }
 
     // Uses method - getComments    controller - AdsController
@@ -117,7 +114,7 @@ public class AdsService {
 
 
     public AdsCommentDto getCommentsId(int ad_pk, int id) {
-        Ads ads = adsRepository.findById(ad_pk).orElseThrow();
+        Ads ads = adRepository.findById(ad_pk).orElseThrow();
         return new AdsCommentDto(0, null, null);
     }
 
@@ -135,7 +132,7 @@ public class AdsService {
 
     // Uses method - updateAds
     public Ads getAdsById(int asId) {
-        return adsRepository.findById(asId).orElseThrow(
+        return adRepository.findById(asId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "The ad was not found"));
     }
@@ -145,7 +142,7 @@ public class AdsService {
         Ads ads = getAdsById(adId);
         //checkPermissionToAds(ads);
         commentRepository.deleteAdsCommentsByAdId(adId);
-        adsRepository.delete(ads);
+        adRepository.delete(ads);
         return ads;
 
     }
@@ -174,7 +171,7 @@ public class AdsService {
         Ads ads = getAdsById(id);
 
         ads.setImage(imageService.uploadImage(image));
-        adsRepository.save(ads);
+        adRepository.save(ads);
     }
 
 
@@ -182,7 +179,7 @@ public class AdsService {
     public Ads removeAdsById(int adId) {
         Ads ads = getAdsById(adId);
         commentRepository.deleteAdsCommentsByAdId(adId);
-        adsRepository.delete(ads);
+        adRepository.delete(ads);
         return ads;
     }
 

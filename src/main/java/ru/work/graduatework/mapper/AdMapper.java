@@ -10,7 +10,7 @@ import ru.work.graduatework.dto.CreateAdsDto;
 import ru.work.graduatework.dto.FullAdsDto;
 
 @Mapper(componentModel = "spring")
-public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
+public interface AdMapper extends MapperScheme<AdsDto, Ads> {
 
     String PUTH_IMAGE = "/ads/image/";
 

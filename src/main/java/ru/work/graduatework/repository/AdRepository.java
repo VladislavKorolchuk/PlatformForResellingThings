@@ -6,10 +6,9 @@ import ru.work.graduatework.Entity.Ads;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface AdsRepository extends JpaRepository<Ads, Integer> {
+public interface AdRepository extends JpaRepository<Ads, Integer> {
 
     List<Ads> findByTitleIgnoreCase(String title);
 

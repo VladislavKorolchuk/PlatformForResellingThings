@@ -10,9 +10,9 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.Ads;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.ImageRepository;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.io.*;
@@ -23,9 +23,9 @@ import java.io.*;
 public class ImageService {
 
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final ImageRepository imageRepository;
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
 
     public Image addAdsImage(Ads ads, MultipartFile imageFile) throws IOException {
         logger.info("Current Method is - addAdsImage ");
@@ -103,7 +103,7 @@ public class ImageService {
     /**
      * @param 'id image' Input parameter
      *            <br> Is used entity Users {@link Users} </br
-     *            <br> Is used repository {@link UsersRepository#save(Object)} </br>
+     *            <br> Is used repository {@link UserRepository#save(Object)} </br>
      *            Uses method {@link  ru.work.graduatework.controller.UsersController#getImageById(int)}
      *            Uses method {@link  ru.work.graduatework.controller.AdsController#getAdsImage(int, MultipartFile)}
      * @return {@link ru.work.graduatework.Entity.Users}

@@ -12,11 +12,11 @@
 //import ru.work.graduatework.Entity.Image;
 //import ru.work.graduatework.Entity.Users;
 //import ru.work.graduatework.dto.*;
-//import ru.work.graduatework.repository.AdsRepository;
+//import ru.work.graduatework.repository.AdRepository;
 //import ru.work.graduatework.repository.CommentRepository;
 //import ru.work.graduatework.repository.ImageRepository;
 //import ru.work.graduatework.mapper.CommentMapper;
-//import ru.work.graduatework.repository.UsersRepository;
+//import ru.work.graduatework.repository.UserRepository;
 //import ru.work.graduatework.service.AdsService;
 //import ru.work.graduatework.service.ImageService;
 //
@@ -29,13 +29,13 @@
 //@SpringBootTest
 //public class AdsServiceTest {
 //    @Autowired
-//    public AdsRepository adsRepository;
+//    public AdRepository adsRepository;
 //    @Autowired
 //    public CommentRepository commentRepository;
 //    @Autowired
 //    public ImageRepository imageRepository;
 //    @Autowired
-//    public UsersRepository usersRepository;
+//    public UserRepository usersRepository;
 //    @Autowired
 //    public AdsService adsService;
 //    @Autowired
