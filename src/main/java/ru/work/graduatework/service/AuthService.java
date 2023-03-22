@@ -47,23 +47,14 @@ public class AuthService {
         logger.info("Current method is - register");
         Users user = userMapper.toEntity(registerReqDto);
         userService.createUser(user);
-        manager.createUser(
-                User.withDefaultPasswordEncoder()
-                        .password(registerReqDto.getPassword())
-                        .username(registerReqDto.getUsername())
-                        .roles(role.name())
-                        .build()
-        );
+//        manager.createUser(
+//                User.withDefaultPasswordEncoder()
+//                        .password(user.getPassword())
+//                        .username(user.getEmail())
+//                        .roles(role.name())
+//                        .build()
+//        );
         return true;
     }
-
-//    public boolean register(RegisterReqDto registerReqDto, Role role) {
-//        Users user = userMapper.toEntity(registerReqDto);
-//// if (usersRepository.existsByEmail(user.getEmail())) {
-//// throw new EntityNotFoundException();}
-//        user.setPassword(encoder.encode(user.getPassword()));
-//        userService.createUser(user);
-//        return true;
-//    }
 
 }
