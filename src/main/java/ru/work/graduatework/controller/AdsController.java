@@ -2,6 +2,7 @@ package ru.work.graduatework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,12 +36,11 @@ import javax.validation.constraints.NotNull;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+
     private final AdRepository adRepository;
     private final AdService adservice;
     private final AdMapper adMapper;
-
-    private CommentMapper commentMapper;
-
+    private final CommentMapper commentMapper;
     private final ImageService imageService;
 
 
@@ -70,13 +70,13 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AdDto> addAds(@Parameter(description = "New Ad Data")
-                                         @RequestPart("image") MultipartFile adsImage,
-                                        @Valid @RequestPart("properties") CreateAdDto createAdDto) {
+    public ResponseEntity<AdDto> addAds(@Parameter(in = ParameterIn.DEFAULT, description = "New Ad Data")
+                                        @RequestPart("image") MultipartFile adsImage,
+                                        @RequestPart("properties") @Valid CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage,authentication.getName())));
-      return   ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage)));
+        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage)));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -189,7 +189,7 @@ public class AdsController {
     @Operation(summary = "addAdsComments", description = "addAdsComments")
     @PostMapping("/{ad_pk}/comments")
     public ResponseEntity<AdCommentDto> addAdsComments(@PathVariable("ad_pk") long adPk,
-                                                        @RequestBody @Valid AdCommentDto adsCommentDto) {
+                                                       @RequestBody @Valid AdCommentDto adsCommentDto) {
         return ResponseEntity.ok(commentMapper.toDto(adservice.addAdsComments(adPk, adsCommentDto)));
     }
 
@@ -218,6 +218,7 @@ public class AdsController {
         return ResponseEntity.ok().build();
 
     }
+
     @Operation(tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {

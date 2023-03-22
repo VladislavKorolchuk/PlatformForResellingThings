@@ -1,5 +1,6 @@
 package ru.work.graduatework.service;
 
+import static ru.work.graduatework.dto.Role.ADMIN;
 import static ru.work.graduatework.dto.Role.USER;
 import static ru.work.graduatework.security.SecurityUtils.getUserDetailsFromContext;
 

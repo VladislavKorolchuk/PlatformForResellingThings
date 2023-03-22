@@ -34,7 +34,7 @@ public class AdService {
     private final Logger logger = LoggerFactory.getLogger(AdService.class);
 
 
-    private UserService userService;
+    private final UserService userService;
     private final AdRepository adRepository;
     private final CommentRepository commentRepository;
     private final ImageRepository imageRepository;
@@ -81,11 +81,11 @@ public class AdService {
 
 
     public FullAdDto getFullAd(long id) {
-        return adMapper.toFullAdsDto(adRepository.findById((int) id).orElseThrow());
+        return adMapper.toFullAdsDto(adRepository.findById(id).orElseThrow());
     }
 
 
-    public void removeAds(int id) {
+    public void removeAds(long id) {
         Ad dbAd = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
         Image image = dbAd.getImage();
         this.imageRepository.delete(image);
@@ -121,9 +121,9 @@ public class AdService {
         return commentRepository.save(adsComment);
     }
 
-    public AdCommentDto getCommentsId(int ad_pk, int id) {
+    public AdCommentDto getCommentsId(long ad_pk, int id) {
         Ad ad = adRepository.findById(ad_pk).orElseThrow();
-        return new AdCommentDto(0, null, null);
+        return new AdCommentDto();
     }
 
     public Comment deleteAdsComment(long adPk, long id) {
@@ -143,7 +143,7 @@ public class AdService {
 
     // Uses method - updateAds
     public Ad getAdsById(long asId) {
-        return adRepository.findById((int) asId).orElseThrow(
+        return adRepository.findById(asId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "The ad was not found"));
     }
