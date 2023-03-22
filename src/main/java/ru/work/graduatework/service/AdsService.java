@@ -17,8 +17,6 @@ import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
 
-import static ru.work.graduatework.security.SecurityUtils.*;
-
 import java.io.IOException;
 import javax.transaction.Transactional;
 import java.util.Collection;
@@ -65,10 +63,10 @@ public class AdsService {
     }
 
     @SneakyThrows
-    public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
+    public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage, String Email) {
         logger.info("Current Method is - service AddAds");
+        Users user = usersRepository.findByEmail(Email).orElseThrow();
         Ads ads = adsMapper.toEntity(createAdsDto);
-        Users user = usersService.getUserById(getUserIdFromContext());
         ads.setAuthor(user);
         ads.setImage(imageService.uploadImage(adsImage));
         return adsRepository.save(ads);
@@ -145,7 +143,7 @@ public class AdsService {
     public Ads removeAdsByMe(int adId) {
 
         Ads ads = getAdsById(adId);
-        checkPermissionToAds(ads);
+        //checkPermissionToAds(ads);
         commentRepository.deleteAdsCommentsByAdId(adId);
         adsRepository.delete(ads);
         return ads;

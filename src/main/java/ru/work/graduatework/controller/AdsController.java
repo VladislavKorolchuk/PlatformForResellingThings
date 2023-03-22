@@ -74,7 +74,8 @@ public class AdsController {
                                          @RequestPart("image") MultipartFile adsImage,
                                          @Valid @RequestPart("properties") CreateAdsDto createAdsDto) {
         logger.info("Current Method is - addAds");
-        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage)));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage,authentication.getName())));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
