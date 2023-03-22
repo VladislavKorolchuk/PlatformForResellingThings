@@ -10,7 +10,7 @@ import ru.work.graduatework.dto.AdsCommentDto;
 public interface CommentMapper extends MapperScheme<AdsCommentDto, Comment> {
 
     @Mapping(target = "author", ignore = true)
-    @Mapping(target = "id", source = "pk")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     Comment toEntity(AdsCommentDto dto);
 

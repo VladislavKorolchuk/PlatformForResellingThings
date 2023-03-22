@@ -18,11 +18,11 @@ import ru.work.graduatework.repository.UsersRepository;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Transactional
+import static ru.work.graduatework.security.SecurityUtils.getUserIdFromContext;
+
 @Service
 public class AdsService {
 
@@ -54,54 +54,57 @@ public class AdsService {
 
 
     @SneakyThrows
-    @Transactional
     public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
+        logger.info("Current Method is - service AddAds");
         Ads ads = adsMapper.toEntity(createAdsDto);
-//        Ads ads = new Ads();
-        ads.setTitle(createAdsDto.getTitle());
-        ads.setPrice(createAdsDto.getPrice());
-        ads.setDescription(createAdsDto.getDescription());
-        Users users = usersRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(EntityExistsException::new);
-        Users users1 = usersRepository.findById(1L).orElseThrow();
-        ads.setAuthor(users1);
+//        Users user = userService.getUserById(getUserIdFromContext());
+        Users user = usersRepository.findById(1L).orElseThrow();
+        ads.setAuthor(user);
         ads.setImage(imageService.uploadImage(adsImage));
         return adsRepository.save(ads);
     }
 
     public Collection<Ads> getAdsMe() {
-        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
+//        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
+//                .getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
+        logger.info("Current Method is - service getAdsMe");
+        Users user = usersRepository.findById(1L).orElseThrow();
         Collection<Ads> adsList = adsRepository.findAllByAuthorId(user.getId());
         return adsRepository.findAll().stream()
                 .filter(ads -> ads.getAuthor().equals(user)).collect(Collectors.toList());
     }
 
 
-    public Ads getAdsById(int adId) {
+    public Ads getAdsById(long adId) {
+        logger.info("Current Method is - service getAdsById");
         return adsRepository.findById(adId).orElseThrow(EntityNotFoundException::new);
     }
 
 
-    public void removeAds(int id) {
+    public void removeAds(long id) {
+        logger.info("Current Method is - service removeAds");
         Ads ads = getAdsById(id);
         commentRepository.deleteAdsCommentsByAdId(id);
         this.adsRepository.delete(ads);
     }
 
-    public Comment getAdsComment(int adPk, int id) {
-        return commentRepository.findByIdAndAdId(id, adPk)
-                .orElseThrow(ObjectCollectedException::new);
+    public Comment getAdsComment(long adPk, long id) {
+        logger.info("Current Method is - service getAdsComment");
+        return commentRepository.findByIdAndAdId(id, adPk).orElseThrow(ObjectCollectedException::new);
     }
 
 
-    public Collection<Comment> getComments(int adPk) {
+    public Collection<Comment> getComments(long adPk) {
+        logger.info("Current Method is - service getComments");
         return commentRepository.findAllByAdId(adPk);
     }
 
-    public Comment addAdsComments(int adPk, AdsCommentDto commentDto) {
+    public Comment addAdsComments(long adPk, AdsCommentDto commentDto) {
+        logger.info("Current Method is - service addAdsComments");
         Comment adsComment = commentMapper.toEntity(commentDto);
-        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
-                .getAuthentication().getName()).orElseThrow(EntityExistsException::new);
+//        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
+//                .getAuthentication().getName()).orElseThrow(EntityExistsException::new);
+        Users user = usersRepository.findById(1L).orElseThrow();
         adsComment.setAuthor(user);
         adsComment.setAd(getAdsById(adPk));
         adsComment.setCreatedAt(userService.dateUserRegistration());
@@ -109,27 +112,30 @@ public class AdsService {
     }
 
 
-    public Comment deleteAdsComment(long adPk, long id) {
+    public void deleteAdsComment(long adPk, long id) {
+        logger.info("Current Method is - service deleteAdsComment");
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         commentRepository.delete(comment);
-        return comment;
     }
 
-    public Comment updateComments(int adPk, int id, Comment commentUpdated) {
+    public Comment updateComments(long adPk, int id, Comment commentUpdated) {
+        logger.info("Current Method is - service updateComments");
         Comment adsComment = getAdsComment(adPk, id);
         adsComment.setText(commentUpdated.getText());
         return commentRepository.save(adsComment);
     }
 
     @SneakyThrows
-    public void updateAdsImage(int id, MultipartFile image) {
+    public void updateAdsImage(long id, MultipartFile image) {
+        logger.info("Current Method is - service updateAdsImage");
         Ads ads = getAdsById(id);
         ads.setImage(imageService.uploadImage(image));
         adsRepository.save(ads);
     }
 
-    public Ads updateAds(int adId, CreateAdsDto createAdsDto) {
+    public Ads updateAds(long adId, CreateAdsDto createAdsDto) {
+        logger.info("Current Method is - service updateAds");
         Ads ads = getAdsById(adId);
         ads.setTitle(createAdsDto.getTitle());
         ads.setDescription(createAdsDto.getDescription());

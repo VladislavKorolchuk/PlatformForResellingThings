@@ -19,7 +19,7 @@ public interface AdsMapper extends MapperScheme<AdsDto, Ads> {
     @Mapping(target = "image", ignore = true)
     Ads toEntity(AdsDto dto);
 
-    @Mapping(target = "pk", source = "id")
+    @Mapping(target = "pk", ignore = true)
     @Mapping(target = "author", source = "author.id")
     @Mapping(target = "image", source = "entity.image", qualifiedByName = "imageMapping")
     AdsDto toDto(Ads entity);

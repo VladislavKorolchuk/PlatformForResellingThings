@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AdsRepository extends JpaRepository<Ads, Integer> {
+public interface AdsRepository extends JpaRepository<Ads, Long> {
 
     List<Ads> findByTitleIgnoreCase(String title);
 

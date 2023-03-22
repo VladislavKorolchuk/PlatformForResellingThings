@@ -16,7 +16,7 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "primary_key")
-    private int id;
+    private long id;
     private String title;
     private String description;
     private int price;                      // Price

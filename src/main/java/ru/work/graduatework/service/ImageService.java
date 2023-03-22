@@ -102,7 +102,7 @@ public class ImageService {
 
     // Uses method - getImageById    controller - UserController
     // Uses method - getAdsImage    controller - AdsController
-    public Image getImageById (int id) {
+    public Image getImageById (long id) {
         return imageRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
