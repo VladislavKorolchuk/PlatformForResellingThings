@@ -47,6 +47,7 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
     return ResponseEntity.ok(userMapper.toDto(usersService.getUserById(id)));
@@ -85,6 +86,7 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
     Users user = usersService.createUser(userMapper.createUserDtoToEntity(createUserDto));
@@ -145,6 +147,7 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -153,6 +156,7 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
@@ -161,7 +165,7 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-
+  @Operation(tags = "USER")
   @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
   public ResponseEntity<byte[]> getImageById(@PathVariable("id") int id) {
     return ResponseEntity.ok(imageService.getImageById(id).getData());

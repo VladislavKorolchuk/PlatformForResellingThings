@@ -74,7 +74,8 @@ public class AdsController {
                                          @RequestPart("image") MultipartFile adsImage,
                                          @Valid @RequestPart("properties") CreateAdsDto createAdsDto) {
         logger.info("Current Method is - addAds");
-        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage)));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(adsMapper.toDto(adsService.addAds(createAdsDto, adsImage,authentication.getName())));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -200,6 +201,7 @@ public class AdsController {
         return ResponseWrapper.of(adsMapper.toDto(adsService.getAdsMe(authentication.getName())));
     }
 
+    @Operation(tags = "ADS")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
 
@@ -207,7 +209,7 @@ public class AdsController {
         return ResponseEntity.ok().build();
 
     }
-
+    @Operation(tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
