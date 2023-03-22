@@ -28,7 +28,7 @@ import static ru.work.graduatework.security.SecurityUtils.checkPermissionToAds;
 import static ru.work.graduatework.security.SecurityUtils.getUserIdFromContext;
 
 @Service
-@RequiredArgsConstructor
+
 public class AdService {
 
     private final Logger logger = LoggerFactory.getLogger(AdService.class);
@@ -43,6 +43,16 @@ public class AdService {
     private final AdMapper adMapper;
     private final CommentMapper commentMapper;
 
+    public AdService(UserService userService, AdRepository adRepository, CommentRepository commentRepository, ImageRepository imageRepository, UserRepository userRepository, ImageService imageService, AdMapper adMapper, CommentMapper commentMapper) {
+        this.userService = userService;
+        this.adRepository = adRepository;
+        this.commentRepository = commentRepository;
+        this.imageRepository = imageRepository;
+        this.userRepository = userRepository;
+        this.imageService = imageService;
+        this.adMapper = adMapper;
+        this.commentMapper = commentMapper;
+    }
 
     // Uses method - getAllAds    controller - AdsController
     public Collection<Ad> getAllAds() {

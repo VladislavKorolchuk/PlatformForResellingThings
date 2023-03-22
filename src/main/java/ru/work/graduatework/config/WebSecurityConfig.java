@@ -30,39 +30,34 @@ public class WebSecurityConfig {
       "/ads"
   };
 
-  @Bean
-  public UserDetailsManager userDetailsService(DataSource dataSource) {
-    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-    jdbcUserDetailsManager.setDataSource(dataSource);
-    jdbcUserDetailsManager
-        .setUserExistsSql("select email as username from users WHERE email=?");
-    jdbcUserDetailsManager.setUsersByUsernameQuery(
-        "select email as username,password,'true' from users where email=?");
-    jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-        "select email as username, role as authority from users WHERE email=?");
-    return jdbcUserDetailsManager;
-  }
+//  @Bean
+//  public UserDetailsManager userDetailsService(DataSource dataSource) {
+//    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
+//    jdbcUserDetailsManager.setDataSource(dataSource);
+//    jdbcUserDetailsManager
+//        .setUserExistsSql("select email as username from users WHERE email=?");
+//    jdbcUserDetailsManager.setUsersByUsernameQuery(
+//        "select email as username,password,'true' from users where email=?");
+//    jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+//        "select email as username, role as authority from users WHERE email=?");
+//    return jdbcUserDetailsManager;
+//  }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http,
-      DataSource dataSource) throws Exception {
-    http
-        .authenticationManager(http.getSharedObject(AuthenticationManagerBuilder.class)
-            .userDetailsService(userDetailsService(dataSource))
-            .passwordEncoder(passwordEncoder())
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http
+            .cors()
             .and()
-            .build())
-        .csrf().disable()
-        .authorizeHttpRequests((authz) ->
-            authz
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .mvcMatchers(AUTH_WHITELIST).permitAll()
-                .mvcMatchers("/ads/**", "/users/**").authenticated()
-                .mvcMatchers("/users/**").hasAnyAuthority("ADMIN", "USER")
-        )
-        .httpBasic(withDefaults())
-        .cors();
-    return http.build();
+            .csrf().disable()
+            .authorizeHttpRequests((authz) ->
+                    authz
+                            .mvcMatchers(HttpMethod.GET, "/ads").permitAll()
+                            .mvcMatchers(HttpMethod.GET, "/ads/images/**").permitAll()
+                            .mvcMatchers(AUTH_WHITELIST).permitAll()
+                            .mvcMatchers("/ads/**", "/users/**").authenticated()
+            )
+            .httpBasic(withDefaults())
+            .build();
   }
 
   @Bean
