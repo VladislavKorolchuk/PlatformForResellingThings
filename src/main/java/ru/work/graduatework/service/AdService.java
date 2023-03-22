@@ -71,17 +71,7 @@ public class AdService {
 
 
     public FullAdDto getFullAd(int id) {
-        Users users = userRepository.findByEmail((SecurityContextHolder
-                .getContext().getAuthentication().getName())).orElseThrow();
-        //  Ad ads = adsRepository.findById(id).orElseThrow();
-        FullAdDto fullAdDto = new FullAdDto();
-        fullAdDto.setAuthorFirstName(users.getFirstName());
-        fullAdDto.setAuthorLastName(users.getLastName());
-        //  fullAdDto.setDescription(ads.getDescription());
-        fullAdDto.setEmail(users.getEmail());
-        //  fullAdDto.setPrice(ads.getPrice());
-        //  fullAdDto.setTitle(ads.getTitle());
-        return fullAdDto;
+        return adMapper.toFullAdsDto(adRepository.findById(id).orElseThrow());
     }
 
 
@@ -167,7 +157,7 @@ public class AdService {
 
     // Uses method - updateAdsImage    controller - AdsController
     @SneakyThrows
-    public void updateAdsImage (int id, MultipartFile image){
+    public void updateAdsImage(int id, MultipartFile image) {
         Ad ad = getAdsById(id);
 
         ad.setImage(imageService.uploadImage(image));
@@ -182,7 +172,6 @@ public class AdService {
         adRepository.delete(ad);
         return ad;
     }
-
 
 
 }
