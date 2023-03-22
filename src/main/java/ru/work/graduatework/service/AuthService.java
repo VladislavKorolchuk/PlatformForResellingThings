@@ -11,7 +11,7 @@ import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.mapper.UserMapper;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.repository.UserRepository;
 
 @RequiredArgsConstructor
 @Service()
@@ -19,7 +19,7 @@ public class AuthService {
 
   private final Logger logger = LoggerFactory.getLogger(AuthService.class);
   private final UserDetailsManager manager;
-  private final UsersRepository usersRepository;
+  private final UserRepository userRepository;
   private final PasswordEncoder encoder;
   private final UserMapper userMapper;
   private final UsersService usersService;
@@ -34,7 +34,7 @@ public class AuthService {
     logger.info("login - " + userName);
     logger.info("password - " + password);
     logger.info("The user is found in the database");
-    Users user = usersRepository.findByEmail(userName).orElseThrow();
+    Users user = userRepository.findByEmail(userName).orElseThrow();
 
     if (encoder.matches(password, user.getPassword())) {
       return true;
