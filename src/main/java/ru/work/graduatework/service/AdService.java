@@ -21,7 +21,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class AdService {
+public class
+AdService {
 
     private final Logger logger = LoggerFactory.getLogger(AdService.class);
 

@@ -27,6 +27,9 @@ import ru.work.graduatework.service.ImageService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RestController()
 @RequiredArgsConstructor
@@ -56,6 +59,15 @@ public class AdsController {
     public ResponseWrapper<AdDto> getAllAds() {
 
         logger.info("Current Method is - getAllAds");
+
+        // Comment Vladislav Korolchuk
+        // Show the code. the correct collection is formed here, but there is no ads in the front
+
+        Collection<Ad> adCollection = adservice.getAllAds();
+        Collection<AdDto> adDtoCollection = adMapper.toDto(adservice.getAllAds());
+
+        // --------------------------------------------------------------------------
+
         return ResponseWrapper.of(adMapper.toDto(adservice.getAllAds()));
 
     }
@@ -71,11 +83,11 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AdDto> addAds(@Parameter(description = "New Ad Data")
-                                         @RequestPart("image") MultipartFile adsImage,
+                                        @RequestPart("image") MultipartFile adsImage,
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage,authentication.getName())));
+        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage, authentication.getName())));
     }
 
     @Operation(summary = "getComments", operationId = "getComments",
@@ -209,6 +221,7 @@ public class AdsController {
         return ResponseEntity.ok().build();
 
     }
+
     @Operation(tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
