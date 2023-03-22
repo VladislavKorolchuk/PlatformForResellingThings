@@ -19,7 +19,7 @@ public class Ad {
     private String description;
     private int price;                      // Price
 
-    @ManyToOne(fetch = FetchType.LAZY)          // Many-to-one communication
+    @ManyToOne(fetch = FetchType.EAGER)          // Many-to-one communication
     @JoinColumn(name = "author_id")
     private Users author;
 
