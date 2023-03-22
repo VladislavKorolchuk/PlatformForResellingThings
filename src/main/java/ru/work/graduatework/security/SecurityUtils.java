@@ -2,7 +2,7 @@ package ru.work.graduatework.security;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.dto.Role;
 
 public class SecurityUtils {
@@ -18,11 +18,11 @@ public class SecurityUtils {
         return getUserDetailsFromContext().getId();
     }
 
-    public static void checkPermissionToAds(Ads ads) {
+    public static void checkPermissionToAds(Ad ad) {
         MyUserDetails userDetails = getUserDetailsFromContext();
 
         if (!userDetails.getAuthorities().contains(Role.ADMIN)
-                && userDetails.getId() != ads.getAuthor().getId()) {
+                && userDetails.getId() != ad.getAuthor().getId()) {
             throw new AccessDeniedException("No access rights only Owner or Admin");
         }
     }

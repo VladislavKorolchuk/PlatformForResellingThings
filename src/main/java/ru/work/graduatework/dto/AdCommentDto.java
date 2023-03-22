@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class AdsCommentDto {
+public class AdCommentDto {
 
     private long pk;
 

@@ -3,25 +3,18 @@ package ru.work.graduatework.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.Entity.Image;
-import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UsersRepository;
 
 import javax.transaction.Transactional;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Objects;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Transactional
 @RequiredArgsConstructor
@@ -29,11 +22,11 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class ImageService {
 
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final ImageRepository imageRepository;
     private final UsersRepository usersRepository;
 
-    public Image addAdsImage(Ads ads, MultipartFile imageFile) throws IOException {
+    public Image addAdsImage(Ad ad, MultipartFile imageFile) throws IOException {
         logger.info("Current Method is - addAdsImage ");
 //        Path path = Path.of(imageDir, ads.getId() + "." + getExtensions(
 //                Objects.requireNonNull(imageFile.getOriginalFilename())));

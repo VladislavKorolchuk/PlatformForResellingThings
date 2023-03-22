@@ -4,88 +4,84 @@ import com.sun.jdi.ObjectCollectedException;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
-import ru.work.graduatework.mapper.AdsMapper;
+import ru.work.graduatework.mapper.AdMapper;
 import ru.work.graduatework.mapper.CommentMapper;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.UsersRepository;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import static ru.work.graduatework.security.SecurityUtils.getUserIdFromContext;
 
 @Service
 public class AdsService {
 
     private final Logger logger = LoggerFactory.getLogger(AdsService.class);
 
-    private final UsersService userService;
+    private final UserService userService;
     private final ImageService imageService;
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final CommentRepository commentRepository;
-    private final AdsMapper adsMapper;
+    private final AdMapper adMapper;
 
     CommentMapper commentMapper;
     private final UsersRepository usersRepository;
 
 
-    public AdsService(UsersService userService, ImageService imageService, AdsRepository adsRepository, CommentRepository adsCommentRepository, CommentRepository commentRepository, AdsMapper adsMapper, CommentMapper commentMapper, UsersRepository usersRepository) {
+    public AdsService(UserService userService, ImageService imageService, AdRepository adRepository, CommentRepository adsCommentRepository, CommentRepository commentRepository, AdMapper adMapper, CommentMapper commentMapper, UsersRepository usersRepository) {
         this.userService = userService;
         this.imageService = imageService;
-        this.adsRepository = adsRepository;
+        this.adRepository = adRepository;
         this.commentRepository = commentRepository;
-        this.adsMapper = adsMapper;
+        this.adMapper = adMapper;
         this.commentMapper = commentMapper;
         this.usersRepository = usersRepository;
     }
 
-    public Collection<Ads> getAllAds() {
-        return adsRepository.findAll();
+    public Collection<Ad> getAllAds() {
+        return adRepository.findAll();
     }
 
 
     @SneakyThrows
-    public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage) {
+    public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage) {
         logger.info("Current Method is - service AddAds");
-        Ads ads = adsMapper.toEntity(createAdsDto);
+        Ad ad = adMapper.toEntity(createAdDto);
 //        Users user = userService.getUserById(getUserIdFromContext());
         Users user = usersRepository.findById(1L).orElseThrow();
-        ads.setAuthor(user);
-        ads.setImage(imageService.uploadImage(adsImage));
-        return adsRepository.save(ads);
+        ad.setAuthor(user);
+        ad.setImage(imageService.uploadImage(adsImage));
+        return adRepository.save(ad);
     }
 
-    public Collection<Ads> getAdsMe() {
+    public Collection<Ad> getAdsMe() {
 //        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
 //                .getAuthentication().getName()).orElseThrow(EntityNotFoundException::new);
         logger.info("Current Method is - service getAdsMe");
         Users user = usersRepository.findById(1L).orElseThrow();
-        Collection<Ads> adsList = adsRepository.findAllByAuthorId(user.getId());
-        return adsRepository.findAll().stream()
+        Collection<Ad> adList = adRepository.findAllByAuthorId(user.getId());
+        return adRepository.findAll().stream()
                 .filter(ads -> ads.getAuthor().equals(user)).collect(Collectors.toList());
     }
 
 
-    public Ads getAdsById(long adId) {
+    public Ad getAdsById(long adId) {
         logger.info("Current Method is - service getAdsById");
-        return adsRepository.findById(adId).orElseThrow(EntityNotFoundException::new);
+        return adRepository.findById(adId).orElseThrow(EntityNotFoundException::new);
     }
 
 
     public void removeAds(long id) {
         logger.info("Current Method is - service removeAds");
-        Ads ads = getAdsById(id);
+        Ad ad = getAdsById(id);
         commentRepository.deleteAdsCommentsByAdId(id);
-        this.adsRepository.delete(ads);
+        this.adRepository.delete(ad);
     }
 
     public Comment getAdsComment(long adPk, long id) {
@@ -99,7 +95,7 @@ public class AdsService {
         return commentRepository.findAllByAdId(adPk);
     }
 
-    public Comment addAdsComments(long adPk, AdsCommentDto commentDto) {
+    public Comment addAdsComments(long adPk, AdCommentDto commentDto) {
         logger.info("Current Method is - service addAdsComments");
         Comment adsComment = commentMapper.toEntity(commentDto);
 //        Users user = usersRepository.findByEmail(SecurityContextHolder.getContext()
@@ -129,17 +125,17 @@ public class AdsService {
     @SneakyThrows
     public void updateAdsImage(long id, MultipartFile image) {
         logger.info("Current Method is - service updateAdsImage");
-        Ads ads = getAdsById(id);
-        ads.setImage(imageService.uploadImage(image));
-        adsRepository.save(ads);
+        Ad ad = getAdsById(id);
+        ad.setImage(imageService.uploadImage(image));
+        adRepository.save(ad);
     }
 
-    public Ads updateAds(long adId, CreateAdsDto createAdsDto) {
+    public Ad updateAds(long adId, CreateAdDto createAdDto) {
         logger.info("Current Method is - service updateAds");
-        Ads ads = getAdsById(adId);
-        ads.setTitle(createAdsDto.getTitle());
-        ads.setDescription(createAdsDto.getDescription());
-        ads.setPrice(createAdsDto.getPrice());
-        return adsRepository.save(ads);
+        Ad ad = getAdsById(adId);
+        ad.setTitle(createAdDto.getTitle());
+        ad.setDescription(createAdDto.getDescription());
+        ad.setPrice(createAdDto.getPrice());
+        return adRepository.save(ad);
     }
 }

@@ -27,9 +27,9 @@ import ru.work.graduatework.repository.UsersRepository;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class UsersService {
+public class UserService {
 
-  private final Logger logger = LoggerFactory.getLogger(UsersService.class);
+  private final Logger logger = LoggerFactory.getLogger(UserService.class);
   private final UsersRepository usersRepository;
   private final ImageService imageService;
 

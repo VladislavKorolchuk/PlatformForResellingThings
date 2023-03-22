@@ -1,7 +1,6 @@
 package ru.work.graduatework.dto;
 
 import lombok.Data;
-import ru.work.graduatework.Entity.Ads;
 
 @Data
 public class ImageDto {

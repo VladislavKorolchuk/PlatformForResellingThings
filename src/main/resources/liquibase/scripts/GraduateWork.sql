@@ -16,7 +16,7 @@ create table users
 );
 
 --changeset KorolchukVladislav:2
-create table ads
+create table ad
 (
     id bigint primary key,
     title varchar(255),
@@ -33,7 +33,7 @@ create table comment
     created_at varchar(255),
     text varchar(255),
     author bigint references users(id),
-    ad bigint references ads(id)
+    ad bigint references ad(id)
 );
 
 --changeset KorolchukVladislav:4
