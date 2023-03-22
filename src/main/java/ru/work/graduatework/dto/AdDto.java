@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 
 @Data
 @NoArgsConstructor
-public class AdsDto {
+public class AdDto {
 
     private int author;
 
@@ -22,7 +20,7 @@ public class AdsDto {
     @JsonIgnore
     private String description;
 
-    public AdsDto(int author, String image, int pk, int price, String title, String description) {
+    public AdDto(int author, String image, int pk, int price, String title, String description) {
         this.author = author;
         this.image = image;
         this.pk = pk;

@@ -92,7 +92,7 @@ description: Unauthorized
 '403':
 content: {}
 description: Forbidden
-/ads:
+/ad:
 get:
 tags:
 - Объявления
@@ -138,7 +138,7 @@ description: Forbidden
 '401':
 content: {}
 description: Unauthorized
-/ads/{ad_pk}/comments:
+/ad/{ad_pk}/comments:
 get:
 tags:
 - Объявления
@@ -267,7 +267,7 @@ schema:
 $ref: '#/components/schemas/User'
 '404':
 description: Not Found
-/ads/{id}:
+/ad/{id}:
 get:
 tags:
 - Объявления
@@ -344,7 +344,7 @@ description: Forbidden
 '401':
 content: {}
 description: Unauthorized
-/ads/{ad_pk}/comments/{id}:
+/ad/{ad_pk}/comments/{id}:
 get:
 tags:
 - Объявления
@@ -438,7 +438,7 @@ description: Forbidden
 content: {}
 description: Unauthorized
 
-/ads/me:
+/ad/me:
 get:
 operationId: getAdsMeUsingGET
 parameters:

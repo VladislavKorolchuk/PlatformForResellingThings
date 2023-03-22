@@ -26,9 +26,9 @@ import ru.work.graduatework.repository.UserRepository;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class UsersService {
+public class UserService {
 
-    private final Logger logger = LoggerFactory.getLogger(UsersService.class);
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
@@ -37,7 +37,7 @@ public class UsersService {
     /**
      * Starting values User it starts when the system starts
      * <br> Is used entity Users {@link Users} </br>
-     * <br> Is used entity Users {@link ru.work.graduatework.service.UsersService#createUser(Users)} </br>
+     * <br> Is used entity Users {@link UserService#createUser(Users)} </br>
      *
      * @author Volkov Alexey
      */

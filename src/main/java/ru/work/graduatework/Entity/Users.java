@@ -25,7 +25,7 @@ import ru.work.graduatework.dto.Role;
 @NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
-public class Users {//implements UserDetails {
+public class Users {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   // delegates the installation of the ID to the database level
@@ -63,7 +63,7 @@ public class Users {//implements UserDetails {
   private Role role;
 
 //    @OneToMany(mappedBy = "user")                       // type of database connection
-//    Collection<Ads> adsCollection;
+//    Collection<Ad> adsCollection;
 //
 //    @OneToMany(mappedBy = "user")                       // type of database connection
 //    Collection<Comment> commentCollection;

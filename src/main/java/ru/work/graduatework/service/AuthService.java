@@ -22,7 +22,7 @@ public class AuthService {
   private final UserRepository userRepository;
   private final PasswordEncoder encoder;
   private final UserMapper userMapper;
-  private final UsersService usersService;
+  private final UserService userService;
 
   public boolean login(String userName, String password) {
     logger.info("Current method is - login");
@@ -46,7 +46,7 @@ public class AuthService {
   public boolean register(RegisterReqDto registerReqDto, Role role) {
     logger.info("Current method is - register");
     Users user = userMapper.toEntity(registerReqDto);
-    usersService.createUser(user);
+    userService.createUser(user);
     manager.createUser(
         User.withDefaultPasswordEncoder()
             .password(registerReqDto.getPassword())

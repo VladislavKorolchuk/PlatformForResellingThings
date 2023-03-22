@@ -28,7 +28,7 @@ public class Image {
     private byte[] data;
 
     public String toString() {
-        return "Ads(id=" + this.getId() + ", image=" + Arrays.toString((this.getData())) + ")";
+        return "Ad(id=" + this.getId() + ", image=" + Arrays.toString((this.getData())) + ")";
     }
 
 }

@@ -1,10 +1,8 @@
 package ru.work.graduatework.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
@@ -12,7 +10,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Ads {
+public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

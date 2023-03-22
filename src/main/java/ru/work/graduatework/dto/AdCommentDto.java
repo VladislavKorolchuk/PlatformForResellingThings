@@ -3,7 +3,7 @@ package ru.work.graduatework.dto;
 import lombok.Data;
 
 @Data
-public class AdsCommentDto {
+public class AdCommentDto {
 
     private int pk;
 
@@ -13,7 +13,7 @@ public class AdsCommentDto {
 
     private String text;
 
-    public AdsCommentDto( int pk, String createdAt,  String text) {
+    public AdCommentDto(int pk, String createdAt, String text) {
         this.pk = pk;
         this.text = text;
         this.createdAt = createdAt;

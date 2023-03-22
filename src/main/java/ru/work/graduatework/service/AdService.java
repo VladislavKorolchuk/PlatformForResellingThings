@@ -21,12 +21,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class AdsService {
+public class AdService {
 
-    private final Logger logger = LoggerFactory.getLogger(AdsService.class);
+    private final Logger logger = LoggerFactory.getLogger(AdService.class);
 
 
-    private UsersService usersService;
+    private UserService userService;
     private final AdRepository adRepository;
     private final CommentRepository commentRepository;
     private final ImageRepository imageRepository;
@@ -34,8 +34,8 @@ public class AdsService {
     private final ImageService imageService;
     private final AdMapper adMapper;
 
-    public AdsService(AdRepository adRepository, CommentRepository commentRepository,
-                      UserRepository userRepository, ImageService imageService, ImageRepository imageRepository, AdMapper adMapper) {
+    public AdService(AdRepository adRepository, CommentRepository commentRepository,
+                     UserRepository userRepository, ImageService imageService, ImageRepository imageRepository, AdMapper adMapper) {
         this.adRepository = adRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
@@ -45,64 +45,64 @@ public class AdsService {
     }
 
     // Uses method - getAllAds    controller - AdsController
-    public Collection<Ads> getAllAds() {
+    public Collection<Ad> getAllAds() {
         return adRepository.findAll();
     }
 
 
-    public ResponseWrapperAdsDto getAds(String title) {
+    public ResponseWrapperAdDto getAds(String title) {
         logger.info("Current Method is - getAds-Service");
-        ResponseWrapperAdsDto responseWrapperAdsDto = new ResponseWrapperAdsDto();
-        List<Ads> list = adRepository.findByTitleIgnoreCase(title);
-        responseWrapperAdsDto.setCount(list.size());
-        responseWrapperAdsDto.setResults(list);
-        return responseWrapperAdsDto;
+        ResponseWrapperAdDto responseWrapperAdDto = new ResponseWrapperAdDto();
+        List<Ad> list = adRepository.findByTitleIgnoreCase(title);
+        responseWrapperAdDto.setCount(list.size());
+        responseWrapperAdDto.setResults(list);
+        return responseWrapperAdDto;
     }
 
     @SneakyThrows
-    public Ads addAds(CreateAdsDto createAdsDto, MultipartFile adsImage, String Email) {
+    public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage, String Email) {
         logger.info("Current Method is - service AddAds");
         Users user = userRepository.findByEmail(Email).orElseThrow();
-        Ads ads = adMapper.toEntity(createAdsDto);
-        ads.setAuthor(user);
-        ads.setImage(imageService.uploadImage(adsImage));
-        return adRepository.save(ads);
+        Ad ad = adMapper.toEntity(createAdDto);
+        ad.setAuthor(user);
+        ad.setImage(imageService.uploadImage(adsImage));
+        return adRepository.save(ad);
     }
 
 
-    public FullAdsDto getFullAd(int id) {
+    public FullAdDto getFullAd(int id) {
         Users users = userRepository.findByEmail((SecurityContextHolder
                 .getContext().getAuthentication().getName())).orElseThrow();
-        //  Ads ads = adsRepository.findById(id).orElseThrow();
-        FullAdsDto fullAdsDto = new FullAdsDto();
-        fullAdsDto.setAuthorFirstName(users.getFirstName());
-        fullAdsDto.setAuthorLastName(users.getLastName());
-        //  fullAdsDto.setDescription(ads.getDescription());
-        fullAdsDto.setEmail(users.getEmail());
-        //  fullAdsDto.setPrice(ads.getPrice());
-        //  fullAdsDto.setTitle(ads.getTitle());
-        return fullAdsDto;
+        //  Ad ads = adsRepository.findById(id).orElseThrow();
+        FullAdDto fullAdDto = new FullAdDto();
+        fullAdDto.setAuthorFirstName(users.getFirstName());
+        fullAdDto.setAuthorLastName(users.getLastName());
+        //  fullAdDto.setDescription(ads.getDescription());
+        fullAdDto.setEmail(users.getEmail());
+        //  fullAdDto.setPrice(ads.getPrice());
+        //  fullAdDto.setTitle(ads.getTitle());
+        return fullAdDto;
     }
 
 
     public void removeAds(int id) {
-        Ads dbAds = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
-        Image image = dbAds.getImage();
+        Ad dbAd = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
+        Image image = dbAd.getImage();
         this.imageRepository.delete(image);
-        this.adRepository.delete(dbAds);
+        this.adRepository.delete(dbAd);
     }
 
     // Uses method - updateAds    controller - AdsController
-    public Ads updateAds(int adId, CreateAdsDto createAdsDto) {
-        Ads ads = getAdsById(adId);
-        ads.setTitle(createAdsDto.getTitle());
-        ads.setDescription(createAdsDto.getDescription());
-        ads.setPrice(createAdsDto.getPrice());
-        return adRepository.save(ads);
+    public Ad updateAds(int adId, CreateAdDto createAdDto) {
+        Ad ad = getAdsById(adId);
+        ad.setTitle(createAdDto.getTitle());
+        ad.setDescription(createAdDto.getDescription());
+        ad.setPrice(createAdDto.getPrice());
+        return adRepository.save(ad);
     }
 
     // Uses method - getAdsMe    controller - AdsController
-    public Collection<Ads> getAdsMe(String Email) {
+    public Collection<Ad> getAdsMe(String Email) {
         Users user = userRepository.findByEmail(Email).orElseThrow();
         return adRepository.findAllByAuthorId(user.getId());
     }
@@ -113,9 +113,9 @@ public class AdsService {
     }
 
 
-    public AdsCommentDto getCommentsId(int ad_pk, int id) {
-        Ads ads = adRepository.findById(ad_pk).orElseThrow();
-        return new AdsCommentDto(0, null, null);
+    public AdCommentDto getCommentsId(int ad_pk, int id) {
+        Ad ad = adRepository.findById(ad_pk).orElseThrow();
+        return new AdCommentDto(0, null, null);
     }
 
     public void deleteCommentsId() {
@@ -131,19 +131,19 @@ public class AdsService {
     }
 
     // Uses method - updateAds
-    public Ads getAdsById(int asId) {
+    public Ad getAdsById(int asId) {
         return adRepository.findById(asId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "The ad was not found"));
     }
 
-    public Ads removeAdsByMe(int adId) {
+    public Ad removeAdsByMe(int adId) {
 
-        Ads ads = getAdsById(adId);
-        //checkPermissionToAds(ads);
+        Ad ad = getAdsById(adId);
+        //checkPermissionToAds(ad);
         commentRepository.deleteAdsCommentsByAdId(adId);
-        adRepository.delete(ads);
-        return ads;
+        adRepository.delete(ad);
+        return ad;
 
     }
 
@@ -152,7 +152,7 @@ public class AdsService {
 
         Comment comment = commentRepository.findByIdAndAdId(id, adPk)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        String.format("Ads %d " +
+                        String.format("Ad %d " +
                                 "belonging to an ad with id %d not found", id, adPk)));
         return comment;
 
@@ -168,19 +168,19 @@ public class AdsService {
     // Uses method - updateAdsImage    controller - AdsController
     @SneakyThrows
     public void updateAdsImage (int id, MultipartFile image){
-        Ads ads = getAdsById(id);
+        Ad ad = getAdsById(id);
 
-        ads.setImage(imageService.uploadImage(image));
-        adRepository.save(ads);
+        ad.setImage(imageService.uploadImage(image));
+        adRepository.save(ad);
     }
 
 
     // Uses method - removeAds    controller - AdsController
-    public Ads removeAdsById(int adId) {
-        Ads ads = getAdsById(adId);
+    public Ad removeAdsById(int adId) {
+        Ad ad = getAdsById(adId);
         commentRepository.deleteAdsCommentsByAdId(adId);
-        adRepository.delete(ads);
-        return ads;
+        adRepository.delete(ad);
+        return ad;
     }
 
 
