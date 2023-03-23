@@ -1,6 +1,7 @@
 package ru.work.graduatework.service;
 
 import static ru.work.graduatework.dto.Role.USER;
+import static ru.work.graduatework.security.SecurityUtils.getUserDetailsFromContext;
 
 import java.time.Instant;
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.repository.UserRepository;
+import ru.work.graduatework.security.UserDetailsServiceImpl;
 
 @Transactional
 @RequiredArgsConstructor
@@ -32,6 +35,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
+
+    private final UserDetailsServiceImpl userDetailsService;
 
 
     /**
@@ -78,13 +83,13 @@ public class UserService {
      *                                      Uses method {@link  ru.work.graduatework.controller.UsersController#setPassword(NewPasswordDto)}  }
      * @author Korolchuk Vladislav
      */
-    public void newPassword(String newPassword, String currentPassword, String email) {
+    public void newPassword(String newPassword, String currentPassword) {
 
-        User user = userRepository.findByEmail(email).orElseThrow();
-        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new BadCredentialsException("The password is incorrect");
+        UserDetails userDetails = getUserDetailsFromContext();
+        if (!passwordEncoder.matches(currentPassword, userDetails.getPassword())) {
+            throw new BadCredentialsException("The current password is incorrect!");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDetailsService.updatePassword(userDetails, passwordEncoder.encode(newPassword));
 
     }
 
