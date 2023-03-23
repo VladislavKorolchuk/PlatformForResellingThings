@@ -13,6 +13,9 @@ public class AdCommentDto {
 
     private String text;
 
+    public AdCommentDto() {
+    }
+
     public AdCommentDto(int pk, String createdAt, String text) {
         this.pk = pk;
         this.text = text;

@@ -1,94 +1,48 @@
-//package ru.work.graduatework;
-//
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.web.client.TestRestTemplate;
-//import org.springframework.boot.test.web.server.LocalServerPort;
-//import ru.work.graduatework.controller.AdsController;
-//import ru.work.graduatework.dto.AdCommentDto;
-//import ru.work.graduatework.dto.CreateAdDto;
-//
-//
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//public class AdsControllerTest {
-//    @LocalServerPort
-//    private int port;
-//
-//    @Autowired
-//    private AdsController adsController;
-//    @Autowired
-//    private TestRestTemplate restTemplate;
-//
-//    @Test
-//    public void contextLoads() {
-//        Assertions.assertThat(adsController).isNotNull();
-//    }
-//
-//    @Test
-//    public void getAllAdsTest() {
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ads", String.class))
-//                .isNotEmpty();
-//    }
-//
-//    @Test
-//    public void getCommentsTest() {
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ads" + "/{ad_pk}/comments", String.class))
-//                .isNotEmpty();
-//    }
-//
-////    @Test
-////    public void addCommentsTest() {
-////    }
-//
-//    @Test
-//    public void getFullAdTest() {
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ads" + "/{id}", String.class))
-//                .isNotEmpty();
-//    }
-//
-//    @Test
-//    public void updateAdsTest() {
-//        CreateAdDto createAdsDto = new CreateAdDto();
-//        createAdsDto.setTitle("title");
-//
-//        Assertions
-//                .assertThat(this.restTemplate.patchForObject("http://localhost:" + port + "/ads" + "/{id}", createAdsDto, String.class))
-//                .isNotNull();
-//    }
-//
-//    @Test
-//    public void getCommentsIdTest() {
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ads" + "/{ad_pk}/comments/{id}", String.class))
-//                .isNotEmpty();
-//    }
-//
-//    @Test
-//    public void deleteCommentsIdTest() {
-//        AdCommentDto adsCommentDto = new AdCommentDto(1, "createdAt", "text");
-//        this.restTemplate.delete("http://localhost:" + port + "/ads" + "/{ad_pk}/comments/{id}" + adsCommentDto.getPk());
-//    }
-//
-//    @Test
-//    public void updateCommentsIdTest() {
-//        AdCommentDto adsCommentDto = new AdCommentDto(1, "createdAt", "text");
-//
-//        Assertions
-//                .assertThat(this.restTemplate.patchForObject("http://localhost:" + port + "/ads" + "/{ad_pk}/comments/{id}", adsCommentDto, String.class))
-//                .isNotNull();
-//    }
-//
-//    @Test
-//    public void getAdsMeTest() {
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ads" + "/me", String.class))
-//                .isNotEmpty();
-//    }
-//
-//
-//}
+package ru.work.graduatework.controllerTest;
+
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import ru.work.graduatework.controller.AdsController;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+class AdsControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    AdsController adsController;
+
+    @Test
+    void contextLoads() {
+        Assertions.assertThat(adsController).isNotNull();
+    }
+
+    @Test
+    void getAllAds() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/ads"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count").value(0))
+                .andExpect(jsonPath("$.result").isEmpty());
+    }
+
+    @Test
+    void getAdsMe() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/ads/me"))
+                .andDo(print())
+                .andExpect(jsonPath("$.count").value(0))
+                .andExpect(jsonPath("$.results").isEmpty());
+    }
+}
