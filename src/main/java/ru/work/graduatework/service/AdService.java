@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -62,7 +61,7 @@ public class AdService {
     @SneakyThrows
     public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage, String Email) {
         logger.info("Current Method is - service AddAds");
-        Users user = userRepository.findByEmail(Email).orElseThrow();
+        User user = userRepository.findByEmail(Email).orElseThrow();
         Ad ad = adMapper.toEntity(createAdDto);
         ad.setAuthor(user);
         ad.setImage(imageService.uploadImage(adsImage));
@@ -93,7 +92,7 @@ public class AdService {
 
     // Uses method - getAdsMe    controller - AdsController
     public Collection<Ad> getAdsMe(String Email) {
-        Users user = userRepository.findByEmail(Email).orElseThrow();
+        User user = userRepository.findByEmail(Email).orElseThrow();
         return adRepository.findAllByAuthorId(user.getId());
     }
 

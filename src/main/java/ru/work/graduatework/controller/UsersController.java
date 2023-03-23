@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
@@ -60,7 +60,7 @@ public class UsersController {
               description = "OK",
               content = @Content(
                   mediaType = MediaType.ALL_VALUE,
-                  schema = @Schema(implementation = Users.class)
+                  schema = @Schema(implementation = User.class)
               )),
           @ApiResponse(
               responseCode = "401",
@@ -89,7 +89,7 @@ public class UsersController {
   @Operation(tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-    Users user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
     return ResponseEntity.ok(userMapper.toCreateUserDto(user));
   }
 
@@ -100,7 +100,7 @@ public class UsersController {
               description = "OK",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = Users.class) // пользователи - нужен пароль
+                  schema = @Schema(implementation = User.class) // пользователи - нужен пароль
               )),
           @ApiResponse(
               responseCode = "401",

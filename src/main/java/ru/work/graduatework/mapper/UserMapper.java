@@ -4,17 +4,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import ru.work.graduatework.Entity.Image;
-import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.UserDto;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends MapperScheme<UserDto, Users> {
+public interface UserMapper extends MapperScheme<UserDto, User> {
 
-  CreateUserDto toCreateUserDto(Users entity);
+  CreateUserDto toCreateUserDto(User entity);
 
-  Users createUserDtoToEntity(CreateUserDto dto);
+  User createUserDtoToEntity(CreateUserDto dto);
 
 
   @Mapping(target = "id", ignore = true)
@@ -24,16 +24,16 @@ public interface UserMapper extends MapperScheme<UserDto, Users> {
   @Mapping(target = "regDate", ignore = true)
   @Mapping(target = "image", ignore = true)
   @Mapping(target = "role", defaultValue = "USER")
-  Users toEntity(RegisterReqDto dto);
+  User toEntity(RegisterReqDto dto);
 
 
   @Mapping(target = "password", ignore = true)
   @Mapping(target = "image", ignore = true)
   @Mapping(target = "role", ignore = true)
-  Users toEntity(UserDto dto);
+  User toEntity(UserDto dto);
 
   @Mapping(target = "image", source = "image", qualifiedByName = "imageMapping")
-  UserDto toDto(Users entity);
+  UserDto toDto(User entity);
 
   @Named("imageMapping")
   default String imageMapping(Image image) {
