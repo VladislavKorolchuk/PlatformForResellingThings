@@ -30,14 +30,14 @@ public class AuthController {
     private final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final AuthService authService;
 
-    @Operation(summary = "login", operationId = "login",
+    @Operation(summary = "User authorization", operationId = "login",
             responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.ALL_VALUE, schema = @Schema(implementation = Object.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {}),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Authorization")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
+    public ResponseEntity<?> login(@RequestBody LoginReqDto req) throws Exception {
         logger.info("Class AuthController, current method is - login");
         if (authService.login(req.getUsername(), req.getPassword())) {
             return ResponseEntity.ok().build();
@@ -47,7 +47,7 @@ public class AuthController {
 
     }
 
-    @Operation(summary = "register", operationId = "register",
+    @Operation(summary = "Registering a new user", operationId = "register",
             responses = {@ApiResponse(responseCode = "404", description = "Not Found"),
                     @ApiResponse(responseCode = "201",
                             description = "Created", content = {}),
