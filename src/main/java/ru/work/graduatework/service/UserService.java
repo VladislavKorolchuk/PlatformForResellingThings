@@ -151,7 +151,6 @@ public class UserService {
 
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ValidationException(String.format("User \"%s\" already exists", user.getEmail()));
-
         }
         if (user.getRole() == null) {
             user.setRole(USER);
