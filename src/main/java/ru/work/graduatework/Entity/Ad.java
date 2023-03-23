@@ -10,11 +10,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="ad")
 public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String title;
     private String description;
     private int price;                      // Price
@@ -24,7 +25,7 @@ public class Ad {
     private User author;
 
     @OneToOne()
-    @JoinColumn()
+    @JoinColumn(name ="image_id")
     private Image image;
 
 }
