@@ -8,9 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface AdRepository extends JpaRepository<Ad, Integer> {
-
-    List<Ad> findByTitleIgnoreCase(String title);
+public interface AdRepository extends JpaRepository<Ad, Long> {
 
     Collection<Ad> findAllByAuthorId(long id);
 

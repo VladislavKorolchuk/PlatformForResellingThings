@@ -61,7 +61,7 @@ public class UserService {
      *                    <br> Is used entity User {@link User} </br>
      *                    <br> Is used repository {@link UserRepository#save(Object)} </br>
      * @return {@link User}
-     * Uses method {@link  UsersController#getUsers()}      UsersController#UsersController SeatsAvailability
+     * Uses method {@link  ru.work.graduatework.controller.UsersController#getUser(long)}      UsersController#UsersController SeatsAvailability
      * @return {@link User}
      * @author Korolchuk Vladislav
      */
