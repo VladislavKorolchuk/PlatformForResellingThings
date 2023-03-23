@@ -119,10 +119,8 @@ public class UsersController {
   @PostMapping("/set_password")
   public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
     logger.info("Current method is - setPassword");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword(),
-        authentication.getName());
-    return ResponseEntity.ok(newPasswordDto);
+      userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword());
+      return ResponseEntity.ok(newPasswordDto);
   }
 
   @Operation(summary = "Updating the user image",
