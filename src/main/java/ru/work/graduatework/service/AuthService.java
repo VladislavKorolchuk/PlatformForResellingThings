@@ -21,10 +21,10 @@ public class AuthService {
     private final UserMapper userMapper;
     private final UserService userService;
 
-    public boolean login(String userName, String password) {
+    public boolean login(String userName, String password) throws Exception {
 
         logger.info("Current method is - login");
-        User user = userRepository.findByEmail(userName).orElseThrow();
+        User user = userRepository.findByEmail(userName).orElseThrow(() -> new Exception(userName + " A user with this name is not registered"));
         logger.info("Current method is - login");
         return encoder.matches(password, user.getPassword());
 

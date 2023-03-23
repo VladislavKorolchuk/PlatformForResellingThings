@@ -109,7 +109,7 @@ public class ImageService {
      * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public Image getImageById(int id) {
+    public Image getImageById(long id) {
 
         return imageRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
