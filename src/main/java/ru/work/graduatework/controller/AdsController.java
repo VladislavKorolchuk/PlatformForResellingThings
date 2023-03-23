@@ -39,7 +39,7 @@ public class AdsController {
     private final AdRepository adRepository;
     private final AdService adservice;
     private final AdMapper adMapper;
-    private CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
     private final ImageService imageService;
 
 
@@ -69,7 +69,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-   // @SneakyThrows
+    // @SneakyThrows
     public ResponseEntity<AdDto> addAds(@RequestPart("image") MultipartFile adsImage,
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
@@ -91,7 +91,7 @@ public class AdsController {
         return ResponseWrapper.of(commentMapper.toDto(adservice.getComments(adPk)));
     }
 
-    @Operation(summary = "Adding a comment", operationId = "addComments",
+    @Operation(summary = "Get a comment by ID", operationId = "getFullAd",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -203,7 +203,7 @@ public class AdsController {
         return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
     }
 
-    @Operation(summary = "Changing the image of the ad by ID",tags = "ADS")
+    @Operation(summary = "Changing the image of the ad by ID", tags = "ADS")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
 
@@ -218,5 +218,14 @@ public class AdsController {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
     }
 
-}
+    @Operation(summary = "Adding a new comment", tags = "ADS")
+    @PostMapping("/{ad_pk}/comments")
+    public ResponseEntity<AdCommentDto> addAdsComment(@PathVariable("ad_pk") int adPk,
+                                                      @RequestBody @Valid AdCommentDto adCommentDto) throws Exception {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(commentMapper.toDto (adservice.addAdsComment(adPk, adCommentDto, authentication.getName())));
+
+    }
+
+}
