@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import liquibase.pro.packaged.P;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,7 +35,6 @@ import java.util.Collection;
 public class AdsController {
 
     private final Logger logger = LoggerFactory.getLogger(AdsController.class);
-    private final AdRepository adRepository;
     private final AdService adservice;
     private final AdMapper adMapper;
     private final CommentMapper commentMapper;
@@ -224,7 +222,7 @@ public class AdsController {
                                                       @RequestBody @Valid AdCommentDto adCommentDto) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(commentMapper.toDto (adservice.addAdsComment(adPk, adCommentDto, authentication.getName())));
+        return ResponseEntity.ok(commentMapper.toDto(adservice.addAdsComment(adPk, adCommentDto, authentication.getName())));
 
     }
 
