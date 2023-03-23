@@ -16,9 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.work.graduatework.dto.Role;
 
-/**
- * Entity User
- */
 @Entity  // A special class whose objects are saved to the database
 @Getter
 @Setter
