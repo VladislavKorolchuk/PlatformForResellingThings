@@ -10,9 +10,9 @@
 //import ru.work.graduatework.Entity.Image;
 //import ru.work.graduatework.Entity.Users;
 //import ru.work.graduatework.repository.ImageRepository;
-//import ru.work.graduatework.repository.UsersRepository;
+//import ru.work.graduatework.repository.UserRepository;
 //import ru.work.graduatework.service.ImageService;
-//import ru.work.graduatework.service.UsersService;
+//import ru.work.graduatework.service.UserService;
 //
 //import java.util.Collection;
 //import java.util.Optional;
@@ -20,11 +20,11 @@
 //@SpringBootTest
 //public class UserServiceTest {
 //    @Autowired
-//    UsersRepository usersRepository;
+//    UserRepository usersRepository;
 //    @Autowired
 //    ImageRepository imageRepository;
 //    @Autowired
-//    UsersService usersService;
+//    UserService usersService;
 //    @Autowired
 //    ImageService imageService;
 //

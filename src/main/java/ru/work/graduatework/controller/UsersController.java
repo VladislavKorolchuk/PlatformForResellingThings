@@ -31,7 +31,7 @@ import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.service.ImageService;
-import ru.work.graduatework.service.UsersService;
+import ru.work.graduatework.service.UserService;
 
 
 @RestController
@@ -41,15 +41,16 @@ import ru.work.graduatework.service.UsersService;
 public class UsersController {
 
   private final Logger logger = LoggerFactory.getLogger(UsersController.class);
-  private final UsersService usersService;
+  private final UserService userService;
   private final ImageService imageService;
   private final UserMapper userMapper;
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
-    return ResponseEntity.ok(userMapper.toDto(usersService.getUserById(id)));
+    return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
   }
 
   @Operation(summary = "Получить пользователя",
@@ -81,13 +82,14 @@ public class UsersController {
   public UserDto getUsers() {
     logger.info("Class UsersController, current method is - getUsers");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return userMapper.toDto(usersService.getUsers(authentication.getName()));
+    return userMapper.toDto(userService.getUsers(authentication.getName()));
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-    Users user = usersService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+    Users user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
     return ResponseEntity.ok(userMapper.toCreateUserDto(user));
   }
 
@@ -118,7 +120,7 @@ public class UsersController {
   public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
     logger.info("Current method is - setPassword");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    usersService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword(),
+    userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword(),
         authentication.getName());
     return ResponseEntity.ok(newPasswordDto);
   }
@@ -140,28 +142,30 @@ public class UsersController {
   public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
     logger.info("Current method is - updateUserImage");
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ResponseEntity.ok().body(usersService.updateUserImage(image, authentication.getName()));
+    return ResponseEntity.ok().body(userService.updateUserImage(image, authentication.getName()));
   }
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return ResponseEntity.ok(
-        userMapper.toDto(usersService.updateUser(userDto, authentication.getName())));
+        userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
+  @Operation(tags = "USER")
   @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
-    UserDto userDto = userMapper.toDto(usersService.updateRole(id, role));
+    UserDto userDto = userMapper.toDto(userService.updateRole(id, role));
     return ResponseEntity.ok(userDto);
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-
+  @Operation(tags = "USER")
   @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
   public ResponseEntity<byte[]> getImageById(@PathVariable("id") int id) {
     return ResponseEntity.ok(imageService.getImageById(id).getData());

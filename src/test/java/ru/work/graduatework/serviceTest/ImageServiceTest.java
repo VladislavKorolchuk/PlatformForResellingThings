@@ -8,11 +8,11 @@
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.mock.web.MockMultipartFile;
-//import ru.work.graduatework.Entity.Ads;
+//import ru.work.graduatework.Entity.Ad;
 //import ru.work.graduatework.Entity.Image;
-//import ru.work.graduatework.repository.AdsRepository;
+//import ru.work.graduatework.repository.AdRepository;
 //import ru.work.graduatework.repository.ImageRepository;
-//import ru.work.graduatework.repository.UsersRepository;
+//import ru.work.graduatework.repository.UserRepository;
 //import ru.work.graduatework.service.ImageService;
 //
 //import java.io.IOException;
@@ -22,11 +22,11 @@
 //@SpringBootTest
 //public class ImageServiceTest {
 //    @Autowired
-//    AdsRepository adsRepository;
+//    AdRepository adsRepository;
 //    @Autowired
 //    ImageRepository imageRepository;
 //    @Autowired
-//    UsersRepository usersRepository;
+//    UserRepository usersRepository;
 //    @Autowired
 //    ImageService imageService;
 //    @Value("${path.to.image.folder}")
@@ -47,7 +47,7 @@
 //
 //    @Test
 //    public void addAdsImageTest() throws IOException {
-//        Ads ads = new Ads();
+//        Ad ads = new Ad();
 //        ads.setImage(image);
 //        adsRepository.save(ads);
 //

@@ -1,27 +1,25 @@
 package ru.work.graduatework.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Table(name = "Ads")
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 @Getter
 @Setter
-public class Ads {
+public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "primary_key")
     private int id;
     private String title;
     private String description;
     private int price;                      // Price
 
-    @ManyToOne(fetch = FetchType.LAZY)          // Many-to-one communication
+    @ManyToOne(fetch = FetchType.EAGER)          // Many-to-one communication
     @JoinColumn(name = "author_id")
     private Users author;
 

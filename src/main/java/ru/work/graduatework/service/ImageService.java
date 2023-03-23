@@ -3,25 +3,19 @@ package ru.work.graduatework.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import ru.work.graduatework.Entity.Ads;
+import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.repository.AdsRepository;
+import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.ImageRepository;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Objects;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Transactional
 @RequiredArgsConstructor
@@ -29,13 +23,13 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class ImageService {
 
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
-    private final AdsRepository adsRepository;
+    private final AdRepository adRepository;
     private final ImageRepository imageRepository;
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
 
-    public Image addAdsImage(Ads ads, MultipartFile imageFile) throws IOException {
+    public Image addAdsImage(Ad ad, MultipartFile imageFile) throws IOException {
         logger.info("Current Method is - addAdsImage ");
-//        Path path = Path.of(imageDir, ads.getId() + "." + getExtensions(
+//        Path path = Path.of(imageDir, ad.getId() + "." + getExtensions(
 //                Objects.requireNonNull(imageFile.getOriginalFilename())));
 //        if (!Files.exists(path.getParent())) {
 //            Files.createDirectory(path.getParent());
@@ -89,8 +83,14 @@ public class ImageService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-
-    // Uses method - updateUserImage    service - UsersService
+    /**
+     * @param 'MultipartFile multipartFile' Input parameter
+     *                       <br> Is used entity Users {@link Image} </br
+     *                       <br> Is used repository {@link ImageRepository#save(Object)} </br>
+     *                       Uses method {@link  UserService#updateUserImage(MultipartFile, String)}    getImageById(int)}
+     * @return {@link ru.work.graduatework.Entity.Image}
+     * @author Korolchuk Vladislav
+     */
     public Image uploadImage(MultipartFile multipartFile) throws IOException {
         Image image = new Image();
         image.setData(multipartFile.getBytes());
@@ -100,13 +100,19 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
-    // Uses method - getImageById    controller - UserController
-    // Uses method - getAdsImage    controller - AdsController
-    public Image getImageById (int id) {
+    /**
+     * @param 'id image' Input parameter
+     *            <br> Is used entity Users {@link Users} </br
+     *            <br> Is used repository {@link UserRepository#save(Object)} </br>
+     *            Uses method {@link  ru.work.graduatework.controller.UsersController#getImageById(int)}
+     *            Uses method {@link  ru.work.graduatework.controller.AdsController#getAdsImage(int, MultipartFile)}
+     * @return {@link ru.work.graduatework.Entity.Users}
+     * @author Korolchuk Vladislav
+     */
+    public Image getImageById(int id) {
+
         return imageRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
     }
-
-
-
 
 }

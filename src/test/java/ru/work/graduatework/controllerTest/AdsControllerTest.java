@@ -7,8 +7,8 @@
 //import org.springframework.boot.test.web.client.TestRestTemplate;
 //import org.springframework.boot.test.web.server.LocalServerPort;
 //import ru.work.graduatework.controller.AdsController;
-//import ru.work.graduatework.dto.AdsCommentDto;
-//import ru.work.graduatework.dto.CreateAdsDto;
+//import ru.work.graduatework.dto.AdCommentDto;
+//import ru.work.graduatework.dto.CreateAdDto;
 //
 //
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -53,7 +53,7 @@
 //
 //    @Test
 //    public void updateAdsTest() {
-//        CreateAdsDto createAdsDto = new CreateAdsDto();
+//        CreateAdDto createAdsDto = new CreateAdDto();
 //        createAdsDto.setTitle("title");
 //
 //        Assertions
@@ -70,13 +70,13 @@
 //
 //    @Test
 //    public void deleteCommentsIdTest() {
-//        AdsCommentDto adsCommentDto = new AdsCommentDto(1, "createdAt", "text");
+//        AdCommentDto adsCommentDto = new AdCommentDto(1, "createdAt", "text");
 //        this.restTemplate.delete("http://localhost:" + port + "/ads" + "/{ad_pk}/comments/{id}" + adsCommentDto.getPk());
 //    }
 //
 //    @Test
 //    public void updateCommentsIdTest() {
-//        AdsCommentDto adsCommentDto = new AdsCommentDto(1, "createdAt", "text");
+//        AdCommentDto adsCommentDto = new AdCommentDto(1, "createdAt", "text");
 //
 //        Assertions
 //                .assertThat(this.restTemplate.patchForObject("http://localhost:" + port + "/ads" + "/{ad_pk}/comments/{id}", adsCommentDto, String.class))

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.repository.UsersRepository;
+import ru.work.graduatework.repository.UserRepository;
 
 import javax.transaction.Transactional;
 
@@ -20,10 +20,10 @@ import javax.transaction.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService,
         UserDetailsPasswordService {
 
-    private final UsersRepository usersRepository;
+    private final UserRepository usersRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UsersRepository usersRepository) {
+    public UserDetailsServiceImpl(UserRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 

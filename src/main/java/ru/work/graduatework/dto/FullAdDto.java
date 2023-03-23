@@ -1,12 +1,9 @@
 package ru.work.graduatework.dto;
 
 import lombok.Data;
-import ru.work.graduatework.Entity.Image;
-
-import java.util.List;
 
 @Data
-public class FullAdsDto {
+public class FullAdDto {
 
     private String image;
     private String authorLastName;
