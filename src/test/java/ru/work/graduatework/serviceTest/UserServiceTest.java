@@ -8,11 +8,11 @@
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.mock.web.MockMultipartFile;
 //import ru.work.graduatework.Entity.Image;
-//import ru.work.graduatework.Entity.Users;
+//import ru.work.graduatework.Entity.User;
 //import ru.work.graduatework.repository.ImageRepository;
-//import ru.work.graduatework.repository.UsersRepository;
+//import ru.work.graduatework.repository.UserRepository;
 //import ru.work.graduatework.service.ImageService;
-//import ru.work.graduatework.service.UsersService;
+//import ru.work.graduatework.service.UserService;
 //
 //import java.util.Collection;
 //import java.util.Optional;
@@ -20,15 +20,15 @@
 //@SpringBootTest
 //public class UserServiceTest {
 //    @Autowired
-//    UsersRepository usersRepository;
+//    UserRepository usersRepository;
 //    @Autowired
 //    ImageRepository imageRepository;
 //    @Autowired
-//    UsersService usersService;
+//    UserService usersService;
 //    @Autowired
 //    ImageService imageService;
 //
-//    Users users = new Users();
+//    User users = new User();
 //    String email = "email";
 //
 //
@@ -48,8 +48,8 @@
 //
 //    @Test
 //    public void getUsersTest() {
-//        Collection<Users> expected = usersRepository.findAll();
-//        Users actual = usersService.getUsers();
+//        Collection<User> expected = usersRepository.findAll();
+//        User actual = usersService.getUsers();
 //
 //        Assertions
 //                .assertThat(expected).hasSize(1);
@@ -59,8 +59,8 @@
 //
 //    @Test
 //    public void getUserByEmailTest() {
-//        Optional<Users> expected = usersRepository.findByEmail(email);
-//        Users actual = usersService.getUser(email);
+//        Optional<User> expected = usersRepository.findByEmail(email);
+//        User actual = usersService.getUser(email);
 //
 //        Assertions
 //                .assertThat(expected).isEqualTo(actual);
@@ -87,8 +87,8 @@
 //
 //    @Test
 //    public void getUserByIdTest() {
-//        Collection<Users> expected = usersRepository.findAll();
-//        Users actual = usersService.getUserById(users.getId());
+//        Collection<User> expected = usersRepository.findAll();
+//        User actual = usersService.getUserById(users.getId());
 //
 //        Assertions
 //                .assertThat(expected).hasSize(1);

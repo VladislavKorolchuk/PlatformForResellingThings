@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import ru.work.graduatework.service.AuthService;
 
 import static ru.work.graduatework.dto.Role.USER;
 
-@Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +35,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Authorization")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDto req) {
         logger.info("Class AuthController, current method is - login");
@@ -46,6 +44,7 @@ public class AuthController {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+
     }
 
     @Operation(summary = "register", operationId = "register",
@@ -53,7 +52,7 @@ public class AuthController {
                     @ApiResponse(responseCode = "201",
                             description = "Created", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Авторизация")
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {})}, tags = "Authorization")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReqDto req) {
         logger.info("Class AuthController, current method is - register");
@@ -63,6 +62,7 @@ public class AuthController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
     }
 
 }

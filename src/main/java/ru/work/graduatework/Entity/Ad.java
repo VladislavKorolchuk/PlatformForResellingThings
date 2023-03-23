@@ -1,30 +1,31 @@
 package ru.work.graduatework.Entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Ads")
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 @Getter
 @Setter
+@Table(name="ad")
 public class Ad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "primary_key")
     private long id;
     private String title;
     private String description;
     private int price;                      // Price
 
-    @ManyToOne(fetch = FetchType.LAZY)          // Many-to-one communication
+    @ManyToOne(fetch = FetchType.EAGER)          // Many-to-one communication
     @JoinColumn(name = "author_id")
-    private Users author;
+    private User author;
 
     @OneToOne()
-    @JoinColumn()
+    @JoinColumn(name ="image_id")
     private Image image;
 
 }

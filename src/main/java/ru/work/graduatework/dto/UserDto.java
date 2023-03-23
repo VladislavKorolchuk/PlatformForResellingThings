@@ -21,7 +21,7 @@ public class UserDto {
 
     private String image;
 
-    // private Collection<Ads> adsCollection;
+    // private Collection<Ad> adsCollection;
 
     public UserDto() {
 
@@ -29,7 +29,7 @@ public class UserDto {
 
     public UserDto(int id, String firstName, String lastName, String email, String phone,
                    String city, String regDate, String image) {
-        //, Collection<Ads> adsCollection
+        //, Collection<Ad> adsCollection
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
