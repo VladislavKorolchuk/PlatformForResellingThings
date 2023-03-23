@@ -12,17 +12,21 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name="image")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Image_id")
+    @Column(name = "id")
     private long id;                        // ID
 
+    @Column(name = "file_size")
     private Long fileSize;
 
     //private String filePath;
+    @Column(name = "media_type")
     private String mediaType;
 
+    @Column(name = "data_image")
     @Lob
     @Type(type = "binary")
     private byte[] data;
