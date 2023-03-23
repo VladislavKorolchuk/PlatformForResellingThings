@@ -1,6 +1,7 @@
 package ru.work.graduatework.service;
 
 import com.sun.jdi.ObjectCollectedException;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +12,18 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.*;
 import ru.work.graduatework.dto.*;
 import ru.work.graduatework.mapper.AdMapper;
+import ru.work.graduatework.mapper.CommentMapper;
 import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.List;
 
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class AdService {
 
@@ -33,16 +36,29 @@ public class AdService {
     private final ImageService imageService;
     private final AdMapper adMapper;
 
-    public AdService(AdRepository adRepository, CommentRepository commentRepository,
-                     UserRepository userRepository, ImageService imageService, ImageRepository imageRepository, AdMapper adMapper) {
-        this.adRepository = adRepository;
-        this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
-        this.imageService = imageService;
-        this.imageRepository = imageRepository;
-        this.adMapper = adMapper;
-    }
+    private final CommentMapper commentMapper;
 
+
+//    public AdService(AdRepository adRepository, CommentRepository commentRepository,
+//                     UserRepository userRepository, ImageService imageService, ImageRepository imageRepository, AdMapper adMapper) {
+//        this.adRepository = adRepository;
+//        this.commentRepository = commentRepository;
+//        this.userRepository = userRepository;
+//        this.imageService = imageService;
+//        this.imageRepository = imageRepository;
+//        this.adMapper = adMapper;
+//    }
+
+
+    /**
+     * @param 'emailUser' Input parameter
+     *                    <br> Is used entity User {@link User} </br>
+     *                    <br> Is used repository {@link UserRepository#save(Object)} </br>
+     * @return {@link User}
+    //* Uses method {@link  ru.work.graduatework.controller#}
+     * @return {@link User}
+     * @author Korolchuk Vladislav
+     */
     // Uses method - getAllAds    controller - AdsController
     public Collection<Ad> getAllAds() {
         return adRepository.findAll();
@@ -69,12 +85,12 @@ public class AdService {
     }
 
 
-    public FullAdDto getFullAd(int id) {
+    public FullAdDto getFullAd(long id) {
         return adMapper.toFullAdsDto(adRepository.findById(id).orElseThrow());
     }
 
 
-    public void removeAds(int id) {
+    public void removeAds(long id) {
         Ad dbAd = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
         Image image = dbAd.getImage();
         this.imageRepository.delete(image);
@@ -102,7 +118,7 @@ public class AdService {
     }
 
 
-    public AdCommentDto getCommentsId(int ad_pk, int id) {
+    public AdCommentDto getCommentsId(long ad_pk, int id) {
         Ad ad = adRepository.findById(ad_pk).orElseThrow();
         return new AdCommentDto(0, null, null);
     }
@@ -120,7 +136,7 @@ public class AdService {
     }
 
     // Uses method - updateAds
-    public Ad getAdsById(int asId) {
+    public Ad getAdsById(long asId) {
         return adRepository.findById(asId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "The ad was not found"));
@@ -171,6 +187,22 @@ public class AdService {
         adRepository.delete(ad);
         return ad;
     }
+
+    // Uses method - addAdsComment    controller - AdsController
+    public Comment addAdsComment(int adPk, AdCommentDto adCommentDto, String Email) throws Exception {
+
+        User user = userRepository.findByEmail(Email).orElseThrow(()-> new Exception("User not found"));
+        Comment comment = commentMapper.toEntity(adCommentDto);
+        comment.setAuthor(user);
+        //comment.setAd(getAdsById(adPk));
+
+        comment.setAd(adRepository.findById(comment.getId()).get());
+        comment.setCreatedAt(String.valueOf(Instant.now()));
+        return commentRepository.save(comment);
+
+    }
+
+
 
 
 }
