@@ -146,8 +146,14 @@ public class UsersController {
   }
 
 
-  //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Updating the user",tags = "USER")
+  @Operation(summary = "Updating the user",responses = {@ApiResponse
+          (responseCode = "200",
+                  description = "OK"),
+          @ApiResponse(
+                  responseCode = "404",
+                  description = "Not Found"
+          )
+  },tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -155,8 +161,16 @@ public class UsersController {
         userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
   }
 
-  //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Updating user the Role ",tags = "USER")
+  @Operation(summary = "Updating user the Role ",operationId = "UpdateUsersRole", responses = {
+          @ApiResponse(
+                  responseCode = "200",
+                  description = "Role is changed"
+          ),
+          @ApiResponse(
+                  responseCode = "404",
+                  description = "Not Found"
+          )
+  },tags = "USER")
   @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
@@ -164,8 +178,16 @@ public class UsersController {
     return ResponseEntity.ok(userDto);
   }
 
-  //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Updating image of ID ",tags = "USER")
+
+  @Operation(summary = "Updating image of ID ",operationId = "UpdateImageById" ,responses = {
+          @ApiResponse(
+                  responseCode = "200",
+                  description = "Image is updated"
+          ),
+          @ApiResponse(
+                  responseCode = "404",
+                  description = "Not Found"
+          )},tags = "USER")
   @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
   public ResponseEntity<byte[]> getImageById(@PathVariable("id") Long id) {
     return ResponseEntity.ok(imageService.getImageById(id).getData());

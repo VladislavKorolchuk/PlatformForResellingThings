@@ -38,11 +38,12 @@ class AdsControllerTest {
                 .andExpect(jsonPath("$.result").isEmpty());
     }
 
+    // @TODO: Проверить что не так
     @Test
     void getAdsMe() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/ads/me"))
-                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.count").value(0))
-                .andExpect(jsonPath("$.results").isEmpty());
+                .andExpect(jsonPath("$.result").isEmpty());
     }
 }
