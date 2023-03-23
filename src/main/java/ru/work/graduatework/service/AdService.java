@@ -45,7 +45,7 @@ AdService {
         this.adMapper = adMapper;
     }
 
-    // Uses method - getAllAds    controller - AdsController
+    // Uses method - getAllAds    controller - AdController
     public Collection<Ad> getAllAds() {
         return adRepository.findAll();
     }
@@ -63,7 +63,7 @@ AdService {
     @SneakyThrows
     public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage, String Email) {
         logger.info("Current Method is - service AddAds");
-        Users user = userRepository.findByEmail(Email).orElseThrow();
+        User user = userRepository.findByEmail(Email).orElseThrow();
         Ad ad = adMapper.toEntity(createAdDto);
         ad.setAuthor(user);
         ad.setImage(imageService.uploadImage(adsImage));
@@ -72,14 +72,14 @@ AdService {
 
 
     public FullAdDto getFullAd(int id) {
-        Users users = userRepository.findByEmail((SecurityContextHolder
+        User user = userRepository.findByEmail((SecurityContextHolder
                 .getContext().getAuthentication().getName())).orElseThrow();
         //  Ad ads = adsRepository.findById(id).orElseThrow();
         FullAdDto fullAdDto = new FullAdDto();
-        fullAdDto.setAuthorFirstName(users.getFirstName());
-        fullAdDto.setAuthorLastName(users.getLastName());
+        fullAdDto.setAuthorFirstName(user.getFirstName());
+        fullAdDto.setAuthorLastName(user.getLastName());
         //  fullAdDto.setDescription(ads.getDescription());
-        fullAdDto.setEmail(users.getEmail());
+        fullAdDto.setEmail(user.getEmail());
         //  fullAdDto.setPrice(ads.getPrice());
         //  fullAdDto.setTitle(ads.getTitle());
         return fullAdDto;
@@ -93,7 +93,7 @@ AdService {
         this.adRepository.delete(dbAd);
     }
 
-    // Uses method - updateAds    controller - AdsController
+    // Uses method - updateAds    controller - AdController
     public Ad updateAds(int adId, CreateAdDto createAdDto) {
         Ad ad = getAdsById(adId);
         ad.setTitle(createAdDto.getTitle());
@@ -102,13 +102,13 @@ AdService {
         return adRepository.save(ad);
     }
 
-    // Uses method - getAdsMe    controller - AdsController
+    // Uses method - getAdsMe    controller - AdController
     public Collection<Ad> getAdsMe(String Email) {
-        Users user = userRepository.findByEmail(Email).orElseThrow();
+        User user = userRepository.findByEmail(Email).orElseThrow();
         return adRepository.findAllByAuthorId(user.getId());
     }
 
-    // Uses method - getComments    controller - AdsController
+    // Uses method - getComments    controller - AdController
     public Collection<Comment> getComments(long adPk) {
         return commentRepository.findAllByAdId(adPk);
     }
@@ -122,7 +122,7 @@ AdService {
     public void deleteCommentsId() {
     }
 
-    // Uses method - updateComments    controller - AdsController
+    // Uses method - updateComments    controller - AdController
     public Comment updateComments(int adPk, int id, Comment commentUpdated) {
 
         Comment comment = getAdsComment(adPk, id);
@@ -148,7 +148,7 @@ AdService {
 
     }
 
-    // Uses method - getAdsComment    controller - AdsController
+    // Uses method - getAdsComment    controller - AdController
     public Comment getAdsComment(long adPk, long id) {
 
         Comment comment = commentRepository.findByIdAndAdId(id, adPk)
@@ -159,14 +159,14 @@ AdService {
 
     }
 
-    // Uses method - deleteAdsComment    controller - AdsController
+    // Uses method - deleteAdsComment    controller - AdController
     public Comment deleteAdsComment(long adPk, long id) {
         Comment comment = getAdsComment(adPk, id);
         commentRepository.delete(comment);
         return comment;
     }
 
-    // Uses method - updateAdsImage    controller - AdsController
+    // Uses method - updateAdsImage    controller - AdController
     @SneakyThrows
     public void updateAdsImage (int id, MultipartFile image){
         Ad ad = getAdsById(id);
@@ -176,7 +176,7 @@ AdService {
     }
 
 
-    // Uses method - removeAds    controller - AdsController
+    // Uses method - removeAds    controller - AdController
     public Ad removeAdsById(int adId) {
         Ad ad = getAdsById(adId);
         commentRepository.deleteAdsCommentsByAdId(adId);

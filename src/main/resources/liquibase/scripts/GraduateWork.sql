@@ -9,7 +9,7 @@ create table image
     data       bytea
 );
 
-create table users
+create table user
 (
     id              bigint primary key,
     first_name      varchar(255),
@@ -29,7 +29,7 @@ create table ad
     title varchar(255),
     description varchar(255),
     price int,
-    author bigint references users(id),
+    author bigint references user(id),
     image bigint references image(id)
     );
 
@@ -38,7 +38,7 @@ create table comment
     id bigserial primary key,
     created_at varchar(255),
     text varchar(255),
-    author bigint references users(id),
+    author bigint references user(id),
     ad bigint references ad(id)
 );
 

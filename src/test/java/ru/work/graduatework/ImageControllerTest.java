@@ -7,7 +7,7 @@
 //import org.springframework.boot.test.web.client.TestRestTemplate;
 //import org.springframework.boot.test.web.server.LocalServerPort;
 //import org.springframework.mock.web.MockMultipartFile;
-//import ru.work.graduatework.controller.AdsController;
+//import ru.work.graduatework.controller.AdController;
 //import ru.work.graduatework.controller.ImageController;
 //
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

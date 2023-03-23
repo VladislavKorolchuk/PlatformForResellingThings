@@ -10,7 +10,7 @@
 //import ru.work.graduatework.Entity.Ad;
 //import ru.work.graduatework.Entity.Comment;
 //import ru.work.graduatework.Entity.Image;
-//import ru.work.graduatework.Entity.Users;
+//import ru.work.graduatework.Entity.User;
 //import ru.work.graduatework.dto.*;
 //import ru.work.graduatework.repository.AdRepository;
 //import ru.work.graduatework.repository.CommentRepository;
@@ -41,7 +41,7 @@
 //    @Autowired
 //    public ImageService imageService;
 //    Ad ads = new Ad();
-//    Users users = new Users();
+//    User users = new User();
 //    Integer author = 1;
 //    Integer pk = 1;
 //    Integer price = 1;

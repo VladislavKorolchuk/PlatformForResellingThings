@@ -6,7 +6,7 @@
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.boot.test.web.client.TestRestTemplate;
 //import org.springframework.boot.test.web.server.LocalServerPort;
-//import ru.work.graduatework.controller.AdsController;
+//import ru.work.graduatework.controller.AdController;
 //import ru.work.graduatework.dto.AdCommentDto;
 //import ru.work.graduatework.dto.CreateAdDto;
 //
@@ -17,7 +17,7 @@
 //    private int port;
 //
 //    @Autowired
-//    private AdsController adsController;
+//    private AdController adsController;
 //    @Autowired
 //    private TestRestTemplate restTemplate;
 //

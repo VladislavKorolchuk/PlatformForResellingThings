@@ -6,11 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.work.graduatework.Entity.Users;
-import ru.work.graduatework.dto.NewPasswordDto;
+import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
-import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.repository.UserRepository;
 
@@ -27,7 +25,7 @@ public class AuthService {
 
     /**
      * @param 'String userName, String password' - login and password
-     *                <br> Is used entity Users {@link Users} </br>
+     *                <br> Is used entity User {@link User} </br>
      *                <br> Is used repository {@link UserRepository#save(Object)} </br>
      *                <br>Uses method {@link  ru.work.graduatework.service.UserService#getUsers(String)} (NewPasswordDto)}  } </br>
      *                <br> Uses mapper {@link  ru.work.graduatework.mapper.UserMapper#toEntity(RegisterReqDto)} (NewPasswordDto)}  } </br>
@@ -40,7 +38,7 @@ public class AuthService {
         }
         logger.info("login - " + userName);
         logger.info("password - " + password);
-        Users user = userRepository.findByEmail(userName).orElseThrow();
+        User user = userRepository.findByEmail(userName).orElseThrow();
         if (encoder.matches(password, user.getPassword())) {
             logger.info("The user has been authorized");
             return true;
@@ -51,15 +49,15 @@ public class AuthService {
 
     /**
      * @param registerReqDto - contains registration data
-     *                       <br> Is used entity Users {@link Users} </br>
-     *                       Uses method {@link  ru.work.graduatework.service.UserService#createUser(Users)} (NewPasswordDto)}  }
+     *                       <br> Is used entity User {@link User} </br>
+     *                       Uses method {@link  ru.work.graduatework.service.UserService#createUser(User)} (NewPasswordDto)}  }
      *                       Uses mapper {@link  ru.work.graduatework.mapper.UserMapper#toEntity(RegisterReqDto)} (NewPasswordDto)}  }
      * @param role
      * @return boolean true - successful addition user/false - failed addition
      */
     public boolean register(RegisterReqDto registerReqDto, Role role) {
         logger.info("Current method is - register");
-        Users user = userMapper.toEntity(registerReqDto);
+        User user = userMapper.toEntity(registerReqDto);
         if (userService.createUser(user) == null) {
             return false;
         }

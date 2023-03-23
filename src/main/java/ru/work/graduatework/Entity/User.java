@@ -17,7 +17,7 @@ import lombok.Setter;
 import ru.work.graduatework.dto.Role;
 
 /**
- * Entity Users
+ * Entity User
  */
 @Entity  // A special class whose objects are saved to the database
 @Getter
@@ -25,7 +25,7 @@ import ru.work.graduatework.dto.Role;
 @NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
-public class Users {
+public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   // delegates the installation of the ID to the database level

@@ -27,17 +27,15 @@ import ru.work.graduatework.service.ImageService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @RestController()
 @RequiredArgsConstructor
 @CrossOrigin(value = "http://localhost:3000")
 @RequestMapping("/ads")
-public class AdsController {
+public class AdController {
 
-    private final Logger logger = LoggerFactory.getLogger(AdsController.class);
+    private final Logger logger = LoggerFactory.getLogger(AdController.class);
     private final AdRepository adRepository;
     private final AdService adservice;
     private final AdMapper adMapper;

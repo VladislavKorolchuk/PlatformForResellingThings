@@ -12,7 +12,7 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
   paths:
-  /users/set_password:
+  /user/set_password:
   post:
   tags:
   - Пользователи
@@ -192,7 +192,7 @@ description: Not Found
         '401':
           content: {}
           description: Unauthorized
-/users/me:
+/user/me:
 get:
 tags:
 - Пользователи
@@ -240,7 +240,7 @@ description: Forbidden
 content: {}
 '404':
 description: Not Found
-/users/me/image:
+/user/me/image:
 patch:
 tags:
 - Пользователи

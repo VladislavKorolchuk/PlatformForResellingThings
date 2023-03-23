@@ -21,7 +21,7 @@ public class Ad {
 
     @ManyToOne(fetch = FetchType.LAZY)          // Many-to-one communication
     @JoinColumn(name = "author_id")
-    private Users author;
+    private User author;
 
     @OneToOne()
     @JoinColumn()

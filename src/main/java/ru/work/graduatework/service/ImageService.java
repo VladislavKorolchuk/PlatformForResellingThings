@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.Entity.Image;
-import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.Entity.User;
+import ru.work.graduatework.controller.AdController;
 import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UserRepository;
@@ -54,7 +55,7 @@ public class ImageService {
     }
 
     public Image addUserImage(long id, MultipartFile imageFile) throws IOException {
-//        Users users = usersRepository.findById(id).orElseThrow();
+//        User users = usersRepository.findById(id).orElseThrow();
 //        Path path = Path.of(imageDir, id + "." + getExtensions(
 //                Objects.requireNonNull(imageFile.getOriginalFilename())));
 //        if (!Files.exists(path.getParent())) {
@@ -85,7 +86,7 @@ public class ImageService {
 
     /**
      * @param 'MultipartFile multipartFile' Input parameter
-     *                       <br> Is used entity Users {@link Image} </br
+     *                       <br> Is used entity User {@link Image} </br
      *                       <br> Is used repository {@link ImageRepository#save(Object)} </br>
      *                       Uses method {@link  UserService#updateUserImage(MultipartFile, String)}    getImageById(int)}
      * @return {@link ru.work.graduatework.Entity.Image}
@@ -102,11 +103,11 @@ public class ImageService {
 
     /**
      * @param 'id image' Input parameter
-     *            <br> Is used entity Users {@link Users} </br
+     *            <br> Is used entity User {@link User} </br
      *            <br> Is used repository {@link UserRepository#save(Object)} </br>
      *            Uses method {@link  ru.work.graduatework.controller.UsersController#getImageById(int)}
-     *            Uses method {@link  ru.work.graduatework.controller.AdsController#getAdsImage(int, MultipartFile)}
-     * @return {@link ru.work.graduatework.Entity.Users}
+     *            Uses method {@link  AdController#getAdsImage(int, MultipartFile)}
+     * @return {@link User}
      * @author Korolchuk Vladislav
      */
     public Image getImageById(int id) {
