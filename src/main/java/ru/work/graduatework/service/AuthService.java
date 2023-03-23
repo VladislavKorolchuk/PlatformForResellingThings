@@ -21,14 +21,31 @@ public class AuthService {
     private final UserMapper userMapper;
     private final UserService userService;
 
+    /**
+     * @param userName name identification
+     * @param password password identification
+     *                 <br> Is used entity User {@link User} </br>
+     *                 <br> Is used repository {@link UserRepository#save(Object)} </br>
+     * @return boolean true - user identified, false = user not identified
+     * @throws Exception
+     */
     public boolean login(String userName, String password) throws Exception {
 
         logger.info("Current method is - login");
-        User user = userRepository.findByEmail(userName).orElseThrow(() -> new Exception(userName + " A user with this name is not registered"));
+        User user = userRepository.findByEmail(userName).orElseThrow(() ->
+                new Exception("A user with this name is not registered"));
         logger.info("Current method is - login");
         return encoder.matches(password, user.getPassword());
 
     }
+
+    /**
+     * @param registerReqDto entity {@link RegisterReqDto}
+     * @param role           role user USER/ADMIN
+     *                       <br> Is used entity User {@link User} </br>
+     *                       <br> Is used repository {@link UserService#createUser(User)} </br>
+     * @return boolean true - user created , false = not created
+     */
 
     public boolean register(RegisterReqDto registerReqDto, Role role) {
 
