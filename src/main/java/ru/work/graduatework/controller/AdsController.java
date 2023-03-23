@@ -93,13 +93,13 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AdCommentDto.class))), //Comments.класс
+                            schema = @Schema(implementation = AdCommentDto.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @GetMapping("/{id}")
-    public ResponseEntity<FullAdDto> getFullAd(@PathVariable int id) {
+    public ResponseEntity<FullAdDto> getFullAd(@PathVariable int id) throws Exception {
         logger.info("Current Method is - getFullAd");
         FullAdDto fullAdDto = adservice.getFullAd(id);
         return ResponseEntity.ok(fullAdDto);
@@ -139,7 +139,7 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = AdCommentDto.class))), // Comment.class
+                            schema = @Schema(implementation = AdCommentDto.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
             }, tags = "ADS")
@@ -156,7 +156,7 @@ public class AdsController {
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
-    @DeleteMapping("/{ad_pk}/comments/{id}")   // Удалить комментарии по id
+    @DeleteMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<HttpStatus> deleteAdsComment(@PathVariable("ad_pk") long ad_pk,
                                                        @PathVariable("id") long id) {
         logger.info("Current Method is - deleteCommentsId");
@@ -168,12 +168,12 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ad.class))), //  Comment.class
+                            schema = @Schema(implementation = Ad.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
-    @PatchMapping("/{ad_pk}/comments/{id}")    // Обновление комментария по id
+    @PatchMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<AdCommentDto> updateComments(@PathVariable("ad_pk") int adPk,
                                                        @PathVariable int id,
                                                        @RequestBody AdCommentDto adCommentDto) {

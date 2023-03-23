@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.User;
-import ru.work.graduatework.controller.UsersController;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
@@ -35,9 +34,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
-
     private final UserDetailsServiceImpl userDetailsService;
-
 
     /**
      * Starting values User it starts when the system starts
@@ -49,6 +46,7 @@ public class UserService {
     @PostConstruct
     public void createStartingUsers() {
 
+        logger.info("Current method is - createStartingUsers");
         User user = new User();
         user.setCity("Test");
         user.setEmail("user@example.com");
@@ -72,6 +70,7 @@ public class UserService {
      */
     public User getUsers(String email) {
 
+        logger.info("Current method is - getUsers");
         return userRepository.findByEmail(email).orElseThrow();
 
     }
@@ -85,6 +84,7 @@ public class UserService {
      */
     public void newPassword(String newPassword, String currentPassword) {
 
+        logger.info("Current method is - newPassword");
         UserDetails userDetails = getUserDetailsFromContext();
         if (!passwordEncoder.matches(currentPassword, userDetails.getPassword())) {
             throw new BadCredentialsException("The current password is incorrect!");
@@ -102,9 +102,10 @@ public class UserService {
      * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public User updateUser(UserDto userDto, String email) {
+    public User updateUser(UserDto userDto, String email) throws Exception {
 
-        User user = userRepository.findByEmail(email).orElseThrow();
+        logger.info("Current method is - updateUser");
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new Exception("User not found"));
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPhone(userDto.getPhone());

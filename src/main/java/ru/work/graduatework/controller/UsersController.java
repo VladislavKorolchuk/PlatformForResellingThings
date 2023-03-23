@@ -85,7 +85,7 @@ public class UsersController {
     return userMapper.toDto(userService.getUsers(authentication.getName()));
   }
 
-  //  ----- Анастасия сделай плиз @Operation ------------
+    //  ----- Анастасия сделай плиз @Operation ------------
   @Operation(summary = "Add user",tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
@@ -100,7 +100,7 @@ public class UsersController {
               description = "OK",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = User.class) // пользователи - нужен пароль
+                  schema = @Schema(implementation = User.class)
               )),
           @ApiResponse(
               responseCode = "401",
@@ -143,7 +143,6 @@ public class UsersController {
     return ResponseEntity.ok().body(userService.updateUserImage(image, authentication.getName()));
   }
 
-
   @Operation(summary = "Updating the user",responses = {@ApiResponse
           (responseCode = "200",
                   description = "OK"),
@@ -153,7 +152,7 @@ public class UsersController {
           )
   },tags = "USER")
   @PatchMapping("/me")
-  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return ResponseEntity.ok(
         userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
@@ -175,7 +174,6 @@ public class UsersController {
     UserDto userDto = userMapper.toDto(userService.updateRole(id, role));
     return ResponseEntity.ok(userDto);
   }
-
 
   @Operation(summary = "Updating image of ID ",operationId = "UpdateImageById" ,responses = {
           @ApiResponse(
