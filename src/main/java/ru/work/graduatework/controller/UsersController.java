@@ -47,13 +47,13 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+  @Operation(summary = "Getting user by ID",tags = "USER")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
     return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
   }
 
-  @Operation(summary = "Получить пользователя",
+  @Operation(summary = "Get a logged in user",
       operationId = "getUsers",
       responses = {@ApiResponse
           (responseCode = "200",
@@ -86,14 +86,14 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+  @Operation(summary = "Add user",tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
     User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
     return ResponseEntity.ok(userMapper.toCreateUserDto(user));
   }
 
-  @Operation(summary = "Установить пароль",
+  @Operation(summary = "Password change",
       operationId = "setPassword",
       responses = {@ApiResponse
           (responseCode = "200",
@@ -125,7 +125,7 @@ public class UsersController {
     return ResponseEntity.ok(newPasswordDto);
   }
 
-  @Operation(summary = "Обновление изображение пользователя",
+  @Operation(summary = "Updating the user image",
       responses = {@ApiResponse
           (responseCode = "200",
               description = "OK",
@@ -147,7 +147,7 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+  @Operation(summary = "Updating the user",tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -156,7 +156,7 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+  @Operation(summary = "Updating user the Role ",tags = "USER")
   @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
@@ -165,11 +165,10 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+  @Operation(summary = "Updating image of ID ",tags = "USER")
   @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
-  public ResponseEntity<byte[]> getImageById(@PathVariable("id") int id) {
+  public ResponseEntity<byte[]> getImageById(@PathVariable("id") Long id) {
     return ResponseEntity.ok(imageService.getImageById(id).getData());
   }
-
 
 }

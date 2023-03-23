@@ -16,15 +16,15 @@ import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 
+@Transactional
 @Service
 public class AdService {
 
     private final Logger logger = LoggerFactory.getLogger(AdService.class);
-
-
     private UserService userService;
     private final AdRepository adRepository;
     private final CommentRepository commentRepository;
@@ -49,14 +49,14 @@ public class AdService {
     }
 
 
-    public ResponseWrapperAdDto getAds(String title) {
-        logger.info("Current Method is - getAds-Service");
-        ResponseWrapperAdDto responseWrapperAdDto = new ResponseWrapperAdDto();
-        List<Ad> list = adRepository.findByTitleIgnoreCase(title);
-        responseWrapperAdDto.setCount(list.size());
-        responseWrapperAdDto.setResults(list);
-        return responseWrapperAdDto;
-    }
+//    public ResponseWrapperAdDto getAds(String title) {
+//        logger.info("Current Method is - getAds-Service");
+//        ResponseWrapperAdDto responseWrapperAdDto = new ResponseWrapperAdDto();
+//        List<Ad> list = adRepository.findByTitleIgnoreCase(title);
+//        responseWrapperAdDto.setCount(list.size());
+//        responseWrapperAdDto.setResults(list);
+//        return responseWrapperAdDto;
+//    }
 
     @SneakyThrows
     public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage, String Email) {
@@ -92,8 +92,8 @@ public class AdService {
 
     // Uses method - getAdsMe    controller - AdsController
     public Collection<Ad> getAdsMe(String Email) {
-        User user = userRepository.findByEmail(Email).orElseThrow();
-        return adRepository.findAllByAuthorId(user.getId());
+         User user = userRepository.findByEmail(Email).orElseThrow();
+         return adRepository.findAllByAuthorId(user.getId());
     }
 
     // Uses method - getComments    controller - AdsController

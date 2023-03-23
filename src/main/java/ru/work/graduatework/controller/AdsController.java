@@ -1,13 +1,13 @@
 package ru.work.graduatework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import liquibase.pro.packaged.P;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,6 +27,7 @@ import ru.work.graduatework.service.ImageService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 @RestController()
 @RequiredArgsConstructor
@@ -38,13 +39,11 @@ public class AdsController {
     private final AdRepository adRepository;
     private final AdService adservice;
     private final AdMapper adMapper;
-
     private CommentMapper commentMapper;
-
     private final ImageService imageService;
 
 
-    @Operation(
+    @Operation(summary = "Getting all ads",
             operationId = "getALLAds",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
@@ -60,7 +59,7 @@ public class AdsController {
 
     }
 
-    @Operation(summary = "addAds", operationId = "addAds",
+    @Operation(summary = "Adding a new ad", operationId = "add ad",
             responses = {@ApiResponse(responseCode = "201", description = "Created",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -70,15 +69,16 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AdDto> addAds(@Parameter(description = "New Ad Data")
-                                         @RequestPart("image") MultipartFile adsImage,
+   // @SneakyThrows
+    public ResponseEntity<AdDto> addAds(@RequestPart("image") MultipartFile adsImage,
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage,authentication.getName())));
+        String f = authentication.getName();
+        return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage, authentication.getName())));
     }
 
-    @Operation(summary = "getComments", operationId = "getComments",
+    @Operation(summary = "Getting a comment by ID", operationId = "getComments",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
@@ -91,7 +91,7 @@ public class AdsController {
         return ResponseWrapper.of(commentMapper.toDto(adservice.getComments(adPk)));
     }
 
-    @Operation(summary = "addComments", operationId = "addComments",
+    @Operation(summary = "Adding a comment", operationId = "addComments",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -107,7 +107,7 @@ public class AdsController {
         return ResponseEntity.ok(fullAdDto);
     }
 
-    @Operation(summary = "removeAds", operationId = "removeAds",
+    @Operation(summary = "Deleting an ad by ID", operationId = "removeAds",
             responses = {@ApiResponse(responseCode = "204", description = "No Content", content = {}),
                     @ApiResponse(responseCode = "401",
                             description = "Unauthorized"),
@@ -120,7 +120,7 @@ public class AdsController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "updateAds", operationId = "updateAds",
+    @Operation(summary = "Editing an ad by ID", operationId = "updateAds",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
@@ -137,7 +137,7 @@ public class AdsController {
 
     }
 
-    @Operation(summary = "getComments", operationId = "getComments_1",
+    @Operation(summary = "Getting a comment by ID", operationId = "getComments_1",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
@@ -152,7 +152,7 @@ public class AdsController {
         return ResponseEntity.ok(commentMapper.toDto(adservice.getAdsComment(ad_pk, id)));
     }
 
-    @Operation(summary = "deleteComments", operationId = "deleteComments",
+    @Operation(summary = "Deleting a comment by ID", operationId = "deleteComments",
             responses = {@ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
@@ -166,7 +166,7 @@ public class AdsController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @Operation(summary = "updateComments", operationId = "updateComments",
+    @Operation(summary = "Editing a comment by ID", operationId = "updateComments",
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
@@ -185,7 +185,7 @@ public class AdsController {
 
     }
 
-    @Operation(summary = "getAdsMe", operationId = "getAdsMe",
+    @Operation(summary = "Receiving logged-in user's ads", operationId = "getAdsMe",
             responses = {@ApiResponse(responseCode = "200",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
@@ -198,10 +198,12 @@ public class AdsController {
     public ResponseWrapper<AdDto> getAdsMe() {
         logger.info("Current Method is - getAdsMe");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String i = authentication.getName();
+        Collection<AdDto> f = adMapper.toDto(adservice.getAdsMe(authentication.getName()));
         return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
     }
 
-    @Operation(tags = "ADS")
+    @Operation(summary = "Changing the image of the ad by ID",tags = "ADS")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
 
@@ -209,7 +211,8 @@ public class AdsController {
         return ResponseEntity.ok().build();
 
     }
-    @Operation(tags = "ADS")
+
+    @Operation(summary = "Getting an image by ID", tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
