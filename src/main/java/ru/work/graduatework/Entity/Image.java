@@ -12,27 +12,23 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name="image")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "Image_id")
     private long id;                        // ID
 
-    @Column(name = "file_size")
     private Long fileSize;
 
     //private String filePath;
-    @Column(name = "media_type")
     private String mediaType;
 
-    @Column(name = "data_image")
     @Lob
     @Type(type = "binary")
     private byte[] data;
 
     public String toString() {
-        return "Ad(id=" + this.getId() + ", image=" + Arrays.toString((this.getData())) + ")";
+        return "Ads(id=" + this.getId() + ", image=" + Arrays.toString((this.getData())) + ")";
     }
 
 }

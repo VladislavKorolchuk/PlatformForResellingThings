@@ -1,5 +1,7 @@
 package ru.work.graduatework.dto;
+
 import lombok.Data;
+
 import java.util.Collection;
 
 @Data
@@ -16,5 +18,6 @@ public class ResponseWrapper<A> {
         responseWrapper.count=results.size();
         return responseWrapper;
     }
+
 
 }

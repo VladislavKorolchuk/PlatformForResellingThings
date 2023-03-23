@@ -1,10 +1,20 @@
 package ru.work.graduatework.service;
 
-import static ru.work.graduatework.dto.Role.USER;
+
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 
+
+import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.dto.NewPasswordDto;
+import ru.work.graduatework.dto.Role;
+import ru.work.graduatework.dto.UserDto;
+import ru.work.graduatework.repository.UsersRepository;
 import liquibase.repackaged.net.sf.jsqlparser.util.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,166 +25,139 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.work.graduatework.Entity.User;
-import ru.work.graduatework.controller.UsersController;
-import ru.work.graduatework.dto.CreateUserDto;
-import ru.work.graduatework.dto.NewPasswordDto;
-import ru.work.graduatework.dto.Role;
-import ru.work.graduatework.dto.UserDto;
-import ru.work.graduatework.repository.UserRepository;
 
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private final UserRepository userRepository;
-    private final ImageService imageService;
-    private final PasswordEncoder passwordEncoder;
+  private final Logger logger = LoggerFactory.getLogger(UserService.class);
+  private final UsersRepository usersRepository;
+  private final ImageService imageService;
+
+  private final PasswordEncoder passwordEncoder;
+
+  Collection<Long> activeUsers = new HashSet<>(); // Collection active Users
+
+  @PostConstruct
+  public void createStartingUsers() {
+    Users user = new Users();
+    user.setCity("Test");
+    user.setEmail("user@example.com");
+    user.setRole(Role.USER);
+    user.setPhone("+79870000000");
+    user.setFirstName("Test");
+    user.setLastName("Test");
+    user.setPassword(passwordEncoder.encode("password"));
+    createUser(user);
+  }
+
+  /**
+   * @return Collection activeUsers
+   * @author Korolchuk Vladislav
+   * <br> <b> Method get Users </b> </br>
+   */
+
+// Uses method - Users    controller - UsersController
+  public Users getUsers(String email) {
+    return usersRepository.findByEmail(email).orElseThrow();
+  }
+
+  public String dateUserRegistration() {
+    return String.valueOf(LocalDate.now());
+  }
+
+  /**
+   * @param emailUser Input parameter
+   *                  <br> Is used entity Users {@link Users} </br>
+   *                  <br> Is used repository {@link UsersRepository#save(Object)} </br>
+   *                  <br> Uses the active Users collection which contains active users </br>
+   * @return {@link Users}
+   * @author Korolchuk Vladislav
+   * <br> <b> Method get User </b> </br>
+   */
+
+  public Users getUser(String emailUser) {
+
+    logger.info("Class UsersServiceImpl, current method is - getUser");
+
+    Optional<Users> userFindByEmail = usersRepository.findByEmail(emailUser);
+    //---- Creating a User entity that has been authenticated by the system----
+    if (userFindByEmail.isPresent()) {
+      activeUsers.add(userFindByEmail.get().getId());
+    }
+    return userFindByEmail.orElse(null);
+
+  }
 
 
-    /**
-     * Starting values User it starts when the system starts
-     * <br> Is used entity User {@link User} </br>
-     * <br> Is used entity User {@link UserService#createUser(User)} </br>
-     *
-     * @author Volkov Alexey
-     */
-    @PostConstruct
-    public void createStartingUsers() {
+  public NewPasswordDto setPassword() {
+    return null;
+  }
 
-        User user = new User();
-        user.setCity("Test");
-        user.setEmail("user@example.com");
-        user.setRole(USER);
-        user.setPhone("+79870000000");
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setPassword(passwordEncoder.encode("password"));
-        createUser(user);
 
+  // Uses method - setPassword    controller - UsersController
+  public void newPassword(String newPassword, String currentPassword, String email) {
+
+    Users user = usersRepository.findByEmail(email).orElseThrow();
+    if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+      throw new BadCredentialsException("The password is incorrect");
+    }
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+  }
+
+
+  // Uses method - updateUser    controller - UsersController
+  public Users updateUser(UserDto userDto, String email) {
+
+    Users user = usersRepository.findByEmail(email).orElseThrow();
+    user.setFirstName(userDto.getFirstName());
+    user.setLastName(userDto.getLastName());
+    user.setPhone(userDto.getPhone());
+    return usersRepository.save(user);
+
+
+  }
+
+  // Uses method - updateUserImage    controller - UsersController
+  @SneakyThrows
+  public String updateUserImage(MultipartFile image, String email) {
+
+    logger.info("Current method is - updateUserImage");
+    Users user = usersRepository.findByEmail(email).orElseThrow();
+    user.setImage(imageService.uploadImage(image));
+    return "/users/image/" + usersRepository.save(user).getImage().getId();
+
+  }
+
+
+  // Uses method - User    controller - UsersController
+  public Users getUserById(long id) {
+    return usersRepository.findById(id).orElseThrow();
+  }
+
+  // Uses method - addUser    controller - UsersController
+  public Users createUser(Users user) {
+    if (usersRepository.existsByEmail(user.getEmail())) {
+      throw new ValidationException(String.format("User \"%s\" already exists", user.getEmail()));
     }
 
-    /**
-     * @param 'emailUser' Input parameter
-     *                    <br> Is used entity User {@link User} </br>
-     *                    <br> Is used repository {@link UserRepository#save(Object)} </br>
-     * @return {@link User}
-     * Uses method {@link  UsersController#getUsers()}      UsersController#UsersController SeatsAvailability
-     * @return {@link User}
-     * @author Korolchuk Vladislav
-     */
-    public User getUsers(String email) {
-
-        return userRepository.findByEmail(email).orElseThrow();
-
+    if (user.getRole() == null) {
+      user.setRole(Role.USER);
     }
+    // user.setCurrentPassword(passwordEncoder.encode(user.getCurrentPassword()));
+    user.setRegDate(Instant.now());
+    return usersRepository.save(user);
+  }
 
-    /**
-     * @param 'newPassword',currentPassword and email(name user) Input parameter
-     *                                      <br> Is used entity User {@link User} </br>
-     *                                      <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *                                      Uses method {@link  ru.work.graduatework.controller.UsersController#setPassword(NewPasswordDto)}  }
-     * @author Korolchuk Vladislav
-     */
-    public void newPassword(String newPassword, String currentPassword, String email) {
 
-        User user = userRepository.findByEmail(email).orElseThrow();
-        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new BadCredentialsException("The password is incorrect");
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+  // Uses method - updateRole    controller - UsersController
+  public Users updateRole(long id, Role role) {
+    Users user = getUserById(id);
+    user.setRole(role);
+    return usersRepository.save(user);
+  }
 
-    }
-
-    /**
-     * @param 'userDto',currentPassword and email(name user) Input parameter
-     *                                  <br> Is used entity User {@link User} </br>
-     *                                  <br> Is used entity User {@link UserDto} </br>
-     *                                  <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *                                  Uses method {@link  ru.work.graduatework.controller.UsersController#updateUser(UserDto)}  }
-     * @return {@link User}
-     * @author Korolchuk Vladislav
-     */
-    public User updateUser(UserDto userDto, String email) {
-
-        User user = userRepository.findByEmail(email).orElseThrow();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPhone(userDto.getPhone());
-        return userRepository.save(user);
-
-    }
-
-    /**
-     * @param 'MultipartFile image' and email(name user) Input parameter
-     *                       <br> Is used entity User {@link User} </br
-     *                       <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *                       Uses method {@link  ru.work.graduatework.controller.UsersController#updateUserImage(MultipartFile)}  }
-     * @return file path
-     * @author Korolchuk Vladislav
-     */
-    @SneakyThrows
-    public String updateUserImage(MultipartFile image, String email) {
-
-        logger.info("Current method is - updateUserImage");
-        User user = userRepository.findByEmail(email).orElseThrow();
-        user.setImage(imageService.uploadImage(image));
-        return "/users/image/" + userRepository.save(user).getImage().getId();
-
-    }
-
-    /**
-     * @param 'id User' Input parameter
-     *            <br> Is used entity User {@link User} </br
-     *            <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *            Uses method {@link  ru.work.graduatework.controller.UsersController#getUser(long)}
-     * @return {@link User}
-     * @author Korolchuk Vladislav
-     */
-    public User getUserById(long id) {
-
-        return userRepository.findById(id).orElseThrow();
-
-    }
-
-    /**
-     * @param 'User' Input parameter
-     *               <br> Is used entity User {@link User} </br
-     *               <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *               Uses method {@link  ru.work.graduatework.controller.UsersController#addUser(CreateUserDto)}
-     * @return {@link User}
-     * @author Korolchuk Vladislav
-     */
-    public User createUser(User user) {
-
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new ValidationException(String.format("User \"%s\" already exists", user.getEmail()));
-        }
-        if (user.getRole() == null) {
-            user.setRole(USER);
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRegDate(Instant.now());
-        return userRepository.save(user);
-
-    }
-
-    /**
-     * @param 'id User and role' Input parameter
-     *            <br> Is used entity User {@link User} </br
-     *            <br> Is used repository {@link UserRepository#save(Object)} </br>
-     *            Uses method {@link  ru.work.graduatework.controller.UsersController#updateRole(long, Role)}
-     * @return User
-     * @author Korolchuk Vladislav
-     */
-    public User updateRole(long id, Role role) {
-
-        User user = getUserById(id);
-        user.setRole(role);
-        return userRepository.save(user);
-
-    }
 
 }

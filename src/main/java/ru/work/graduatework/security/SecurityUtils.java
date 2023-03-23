@@ -1,9 +1,9 @@
 package ru.work.graduatework.security;
 
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.dto.Role;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityUtils {
 

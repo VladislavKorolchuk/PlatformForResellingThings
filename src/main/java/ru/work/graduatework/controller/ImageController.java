@@ -24,7 +24,7 @@ public class ImageController {
     @Operation(summary = "updateAdsImage", operationId = "updateAdsImage",
             responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE, schema = @Schema(type = "array", format = "byte"))),
                     @ApiResponse(responseCode = "404",
-                            description = "Not Found")}, tags = "Image")
+                            description = "Not Found")}, tags = "Изображения")
     @PostMapping("/{id}")
     public ResponseEntity<?> updateAdsImage(@PathVariable int id, @RequestParam MultipartFile imageFile) {
         logger.info("Class ImageController, current method is - updateAdsImage");

@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
-import ru.work.graduatework.Entity.User;
-import ru.work.graduatework.repository.UserRepository;
+import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.repository.UsersRepository;
 
 import javax.transaction.Transactional;
 
@@ -20,28 +20,28 @@ import javax.transaction.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService,
         UserDetailsPasswordService {
 
-    private final UserRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository usersRepository) {
+    public UserDetailsServiceImpl(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        User user = getUserByUsername(username);
+        Users user = getUserByUsername(username);
         return new MyUserDetails(user);
     }
 
-    private User getUserByUsername(String username) {
+    private Users getUserByUsername(String username) {
         return usersRepository.findByEmail(username).orElseThrow(() ->
                 new UsernameNotFoundException("User not found is email"));
     }
 
     @Override
     public UserDetails updatePassword(UserDetails userDetails, String newPassword) {
-        User user = getUserByUsername(userDetails.getUsername());
+        Users user = getUserByUsername(userDetails.getUsername());
         user.setPassword(newPassword);
         MyUserDetails updateUserDetails = new MyUserDetails(usersRepository.save(user));
         SecurityContextHolder.getContext().setAuthentication(

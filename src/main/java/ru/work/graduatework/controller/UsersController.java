@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import ru.work.graduatework.Entity.User;
+import ru.work.graduatework.Entity.Users;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
@@ -47,7 +47,6 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
   @GetMapping("/{id}")
   public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
     return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
@@ -60,7 +59,7 @@ public class UsersController {
               description = "OK",
               content = @Content(
                   mediaType = MediaType.ALL_VALUE,
-                  schema = @Schema(implementation = User.class)
+                  schema = @Schema(implementation = Users.class)
               )),
           @ApiResponse(
               responseCode = "401",
@@ -86,10 +85,9 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
   @PostMapping
   public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+    Users user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
     return ResponseEntity.ok(userMapper.toCreateUserDto(user));
   }
 
@@ -100,7 +98,7 @@ public class UsersController {
               description = "OK",
               content = @Content(
                   mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = User.class) // пользователи - нужен пароль
+                  schema = @Schema(implementation = Users.class) // пользователи - нужен пароль
               )),
           @ApiResponse(
               responseCode = "401",
@@ -147,7 +145,6 @@ public class UsersController {
 
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
   @PatchMapping("/me")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -156,7 +153,6 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
   @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
@@ -165,7 +161,7 @@ public class UsersController {
   }
 
   //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(tags = "USER")
+
   @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
   public ResponseEntity<byte[]> getImageById(@PathVariable("id") int id) {
     return ResponseEntity.ok(imageService.getImageById(id).getData());

@@ -1,13 +1,14 @@
 package ru.work.graduatework.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import ru.work.graduatework.Entity.Ad;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.dto.AdDto;
 import ru.work.graduatework.dto.CreateAdDto;
 import ru.work.graduatework.dto.FullAdDto;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
 
 @Mapper(componentModel = "spring")
 public interface AdMapper extends MapperScheme<AdDto, Ad> {

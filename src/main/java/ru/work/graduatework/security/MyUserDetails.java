@@ -1,7 +1,7 @@
 package ru.work.graduatework.security;
 
+import ru.work.graduatework.Entity.Users;
 import lombok.Getter;
-import ru.work.graduatework.Entity.User;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class MyUserDetails extends org.springframework.security.core.userdetails
 
     private final Long id;
 
-    public MyUserDetails (User user) {
+    public MyUserDetails (Users user) {
         super(user.getEmail(), user.getPassword(), List.of(user.getRole()));
         this.id=user.getId();
     }

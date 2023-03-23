@@ -2,10 +2,11 @@ package ru.work.graduatework.dto;
 
 import lombok.Data;
 
+
 @Data
 public class AdCommentDto {
 
-    private int pk;
+    private long pk;
 
     private int author;
 
@@ -13,10 +14,5 @@ public class AdCommentDto {
 
     private String text;
 
-    public AdCommentDto(int pk, String createdAt, String text) {
-        this.pk = pk;
-        this.text = text;
-        this.createdAt = createdAt;
-    }
 
 }

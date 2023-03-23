@@ -11,4 +11,9 @@ public class ResponseWrapperAdDto {
     private Integer count;
     private List<Ad> results;
 
+//    public ResponseWrapperAdsDto(Integer count, List<Ads> results) {
+//        this.count = count;
+//        this.results = results;
+//    }
+
 }
