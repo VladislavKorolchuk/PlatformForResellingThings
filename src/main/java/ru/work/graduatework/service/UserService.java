@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.controller.UsersController;
 import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.NewPasswordDto;
@@ -36,15 +36,15 @@ public class UserService {
 
     /**
      * Starting values User it starts when the system starts
-     * <br> Is used entity Users {@link Users} </br>
-     * <br> Is used entity Users {@link UserService#createUser(Users)} </br>
+     * <br> Is used entity User {@link User} </br>
+     * <br> Is used entity User {@link UserService#createUser(User)} </br>
      *
      * @author Volkov Alexey
      */
     @PostConstruct
     public void createStartingUsers() {
 
-        Users user = new Users();
+        User user = new User();
         user.setCity("Test");
         user.setEmail("user@example.com");
         user.setRole(USER);
@@ -58,14 +58,14 @@ public class UserService {
 
     /**
      * @param 'emailUser' Input parameter
-     *                    <br> Is used entity Users {@link Users} </br>
+     *                    <br> Is used entity User {@link User} </br>
      *                    <br> Is used repository {@link UserRepository#save(Object)} </br>
-     * @return {@link Users}
+     * @return {@link User}
      * Uses method {@link  UsersController#getUsers()}      UsersController#UsersController SeatsAvailability
-     * @return {@link ru.work.graduatework.Entity.Users}
+     * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public Users getUsers(String email) {
+    public User getUsers(String email) {
 
         return userRepository.findByEmail(email).orElseThrow();
 
@@ -73,14 +73,14 @@ public class UserService {
 
     /**
      * @param 'newPassword',currentPassword and email(name user) Input parameter
-     *                                      <br> Is used entity Users {@link Users} </br>
+     *                                      <br> Is used entity User {@link User} </br>
      *                                      <br> Is used repository {@link UserRepository#save(Object)} </br>
      *                                      Uses method {@link  ru.work.graduatework.controller.UsersController#setPassword(NewPasswordDto)}  }
      * @author Korolchuk Vladislav
      */
     public void newPassword(String newPassword, String currentPassword, String email) {
 
-        Users user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             throw new BadCredentialsException("The password is incorrect");
         }
@@ -90,16 +90,16 @@ public class UserService {
 
     /**
      * @param 'userDto',currentPassword and email(name user) Input parameter
-     *                                  <br> Is used entity Users {@link Users} </br>
-     *                                  <br> Is used entity Users {@link UserDto} </br>
+     *                                  <br> Is used entity User {@link User} </br>
+     *                                  <br> Is used entity User {@link UserDto} </br>
      *                                  <br> Is used repository {@link UserRepository#save(Object)} </br>
      *                                  Uses method {@link  ru.work.graduatework.controller.UsersController#updateUser(UserDto)}  }
-     * @return {@link ru.work.graduatework.Entity.Users}
+     * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public Users updateUser(UserDto userDto, String email) {
+    public User updateUser(UserDto userDto, String email) {
 
-        Users user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPhone(userDto.getPhone());
@@ -109,7 +109,7 @@ public class UserService {
 
     /**
      * @param 'MultipartFile image' and email(name user) Input parameter
-     *                       <br> Is used entity Users {@link Users} </br
+     *                       <br> Is used entity User {@link User} </br
      *                       <br> Is used repository {@link UserRepository#save(Object)} </br>
      *                       Uses method {@link  ru.work.graduatework.controller.UsersController#updateUserImage(MultipartFile)}  }
      * @return file path
@@ -119,7 +119,7 @@ public class UserService {
     public String updateUserImage(MultipartFile image, String email) {
 
         logger.info("Current method is - updateUserImage");
-        Users user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         user.setImage(imageService.uploadImage(image));
         return "/users/image/" + userRepository.save(user).getImage().getId();
 
@@ -127,13 +127,13 @@ public class UserService {
 
     /**
      * @param 'id User' Input parameter
-     *            <br> Is used entity Users {@link Users} </br
+     *            <br> Is used entity User {@link User} </br
      *            <br> Is used repository {@link UserRepository#save(Object)} </br>
      *            Uses method {@link  ru.work.graduatework.controller.UsersController#getUser(long)}
-     * @return {@link ru.work.graduatework.Entity.Users}
+     * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public Users getUserById(long id) {
+    public User getUserById(long id) {
 
         return userRepository.findById(id).orElseThrow();
 
@@ -141,13 +141,13 @@ public class UserService {
 
     /**
      * @param 'User' Input parameter
-     *               <br> Is used entity Users {@link Users} </br
+     *               <br> Is used entity User {@link User} </br
      *               <br> Is used repository {@link UserRepository#save(Object)} </br>
      *               Uses method {@link  ru.work.graduatework.controller.UsersController#addUser(CreateUserDto)}
-     * @return {@link ru.work.graduatework.Entity.Users}
+     * @return {@link User}
      * @author Korolchuk Vladislav
      */
-    public Users createUser(Users user) {
+    public User createUser(User user) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ValidationException(String.format("User \"%s\" already exists", user.getEmail()));
@@ -164,15 +164,15 @@ public class UserService {
 
     /**
      * @param 'id User and role' Input parameter
-     *            <br> Is used entity Users {@link Users} </br
+     *            <br> Is used entity User {@link User} </br
      *            <br> Is used repository {@link UserRepository#save(Object)} </br>
      *            Uses method {@link  ru.work.graduatework.controller.UsersController#updateRole(long, Role)}
      * @return User
      * @author Korolchuk Vladislav
      */
-    public Users updateRole(long id, Role role) {
+    public User updateRole(long id, Role role) {
 
-        Users user = getUserById(id);
+        User user = getUserById(id);
         user.setRole(role);
         return userRepository.save(user);
 

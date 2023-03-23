@@ -3,11 +3,10 @@ package ru.work.graduatework.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.work.graduatework.Entity.Users;
+import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.mapper.UserMapper;
@@ -34,7 +33,7 @@ public class AuthService {
         logger.info("login - " + userName);
         logger.info("password - " + password);
         logger.info("The user is found in the database");
-        Users user = userRepository.findByEmail(userName).orElseThrow();
+        User user = userRepository.findByEmail(userName).orElseThrow();
 
         if (encoder.matches(password, user.getPassword())) {
             return true;
@@ -45,7 +44,7 @@ public class AuthService {
 
     public boolean register(RegisterReqDto registerReqDto, Role role) {
         logger.info("Current method is - register");
-        Users user = userMapper.toEntity(registerReqDto);
+        User user = userMapper.toEntity(registerReqDto);
         userService.createUser(user);
 //        manager.createUser(
 //                User.withDefaultPasswordEncoder()

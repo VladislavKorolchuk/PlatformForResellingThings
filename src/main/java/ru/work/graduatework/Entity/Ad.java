@@ -21,7 +21,7 @@ public class Ad {
 
     @ManyToOne(fetch = FetchType.EAGER)          // Many-to-one communication
     @JoinColumn(name = "author_id")
-    private Users author;
+    private User author;
 
     @OneToOne()
     @JoinColumn()
