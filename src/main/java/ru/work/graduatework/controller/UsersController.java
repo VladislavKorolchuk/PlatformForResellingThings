@@ -86,12 +86,12 @@ public class UsersController {
   }
 
     //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Add user",tags = "USER")
-  @PostMapping
-  public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
-    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
-  }
+//  @Operation(summary = "Add user",tags = "USER")
+//  @PostMapping
+//  public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
+//    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+//    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
+//  }
 
   @Operation(summary = "Password change",
       operationId = "setPassword",
