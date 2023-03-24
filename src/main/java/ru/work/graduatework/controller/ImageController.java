@@ -22,7 +22,9 @@ public class ImageController {
     private final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
     @Operation(summary = "updateAdsImage", operationId = "updateAdsImage",
-            responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE, schema = @Schema(type = "array", format = "byte"))),
+            responses = {@ApiResponse(responseCode = "200", description = "OK"
+                    , content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE
+                    , schema = @Schema(type = "array", format = "byte"))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found")}, tags = "Image")
     @PostMapping("/{id}")
