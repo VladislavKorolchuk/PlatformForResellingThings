@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +16,6 @@ import java.time.ZoneId;
 import java.util.Optional;
 
 import liquibase.repackaged.net.sf.jsqlparser.util.validation.ValidationException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +41,6 @@ class UserServiceTest {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
-
-    @MockBean
-    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @MockBean
     private UserRepository userRepository;
@@ -354,7 +349,6 @@ class UserServiceTest {
         verify(userRepository).save((User) any());
         verify(userRepository).findById((Long) any());
     }
-
 
 }
 

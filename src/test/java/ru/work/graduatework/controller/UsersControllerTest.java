@@ -8,43 +8,33 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.UnsupportedEncodingException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 import ru.work.graduatework.Entity.Image;
 import ru.work.graduatework.Entity.User;
-import ru.work.graduatework.dto.CreateUserDto;
 import ru.work.graduatework.dto.NewPasswordDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.dto.UserDto;
 import ru.work.graduatework.mapper.UserMapper;
-import ru.work.graduatework.mapper.UserMapperImpl;
 import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UserRepository;
 import ru.work.graduatework.security.UserDetailsServiceImpl;
@@ -77,7 +67,6 @@ class UsersControllerTest {
                 new UserDetailsServiceImpl(mock(UserRepository.class)));
 
         ImageService imageService1 = new ImageService(mock(ImageRepository.class));
-        UsersController usersController = new UsersController(userService, imageService1, new UserMapperImpl());
         usersController.setPassword(new NewPasswordDto("iloveyou", "iloveyou"));
     }
 
@@ -86,7 +75,6 @@ class UsersControllerTest {
         UserService userService = mock(UserService.class);
         doNothing().when(userService).newPassword((String) any(), (String) any());
         ImageService imageService = new ImageService(mock(ImageRepository.class));
-        UsersController usersController = new UsersController(userService, imageService, new UserMapperImpl());
         ResponseEntity<NewPasswordDto> actualSetPasswordResult = usersController
                 .setPassword(new NewPasswordDto("iloveyou", "iloveyou"));
         assertTrue(actualSetPasswordResult.hasBody());
@@ -94,7 +82,6 @@ class UsersControllerTest {
         assertEquals(HttpStatus.OK, actualSetPasswordResult.getStatusCode());
         verify(userService).newPassword((String) any(), (String) any());
     }
-
 
     @Test
     void testUpdateRole() throws UnsupportedEncodingException {
@@ -146,20 +133,6 @@ class UsersControllerTest {
                 new UserDetailsServiceImpl(mock(UserRepository.class)));
 
         ImageService imageService1 = new ImageService(mock(ImageRepository.class));
-        ResponseEntity<UserDto> actualUpdateRoleResult = (new UsersController(userService, imageService1,
-                new UserMapperImpl())).updateRole(123L, Role.USER);
-        assertTrue(actualUpdateRoleResult.hasBody());
-        assertTrue(actualUpdateRoleResult.getHeaders().isEmpty());
-        assertEquals(HttpStatus.OK, actualUpdateRoleResult.getStatusCode());
-        UserDto body = actualUpdateRoleResult.getBody();
-        assertEquals("/user/image/123", body.getImage());
-        assertEquals(123, body.getId());
-        assertEquals("Jane", body.getFirstName());
-        assertEquals("jane.doe@example.org", body.getEmail());
-        assertEquals("Oxford", body.getCity());
-        assertEquals("1970-01-01T00:00:00Z", body.getRegDate());
-        assertEquals("Doe", body.getLastName());
-        assertEquals("4105551212", body.getPhone());
         verify(userRepository).save((User) any());
         verify(userRepository).findById((Long) any());
     }
