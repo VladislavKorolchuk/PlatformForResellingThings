@@ -3,6 +3,7 @@ package ru.work.graduatework.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.work.graduatework.Entity.User;
@@ -35,8 +36,8 @@ public class AuthService {
         User user = userRepository.findByEmail(userName).orElseThrow(() ->
                 new Exception("A user with this name is not registered"));
         logger.info("Current method is - login");
-        return encoder.matches(password, user.getPassword());
 
+        return encoder.matches(password, user.getPassword());
     }
 
     /**

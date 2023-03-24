@@ -85,14 +85,6 @@ public class UsersController {
     return userMapper.toDto(userService.getUsers(authentication.getName()));
   }
 
-    //  ----- Анастасия сделай плиз @Operation ------------
-//  @Operation(summary = "Add user",tags = "USER")
-//  @PostMapping
-//  public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-//    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
-//    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
-//  }
-
   @Operation(summary = "Password change",
       operationId = "setPassword",
       responses = {@ApiResponse
@@ -168,7 +160,7 @@ public class UsersController {
                   description = "Not Found"
           )
   },tags = "USER")
-  @PreAuthorize("hasAuthority('ADMIN')")
+ // @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("/{id}/updateRole")
   public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
     UserDto userDto = userMapper.toDto(userService.updateRole(id, role));

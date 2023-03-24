@@ -1,5 +1,6 @@
 package ru.work.graduatework.service;
 
+import static ru.work.graduatework.dto.Role.ADMIN;
 import static ru.work.graduatework.dto.Role.USER;
 import static ru.work.graduatework.security.SecurityUtils.getUserDetailsFromContext;
 
@@ -50,11 +51,12 @@ public class UserService {
         User user = new User();
         user.setCity("Test");
         user.setEmail("user@example.com");
-        user.setRole(USER);
+        user.setRole(ADMIN);
         user.setPhone("+79870000000");
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setPassword(passwordEncoder.encode("password"));
+        user.setPassword("password");
+        //passwordEncoder.encode("password");
         createUser(user);
 
     }
