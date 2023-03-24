@@ -61,7 +61,7 @@ public class AdService {
     public Ad addAds(CreateAdDto createAdDto, MultipartFile adsImage, String Email) {
 
         logger.info("Current Method is - addAds");
-        User user = userRepository.findByEmail(Email).orElseThrow(()-> new Exception("User no found"));
+        User user = userRepository.findByEmail(Email).orElseThrow(() -> new Exception("User no found"));
         Ad ad = adMapper.toEntity(createAdDto);
         ad.setAuthor(user);
         ad.setImage(imageService.uploadImage(adsImage));
@@ -79,7 +79,7 @@ public class AdService {
     public FullAdDto getFullAd(long id) throws Exception {
 
         logger.info("Current Method is - getFullAd");
-        return adMapper.toFullAdsDto(adRepository.findById(id).orElseThrow(()->new Exception("Ad not found")));
+        return adMapper.toFullAdsDto(adRepository.findById(id).orElseThrow(() -> new Exception("Ad not found")));
 
     }
 
@@ -252,6 +252,7 @@ public class AdService {
 
         logger.info("Current Method is - updateAdsImage");
         Ad ad = getAdsById(id);
+        imageRepository.delete(ad.getImage());
         ad.setImage(imageService.uploadImage(image));
         adRepository.save(ad);
 
