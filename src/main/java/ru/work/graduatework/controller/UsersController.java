@@ -33,7 +33,6 @@ import ru.work.graduatework.mapper.UserMapper;
 import ru.work.graduatework.service.ImageService;
 import ru.work.graduatework.service.UserService;
 
-
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(value = "http://localhost:3000")
@@ -85,13 +84,13 @@ public class UsersController {
     return userMapper.toDto(userService.getUsers(authentication.getName()));
   }
 
-    //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Add user",tags = "USER")
-  @PostMapping
-  public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
-    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
-    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
-  }
+//    //  ----- Анастасия сделай плиз @Operation ------------
+//  @Operation(summary = "Add user",tags = "USER")
+//  @PostMapping
+//  public ResponseEntity<CreateUserDto> addUser(@Valid @RequestBody CreateUserDto createUserDto) {
+//    User user = userService.createUser(userMapper.createUserDtoToEntity(createUserDto));
+//    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
+//  }
 
   @Operation(summary = "Password change",
       operationId = "setPassword",

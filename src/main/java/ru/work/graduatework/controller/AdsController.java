@@ -67,7 +67,6 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    // @SneakyThrows
     public ResponseEntity<AdDto> addAds(@RequestPart("image") MultipartFile adsImage,
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
@@ -212,7 +211,7 @@ public class AdsController {
 
     @Operation(summary = "Getting an image by ID", tags = "ADS",operationId = "getImageById")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
-    public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
+    public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id){   // , @NotNull @RequestBody MultipartFile image) {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
     }
 
