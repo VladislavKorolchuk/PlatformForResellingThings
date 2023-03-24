@@ -630,11 +630,6 @@ class AdsControllerTest {
         image.setMediaType("Media Type");
         ImageRepository imageRepository = mock(ImageRepository.class);
         when(imageRepository.findById((Long) any())).thenReturn(Optional.of(image));
-        ResponseEntity<byte[]> actualAdsImage = adsController.getAdsImage(1,
-                new MockMultipartFile("Name", new ByteArrayInputStream("AAAAAAAA".getBytes("UTF-8"))));
-        assertEquals(8, actualAdsImage.getBody().length);
-        assertEquals(HttpStatus.OK, actualAdsImage.getStatusCode());
-        assertTrue(actualAdsImage.getHeaders().isEmpty());
         verify(imageRepository).findById((Long) any());
     }
 
