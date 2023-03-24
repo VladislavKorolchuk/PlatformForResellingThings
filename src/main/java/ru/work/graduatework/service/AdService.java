@@ -289,13 +289,13 @@ public class AdService {
      * @return {@link Comment}
      * @author Korolchuk Vladislav
      */
-    public Comment addAdsComment(int adPk, AdCommentDto adCommentDto, String Email) throws Exception {
+    public Comment addAdsComment(long adPk, AdCommentDto adCommentDto, String Email) throws Exception {
 
         logger.info("Current Method is - addAdsComment");
         User user = userRepository.findByEmail(Email).orElseThrow(() -> new Exception("User not found"));
         Comment comment = commentMapper.toEntity(adCommentDto);
         comment.setAuthor(user);
-        comment.setAd(adRepository.findById(comment.getId()).get());
+        comment.setAd(adRepository.findById(adPk).orElseThrow(() -> new Exception("Ad not found")));
         comment.setCreatedAt(String.valueOf(Instant.now()));
         return commentRepository.save(comment);
 
