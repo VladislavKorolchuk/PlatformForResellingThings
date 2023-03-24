@@ -168,7 +168,7 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            schema = @Schema(implementation = Ad.class))),
+                            schema = @Schema(implementation = Comment.class))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
@@ -187,7 +187,7 @@ public class AdsController {
             responses = {@ApiResponse(responseCode = "200",
                     content = @Content(
                             mediaType = MediaType.ALL_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = Ad.class)))), //ResponseWrapperAds
+                            array = @ArraySchema(schema = @Schema(implementation = Ad.class)))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found"),
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
@@ -201,22 +201,42 @@ public class AdsController {
         return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
     }
 
-    @Operation(summary = "Changing the image of the ad by ID", tags = "ADS", operationId = "updateImage")
+    @Operation(summary = "Changing the image of the ad by ID", operationId = "updateImage",
+            responses = {@ApiResponse(responseCode = "200", description = "OK"),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not Found"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
-
         adservice.updateAdsImage(id, image);
         return ResponseEntity.ok().build();
 
     }
 
-    @Operation(summary = "Getting an image by ID", tags = "ADS",operationId = "getImageById")
+    @Operation(summary = "Getting an image by ID", operationId = "getImageById",
+            responses = {@ApiResponse(responseCode = "200",
+                    content = @Content(
+                            mediaType = MediaType.ALL_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = Byte.class)))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not Found"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
     }
 
-    @Operation(summary = "Adding a new comment", tags = "ADS", operationId = "AddCommentToAds")
+    @Operation(summary = "Adding a new comment", operationId = "AddCommentToAds",
+            responses = {@ApiResponse(responseCode = "200",
+                    content = @Content(
+                            mediaType = MediaType.ALL_VALUE,
+                            schema = @Schema(implementation = AdCommentDto.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not Found"),
+                    @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @PostMapping("/{ad_pk}/comments")
     public ResponseEntity<AdCommentDto> addAdsComment(@PathVariable("ad_pk") int adPk,
                                                       @RequestBody @Valid AdCommentDto adCommentDto) throws Exception {
