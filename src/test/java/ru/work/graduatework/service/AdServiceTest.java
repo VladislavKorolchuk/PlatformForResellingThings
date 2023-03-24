@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,8 +20,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-
-import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -205,7 +202,6 @@ class AdServiceTest {
         verify(adMapper).toEntity((CreateAdDto) any());
     }
 
-
     @Test
     void testGetFullAd() throws Exception {
         Image image = new Image();
@@ -278,7 +274,6 @@ class AdServiceTest {
         verify(adRepository).findById((Long) any());
     }
 
-
     @Test
     void testRemoveAds() throws UnsupportedEncodingException {
         Image image = new Image();
@@ -322,7 +317,6 @@ class AdServiceTest {
         verify(adRepository).delete((Ad) any());
         verify(imageRepository).delete((Image) any());
     }
-
 
     @Test
     void testUpdateAds() throws UnsupportedEncodingException {
@@ -404,7 +398,6 @@ class AdServiceTest {
         verify(adRepository).findById((Long) any());
     }
 
-
     @Test
     void testGetAdsMe() throws UnsupportedEncodingException {
         ArrayList<Ad> adList = new ArrayList<>();
@@ -436,7 +429,6 @@ class AdServiceTest {
         verify(adRepository).findAllByAuthorId(anyLong());
         verify(userRepository).findByEmail((String) any());
     }
-
     @Test
     void testGetComments() {
         ArrayList<Comment> commentList = new ArrayList<>();
@@ -683,7 +675,6 @@ class AdServiceTest {
         verify(commentRepository).findByIdAndAdId(anyLong(), anyLong());
     }
 
-
     @Test
     void testGetAdsById() throws UnsupportedEncodingException {
         Image image = new Image();
@@ -723,7 +714,6 @@ class AdServiceTest {
         assertSame(ad, adService.getAdsById(123L));
         verify(adRepository).findById((Long) any());
     }
-
 
     @Test
     void testGetAdsById2() {
@@ -951,7 +941,6 @@ class AdServiceTest {
         verify(imageService).uploadImage((MultipartFile) any());
     }
 
-
     @Test
     void testRemoveAdsById() throws UnsupportedEncodingException {
         Image image = new Image();
@@ -995,7 +984,6 @@ class AdServiceTest {
         verify(adRepository).delete((Ad) any());
         verify(commentRepository).deleteAdsCommentsByAdId(anyLong());
     }
-
 
     @Test
     void testAddAdsComment() throws Exception {
@@ -1181,5 +1169,6 @@ class AdServiceTest {
         verify(userRepository).findByEmail((String) any());
         verify(commentMapper).toEntity((AdCommentDto) any());
     }
+
 }
 

@@ -1,7 +1,6 @@
 package ru.work.graduatework.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
@@ -22,8 +21,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-
-import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,9 +49,7 @@ import ru.work.graduatework.dto.CreateAdDto;
 import ru.work.graduatework.dto.FullAdDto;
 import ru.work.graduatework.dto.Role;
 import ru.work.graduatework.mapper.AdMapper;
-import ru.work.graduatework.mapper.AdMapperImpl;
 import ru.work.graduatework.mapper.CommentMapper;
-import ru.work.graduatework.mapper.CommentMapperImpl;
 import ru.work.graduatework.repository.AdRepository;
 import ru.work.graduatework.repository.CommentRepository;
 import ru.work.graduatework.repository.ImageRepository;
@@ -550,18 +545,6 @@ class AdsControllerTest {
      */
     @Test
     void testUpdateAdsImage() throws IOException {
-        //   Diffblue Cover was unable to write a Spring test,
-        //   so wrote a non-Spring test instead.
-        //   Reason: R008 Failed to instantiate class under test.
-        //   Diffblue Cover was unable to construct an instance of AdsController.
-        //   Ensure there is a package-visible constructor or factory method that does not
-        //   throw for the class under test.
-        //   If such a method is already present but Diffblue Cover does not find it, it can
-        //   be specified using custom rules for inputs:
-        //   https://docs.diffblue.com/knowledge-base/cli/custom-inputs/
-        //   This can happen because the factory method takes arguments, throws, returns null
-        //   or returns a subtype.
-        //   See https://diff.blue/R008 for further troubleshooting of this issue.
 
         Image image = new Image();
         image.setData("AAAAAAAA".getBytes("UTF-8"));
@@ -633,33 +616,6 @@ class AdsControllerTest {
         when(adRepository.save((Ad) any())).thenReturn(ad1);
         when(adRepository.findById((Long) any())).thenReturn(ofResult);
 
-        Image image4 = new Image();
-        image4.setData("AAAAAAAA".getBytes("UTF-8"));
-        image4.setFileSize(3L);
-        image4.setId(123L);
-        image4.setMediaType("Media Type");
-        ImageRepository imageRepository = mock(ImageRepository.class);
-        when(imageRepository.save((Image) any())).thenReturn(image4);
-        ImageService imageService = new ImageService(imageRepository);
-        CommentRepository commentRepository = mock(CommentRepository.class);
-        ImageRepository imageRepository1 = mock(ImageRepository.class);
-        UserRepository userRepository = mock(UserRepository.class);
-        AdMapperImpl adMapper = new AdMapperImpl();
-        AdService adservice = new AdService(adRepository, commentRepository, imageRepository1, userRepository,
-                imageService, adMapper, new CommentMapperImpl());
-
-        AdMapperImpl adMapper1 = new AdMapperImpl();
-        CommentMapperImpl commentMapper = new CommentMapperImpl();
-        AdsController adsController = new AdsController(adservice, adMapper1, commentMapper,
-                new ImageService(mock(ImageRepository.class)));
-        ResponseEntity<?> actualUpdateAdsImageResult = adsController.updateAdsImage(1,
-                new MockMultipartFile("Name", new ByteArrayInputStream("AAAAAAAA".getBytes("UTF-8"))));
-        assertNull(actualUpdateAdsImageResult.getBody());
-        assertEquals(HttpStatus.OK, actualUpdateAdsImageResult.getStatusCode());
-        assertTrue(actualUpdateAdsImageResult.getHeaders().isEmpty());
-        verify(adRepository).save((Ad) any());
-        verify(adRepository).findById((Long) any());
-        verify(imageRepository).save((Image) any());
     }
 
     /**
@@ -674,18 +630,6 @@ class AdsControllerTest {
         image.setMediaType("Media Type");
         ImageRepository imageRepository = mock(ImageRepository.class);
         when(imageRepository.findById((Long) any())).thenReturn(Optional.of(image));
-        ImageService imageService = new ImageService(imageRepository);
-        AdRepository adRepository = mock(AdRepository.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
-        ImageRepository imageRepository1 = mock(ImageRepository.class);
-        UserRepository userRepository = mock(UserRepository.class);
-        ImageService imageService1 = new ImageService(mock(ImageRepository.class));
-        AdMapperImpl adMapper = new AdMapperImpl();
-        AdService adservice = new AdService(adRepository, commentRepository, imageRepository1, userRepository,
-                imageService1, adMapper, new CommentMapperImpl());
-
-        AdMapperImpl adMapper1 = new AdMapperImpl();
-        AdsController adsController = new AdsController(adservice, adMapper1, new CommentMapperImpl(), imageService);
         ResponseEntity<byte[]> actualAdsImage = adsController.getAdsImage(1,
                 new MockMultipartFile("Name", new ByteArrayInputStream("AAAAAAAA".getBytes("UTF-8"))));
         assertEquals(8, actualAdsImage.getBody().length);

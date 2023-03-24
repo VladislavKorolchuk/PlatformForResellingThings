@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +14,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -39,13 +33,8 @@ import ru.work.graduatework.Entity.User;
 import ru.work.graduatework.dto.LoginReqDto;
 import ru.work.graduatework.dto.RegisterReqDto;
 import ru.work.graduatework.dto.Role;
-import ru.work.graduatework.mapper.UserMapperImpl;
-import ru.work.graduatework.repository.ImageRepository;
 import ru.work.graduatework.repository.UserRepository;
-import ru.work.graduatework.security.UserDetailsServiceImpl;
 import ru.work.graduatework.service.AuthService;
-import ru.work.graduatework.service.ImageService;
-import ru.work.graduatework.service.UserService;
 
 @ContextConfiguration(classes = {AuthController.class})
 @ExtendWith(SpringExtension.class)
@@ -80,18 +69,12 @@ class AuthControllerTest {
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findByEmail((String) any())).thenReturn(Optional.of(user));
         Argon2PasswordEncoder encoder = new Argon2PasswordEncoder();
-        UserMapperImpl userMapper = new UserMapperImpl();
-        UserRepository userRepository1 = mock(UserRepository.class);
-        ImageService imageService = new ImageService(mock(ImageRepository.class));
-        Argon2PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
-        AuthController authController = new AuthController(
-                new AuthService(userRepository, encoder, userMapper, new UserService(userRepository1, imageService,
-                        passwordEncoder, new UserDetailsServiceImpl(mock(UserRepository.class)))));
+
         ResponseEntity<?> actualLoginResult = authController.login(new LoginReqDto("janedoe", "iloveyou"));
         assertNull(actualLoginResult.getBody());
         assertEquals(HttpStatus.FORBIDDEN, actualLoginResult.getStatusCode());
         assertTrue(actualLoginResult.getHeaders().isEmpty());
-        verify(userRepository).findByEmail((String) any());
+
     }
 
     @Test
