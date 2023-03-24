@@ -29,7 +29,6 @@ import java.util.Collection;
 public class AdService {
 
     private final Logger logger = LoggerFactory.getLogger(AdService.class);
-    private UserService userService;
     private final AdRepository adRepository;
     private final CommentRepository commentRepository;
     private final ImageRepository imageRepository;
