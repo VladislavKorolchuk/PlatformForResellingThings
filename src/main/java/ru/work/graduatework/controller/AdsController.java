@@ -224,7 +224,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "403", description = "Forbidden", content = {}),
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
-    public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id, @NotNull @RequestBody MultipartFile image) {
+    public ResponseEntity<byte[]> getAdsImage(@PathVariable("id") int id) {
         return ResponseEntity.ok(imageService.getImageById(id).getData());
     }
 
