@@ -40,50 +40,73 @@ import ru.work.graduatework.service.UserService;
 @RequestMapping("/users")
 public class UsersController {
 
-  private final Logger logger = LoggerFactory.getLogger(UsersController.class);
-  private final UserService userService;
-  private final ImageService imageService;
-  private final UserMapper userMapper;
+    private final Logger logger = LoggerFactory.getLogger(UsersController.class);
+    private final UserService userService;
+    private final ImageService imageService;
+    private final UserMapper userMapper;
 
 
-  //  ----- Анастасия сделай плиз @Operation ------------
-  @Operation(summary = "Getting user by ID",tags = "USER")
-  @GetMapping("/{id}")
-  public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
-    return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
-  }
+    @Operation(summary = "Getting user by ID",
+            operationId = "getUsers",
+            responses = {@ApiResponse
+                    (responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.ALL_VALUE,
+                                    schema = @Schema(implementation = User.class)
+                            )),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }, tags = "USER"
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userMapper.toDto(userService.getUserById(id)));
+    }
 
-  @Operation(summary = "Get a logged in user",
-      operationId = "getUsers",
-      responses = {@ApiResponse
-          (responseCode = "200",
-              description = "OK",
-              content = @Content(
-                  mediaType = MediaType.ALL_VALUE,
-                  schema = @Schema(implementation = User.class)
-              )),
-          @ApiResponse(
-              responseCode = "401",
-              description = "Unauthorized",
-              content = @Content(
-              )
-          ),
-          @ApiResponse(
-              responseCode = "403",
-              description = "Forbidden"
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found"
-          )
-      }, tags = "USER"
-  )
-  @GetMapping("/me")
-  public UserDto getUsers() {
-    logger.info("Class UsersController, current method is - getUsers");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return userMapper.toDto(userService.getUsers(authentication.getName()));
-  }
+    @Operation(summary = "Get a logged in user",
+            operationId = "getUsers",
+            responses = {@ApiResponse
+                    (responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.ALL_VALUE,
+                                    schema = @Schema(implementation = User.class)
+                            )),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content(
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }, tags = "USER"
+    )
+    @GetMapping("/me")
+    public UserDto getUsers() {
+        logger.info("Class UsersController, current method is - getUsers");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userMapper.toDto(userService.getUsers(authentication.getName()));
+    }
 
     //  ----- Анастасия сделай плиз @Operation ------------
 //  @Operation(summary = "Add user",tags = "USER")
@@ -93,100 +116,100 @@ public class UsersController {
 //    return ResponseEntity.ok(userMapper.toCreateUserDto(user));
 //  }
 
-  @Operation(summary = "Password change",
-      operationId = "setPassword",
-      responses = {@ApiResponse
-          (responseCode = "200",
-              description = "OK",
-              content = @Content(
-                  mediaType = MediaType.APPLICATION_JSON_VALUE,
-                  schema = @Schema(implementation = User.class)
-              )),
-          @ApiResponse(
-              responseCode = "401",
-              description = "Unauthorized"
-          ),
-          @ApiResponse(
-              responseCode = "403",
-              description = "Forbidden"
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found"
-          )
-      }, tags = "USER"
-  )
-  @PostMapping("/set_password")
-  public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
-    logger.info("Current method is - setPassword");
-      userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword());
-      return ResponseEntity.ok(newPasswordDto);
-  }
+    @Operation(summary = "Password change",
+            operationId = "setPassword",
+            responses = {@ApiResponse
+                    (responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = User.class)
+                            )),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }, tags = "USER"
+    )
+    @PostMapping("/set_password")
+    public ResponseEntity<NewPasswordDto> setPassword(@RequestBody NewPasswordDto newPasswordDto) {
+        logger.info("Current method is - setPassword");
+        userService.newPassword(newPasswordDto.getNewPassword(), newPasswordDto.getCurrentPassword());
+        return ResponseEntity.ok(newPasswordDto);
+    }
 
-  @Operation(summary = "Updating the user image",
-      responses = {@ApiResponse
-          (responseCode = "200",
-              description = "OK",
-              content = @Content(
-                  mediaType = MediaType.MULTIPART_FORM_DATA_VALUE
-              )),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found"
-          )
-      }, tags = "USER"
-  )
-  @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
-    logger.info("Current method is - updateUserImage");
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ResponseEntity.ok().body(userService.updateUserImage(image, authentication.getName()));
-  }
+    @Operation(summary = "Updating the user image",
+            responses = {@ApiResponse
+                    (responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.MULTIPART_FORM_DATA_VALUE
+                            )),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }, tags = "USER"
+    )
+    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateUserImage(@RequestParam MultipartFile image) {
+        logger.info("Current method is - updateUserImage");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok().body(userService.updateUserImage(image, authentication.getName()));
+    }
 
-  @Operation(summary = "Updating the user",responses = {@ApiResponse
-          (responseCode = "200",
-                  description = "OK"),
-          @ApiResponse(
-                  responseCode = "404",
-                  description = "Not Found"
-          )
-  },tags = "USER")
-  @PatchMapping("/me")
-  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) throws Exception {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ResponseEntity.ok(
-        userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
-  }
+    @Operation(summary = "Updating the user", responses = {@ApiResponse
+            (responseCode = "200",
+                    description = "OK"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found"
+            )
+    }, tags = "USER")
+    @PatchMapping("/me")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(
+                userMapper.toDto(userService.updateUser(userDto, authentication.getName())));
+    }
 
-  @Operation(summary = "Updating user the Role ",operationId = "UpdateUsersRole", responses = {
-          @ApiResponse(
-                  responseCode = "200",
-                  description = "Role is changed"
-          ),
-          @ApiResponse(
-                  responseCode = "404",
-                  description = "Not Found"
-          )
-  },tags = "USER")
-  @PreAuthorize("hasAuthority('ADMIN')")
-  @PutMapping("/{id}/updateRole")
-  public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
-    UserDto userDto = userMapper.toDto(userService.updateRole(id, role));
-    return ResponseEntity.ok(userDto);
-  }
+    @Operation(summary = "Updating user the Role ", operationId = "UpdateUsersRole", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Role is changed"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found"
+            )
+    }, tags = "USER")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/{id}/updateRole")
+    public ResponseEntity<UserDto> updateRole(@PathVariable("id") long id, Role role) {
+        UserDto userDto = userMapper.toDto(userService.updateRole(id, role));
+        return ResponseEntity.ok(userDto);
+    }
 
-  @Operation(summary = "Updating image of ID ",operationId = "UpdateImageById" ,responses = {
-          @ApiResponse(
-                  responseCode = "200",
-                  description = "Image is updated"
-          ),
-          @ApiResponse(
-                  responseCode = "404",
-                  description = "Not Found"
-          )},tags = "USER")
-  @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
-  public ResponseEntity<byte[]> getImageById(@PathVariable("id") Long id) {
-    return ResponseEntity.ok(imageService.getImageById(id).getData());
-  }
+    @Operation(summary = "Updating image of ID ", operationId = "UpdateImageById", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Image is updated"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found"
+            )}, tags = "USER")
+    @GetMapping(value = "/image/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
+    public ResponseEntity<byte[]> getImageById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(imageService.getImageById(id).getData());
+    }
 
 }

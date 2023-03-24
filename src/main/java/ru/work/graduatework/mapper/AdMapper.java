@@ -12,8 +12,6 @@ import ru.work.graduatework.dto.FullAdDto;
 @Mapper(componentModel = "spring")
 public interface AdMapper extends MapperScheme<AdDto, Ad> {
 
-    String PUTH_IMAGE = "/ads/image/";
-
     @Mapping(target = "id", source = "pk")
     @Mapping(target = "author.id", source = "author")
     @Mapping(target = "image", ignore = true)
