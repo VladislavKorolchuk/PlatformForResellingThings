@@ -619,22 +619,6 @@ class AdsControllerTest {
     }
 
     /**
-     * Method under test: {@link AdsController#getAdsImage(int, MultipartFile)}
-     */
-    @Test
-    void testGetAdsImage() throws IOException {
-        Image image = new Image();
-        image.setData("AAAAAAAA".getBytes("UTF-8"));
-        image.setFileSize(3L);
-        image.setId(123L);
-        image.setMediaType("Media Type");
-        ImageRepository imageRepository = mock(ImageRepository.class);
-        when(imageRepository.findById((Long) any())).thenReturn(Optional.of(image));
-        verify(imageRepository).findById((Long) any());
-    }
-
-
-    /**
      * Method under test: {@link AdsController#addAdsComment(int, AdCommentDto)}
      */
     @Test

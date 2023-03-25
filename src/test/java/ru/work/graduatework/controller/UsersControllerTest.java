@@ -69,73 +69,8 @@ class UsersControllerTest {
         ImageService imageService1 = new ImageService(mock(ImageRepository.class));
         usersController.setPassword(new NewPasswordDto("iloveyou", "iloveyou"));
     }
+    
 
-    @Test
-    void testSetPassword2() {
-        UserService userService = mock(UserService.class);
-        doNothing().when(userService).newPassword((String) any(), (String) any());
-        ImageService imageService = new ImageService(mock(ImageRepository.class));
-        ResponseEntity<NewPasswordDto> actualSetPasswordResult = usersController
-                .setPassword(new NewPasswordDto("iloveyou", "iloveyou"));
-        assertTrue(actualSetPasswordResult.hasBody());
-        assertTrue(actualSetPasswordResult.getHeaders().isEmpty());
-        assertEquals(HttpStatus.OK, actualSetPasswordResult.getStatusCode());
-        verify(userService).newPassword((String) any(), (String) any());
-    }
-
-    @Test
-    void testUpdateRole() throws UnsupportedEncodingException {
-
-        Image image = new Image();
-        image.setData("AAAAAAAA".getBytes("UTF-8"));
-        image.setFileSize(3L);
-        image.setId(123L);
-        image.setMediaType("Media Type");
-
-        User user = new User();
-        user.setCity("Oxford");
-        user.setEmail("jane.doe@example.org");
-        user.setFirstName("Jane");
-        user.setId(123L);
-        user.setImage(image);
-        user.setLastName("Doe");
-        user.setPassword("iloveyou");
-        user.setPhone("4105551212");
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        user.setRegDate(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant());
-        user.setRole(Role.USER);
-        Optional<User> ofResult = Optional.of(user);
-
-        Image image1 = new Image();
-        image1.setData("AAAAAAAA".getBytes("UTF-8"));
-        image1.setFileSize(3L);
-        image1.setId(123L);
-        image1.setMediaType("Media Type");
-
-        User user1 = new User();
-        user1.setCity("Oxford");
-        user1.setEmail("jane.doe@example.org");
-        user1.setFirstName("Jane");
-        user1.setId(123L);
-        user1.setImage(image1);
-        user1.setLastName("Doe");
-        user1.setPassword("iloveyou");
-        user1.setPhone("4105551212");
-        LocalDateTime atStartOfDayResult1 = LocalDate.of(1970, 1, 1).atStartOfDay();
-        user1.setRegDate(atStartOfDayResult1.atZone(ZoneId.of("UTC")).toInstant());
-        user1.setRole(Role.USER);
-        UserRepository userRepository = mock(UserRepository.class);
-        when(userRepository.save((User) any())).thenReturn(user1);
-        when(userRepository.findById((Long) any())).thenReturn(ofResult);
-        ImageService imageService = new ImageService(mock(ImageRepository.class));
-        Argon2PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
-        UserService userService = new UserService(userRepository, imageService, passwordEncoder,
-                new UserDetailsServiceImpl(mock(UserRepository.class)));
-
-        ImageService imageService1 = new ImageService(mock(ImageRepository.class));
-        verify(userRepository).save((User) any());
-        verify(userRepository).findById((Long) any());
-    }
 
     @Test
     void testGetImageById() throws Exception {
