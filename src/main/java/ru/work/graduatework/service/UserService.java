@@ -54,7 +54,7 @@ public class UserService {
         user.setPhone("+79870000000");
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setPassword(passwordEncoder.encode("password"));
+        user.setPassword("password");
         createUser(user);
 
     }
