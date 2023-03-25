@@ -15,9 +15,6 @@ public class SecurityUtils {
         return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public static long getUserIdFromContext() {
-        return getUserDetailsFromContext().getId();
-    }
 
     public static void checkPermissionToAds(Ad ad) {
         MyUserDetails userDetails = getUserDetailsFromContext();
