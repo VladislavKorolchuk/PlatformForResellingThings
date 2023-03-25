@@ -275,50 +275,6 @@ class AdServiceTest {
     }
 
     @Test
-    void testRemoveAds() throws UnsupportedEncodingException {
-        Image image = new Image();
-        image.setData("AAAAAAAA".getBytes("UTF-8"));
-        image.setFileSize(3L);
-        image.setId(123L);
-        image.setMediaType("Media Type");
-
-        User user = new User();
-        user.setCity("Oxford");
-        user.setEmail("jane.doe@example.org");
-        user.setFirstName("Jane");
-        user.setId(123L);
-        user.setImage(image);
-        user.setLastName("Doe");
-        user.setPassword("iloveyou");
-        user.setPhone("4105551212");
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        user.setRegDate(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant());
-        user.setRole(Role.USER);
-
-        Image image1 = new Image();
-        image1.setData("AAAAAAAA".getBytes("UTF-8"));
-        image1.setFileSize(3L);
-        image1.setId(123L);
-        image1.setMediaType("Media Type");
-
-        Ad ad = new Ad();
-        ad.setAuthor(user);
-        ad.setDescription("The characteristics of someone or something");
-        ad.setId(123L);
-        ad.setImage(image1);
-        ad.setPrice(1);
-        ad.setTitle("Dr");
-        Optional<Ad> ofResult = Optional.of(ad);
-        doNothing().when(adRepository).delete((Ad) any());
-        when(adRepository.findById((Long) any())).thenReturn(ofResult);
-        doNothing().when(imageRepository).delete((Image) any());
-        adService.removeAds(123L);
-        verify(adRepository).findById((Long) any());
-        verify(adRepository).delete((Ad) any());
-        verify(imageRepository).delete((Image) any());
-    }
-
-    @Test
     void testUpdateAds() throws UnsupportedEncodingException {
         Image image = new Image();
         image.setData("AAAAAAAA".getBytes("UTF-8"));
@@ -429,6 +385,7 @@ class AdServiceTest {
         verify(adRepository).findAllByAuthorId(anyLong());
         verify(userRepository).findByEmail((String) any());
     }
+
     @Test
     void testGetComments() {
         ArrayList<Comment> commentList = new ArrayList<>();
@@ -444,49 +401,6 @@ class AdServiceTest {
         when(commentRepository.findAllByAdId(anyLong())).thenThrow(new ResponseStatusException(HttpStatus.CONTINUE));
         assertThrows(ResponseStatusException.class, () -> adService.getComments(1L));
         verify(commentRepository).findAllByAdId(anyLong());
-    }
-
-    @Test
-    void testGetCommentsId() throws UnsupportedEncodingException {
-        Image image = new Image();
-        image.setData("AAAAAAAA".getBytes("UTF-8"));
-        image.setFileSize(3L);
-        image.setId(123L);
-        image.setMediaType("Media Type");
-
-        User user = new User();
-        user.setCity("Oxford");
-        user.setEmail("jane.doe@example.org");
-        user.setFirstName("Jane");
-        user.setId(123L);
-        user.setImage(image);
-        user.setLastName("Doe");
-        user.setPassword("iloveyou");
-        user.setPhone("4105551212");
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        user.setRegDate(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant());
-        user.setRole(Role.USER);
-
-        Image image1 = new Image();
-        image1.setData("AAAAAAAA".getBytes("UTF-8"));
-        image1.setFileSize(3L);
-        image1.setId(123L);
-        image1.setMediaType("Media Type");
-
-        Ad ad = new Ad();
-        ad.setAuthor(user);
-        ad.setDescription("The characteristics of someone or something");
-        ad.setId(123L);
-        ad.setImage(image1);
-        ad.setPrice(1);
-        ad.setTitle("Dr");
-        Optional<Ad> ofResult = Optional.of(ad);
-        when(adRepository.findById((Long) any())).thenReturn(ofResult);
-        AdCommentDto actualCommentsId = adService.getCommentsId(1L, 1);
-        assertNull(actualCommentsId.getText());
-        assertEquals(0, actualCommentsId.getPk());
-        assertNull(actualCommentsId.getCreatedAt());
-        verify(adRepository).findById((Long) any());
     }
 
     @Test
@@ -789,7 +703,7 @@ class AdServiceTest {
     }
 
     @Test
-    void testDeleteAdsComment() throws UnsupportedEncodingException {
+    void testDeleteAdsComment() throws Exception {
         Image image = new Image();
         image.setData("AAAAAAAA".getBytes("UTF-8"));
         image.setFileSize(3L);

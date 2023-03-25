@@ -72,7 +72,6 @@ public class AdsController {
                                         @Valid @RequestPart("properties") CreateAdDto createAdDto) {
         logger.info("Current Method is - addAds");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String f = authentication.getName();
         return ResponseEntity.ok(adMapper.toDto(adservice.addAds(createAdDto, adsImage, authentication.getName())));
     }
 
@@ -158,7 +157,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @DeleteMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<HttpStatus> deleteAdsComment(@PathVariable("ad_pk") long ad_pk,
-                                                       @PathVariable("id") long id) {
+                                                       @PathVariable("id") long id) throws Exception {
         logger.info("Current Method is - deleteCommentsId");
         adservice.deleteAdsComment(ad_pk, id);
         return ResponseEntity.ok(HttpStatus.OK);
