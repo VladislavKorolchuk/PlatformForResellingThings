@@ -34,6 +34,17 @@
 ## Links to the provided documentation files:
 - [Openapi](https://drive.google.com/file/d/1NInRupH5y59DMAFvUDcd2C0kIWaMk93Q/view)
 - [Technical specification](https://skyengpublic.notion.site/02df5c2390684e3da20c7a696f5d463d)
+  
+  **Goal of the work:**
+
+- Write a fully working project according to the TOR and the stages of implementation described below. 
+The link to the terms of reference is provided above.
+
+- Coherence and ability to work in a team, to overcome difficulties in conflict situations.
+
+- Writing documentation and code comments
+
+- Writing tests to check the project code
 
 **Conclusion:**
 
