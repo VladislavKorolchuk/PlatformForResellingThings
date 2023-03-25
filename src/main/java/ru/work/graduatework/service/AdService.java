@@ -23,6 +23,9 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Collection;
 
+import static ru.work.graduatework.security.SecurityUtils.checkPermissionToAds;
+import static ru.work.graduatework.security.SecurityUtils.checkPermissionToComment;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -84,23 +87,6 @@ public class AdService {
     }
 
     /**
-     * @param id ID Ad Input parameter
-     *           <br> Is used entity User {@link Ad} </br
-     *           <br> Is used repository {@link AdRepository#save(Object)} </br>
-     *           <br> Is used repository {@link ImageRepository#save(Object)} </br>
-     *           Uses method {@link  ru.work.graduatework.controller.UsersController#getUser(long)}
-     * @author Korolchuk Vladislav
-     */
-    public void removeAds(long id) {
-
-        logger.info("Current Method is - removeAds");
-        Ad dbAd = this.adRepository.findById(id).orElseThrow(ObjectCollectedException::new);
-        Image image = dbAd.getImage();
-        this.imageRepository.delete(image);
-        this.adRepository.delete(dbAd);
-    }
-
-    /**
      * @param adId        ID Ad Input parameter
      * @param createAdDto {@link CreateAdDto}  Input parameter
      *                    <br> Is used entity User {@link Ad} </br
@@ -112,6 +98,7 @@ public class AdService {
 
         logger.info("Current Method is - updateAds");
         Ad ad = getAdsById(adId);
+        checkPermissionToAds(ad);
         ad.setTitle(createAdDto.getTitle());
         ad.setDescription(createAdDto.getDescription());
         ad.setPrice(createAdDto.getPrice());
@@ -152,22 +139,6 @@ public class AdService {
     }
 
     /**
-     * @param 'userDto',currentPassword and email(name user) Input parameter
-     *                                  <br> Is used entity User {@link Ad} </br>
-     *                                  <br> Is used repository {@link AdRepository#save(Object)} </br>
-     *                                  Uses method {@link  ru.work.graduatework.controller.AdsController#getAdsComment(long, long)}  }
-     * @return {@link AdCommentDto}
-     * @author Korolchuk Vladislav
-     */
-    public AdCommentDto getCommentsId(long ad_pk, int id) {
-
-        logger.info("Current Method is - getCommentsId");
-        Ad ad = adRepository.findById(ad_pk).orElseThrow();
-        return new AdCommentDto(0, null, null);
-
-    }
-
-    /**
      * @param adPk           id comment Input parameter
      * @param id             ID ad Input parameter
      * @param commentUpdated {@link Comment}  Input parameter
@@ -181,6 +152,7 @@ public class AdService {
 
         logger.info("Current Method is - updateComments");
         Comment comment = getAdsComment(adPk, id);
+        checkPermissionToComment(comment);
         comment.setText(commentUpdated.getText());
         return commentRepository.save(comment);
 
@@ -213,11 +185,10 @@ public class AdService {
     public Comment getAdsComment(long adPk, long id) {
 
         logger.info("Current Method is - getAdsComment");
-        Comment comment = commentRepository.findByIdAndAdId(id, adPk)
+        return commentRepository.findByIdAndAdId(id, adPk)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Ad %d " +
                                 "belonging to an ad with id %d not found", id, adPk)));
-        return comment;
 
     }
 
@@ -234,6 +205,7 @@ public class AdService {
 
         logger.info("Current Method is - deleteAdsComment");
         Comment comment = getAdsComment(adPk, id);
+        checkPermissionToComment(comment);
         commentRepository.delete(comment);
         return comment;
 
@@ -252,6 +224,7 @@ public class AdService {
 
         logger.info("Current Method is - updateAdsImage");
         Ad ad = getAdsById(id);
+        checkPermissionToAds(ad);
         imageRepository.delete(ad.getImage());
         ad.setImage(imageService.uploadImage(image));
         adRepository.save(ad);
@@ -272,6 +245,7 @@ public class AdService {
 
         logger.info("Current Method is - removeAdsById");
         Ad ad = getAdsById(adId);
+        checkPermissionToAds(ad);
         commentRepository.deleteAdsCommentsByAdId(adId);
         adRepository.delete(ad);
         return ad;
