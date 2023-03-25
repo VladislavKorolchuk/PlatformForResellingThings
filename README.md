@@ -47,11 +47,11 @@ to merge the code into the Dev branch
 
 
 ###  The development team:
- [Владислав Корольчук](https://github.com/VladislavKorolchuk) <br>
- [Павел Деменков](https://github.com/PDemenkov) <br>
- [Анастасия Шутова](https://github.com/fuminako)<br>
- [Алексей Новицкий](https://github.com/AlekseyNovitskiy)<br>
- [Руслан Гилязев]()<br>
+ [Korolchuk Vladislav](https://github.com/VladislavKorolchuk) <br>
+ [Demenkov Pavel](https://github.com/PDemenkov) <br>
+ [Anastasia Shutova](https://github.com/fuminako)<br>
+ [Novitsky Alexey](https://github.com/AlekseyNovitskiy)<br>
+ [Ruslan Gilyazev]()<br>
  [Sobolev Alexey]()<br>
  [Golubev Sergey]()<br>
 </div>
