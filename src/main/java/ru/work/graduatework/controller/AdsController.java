@@ -196,8 +196,6 @@ public class AdsController {
     public ResponseWrapper<AdDto> getAdsMe() {
         logger.info("Current Method is - getAdsMe");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String i = authentication.getName();
-        Collection<AdDto> f = adMapper.toDto(adservice.getAdsMe(authentication.getName()));
         return ResponseWrapper.of(adMapper.toDto(adservice.getAdsMe(authentication.getName())));
     }
 
