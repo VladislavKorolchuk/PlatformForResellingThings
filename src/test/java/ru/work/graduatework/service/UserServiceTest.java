@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Optional;
 
 import liquibase.repackaged.net.sf.jsqlparser.util.validation.ValidationException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +44,13 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @MockBean
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+
+    @MockBean
     private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
-
 
     @Test
     void testCreateStartingUsers() throws UnsupportedEncodingException {
@@ -71,12 +74,37 @@ class UserServiceTest {
         user.setRole(Role.USER);
         when(userRepository.existsByEmail((String) any())).thenReturn(true);
         when(userRepository.save((User) any())).thenReturn(user);
-        when(passwordEncoder.encode((CharSequence) any())).thenReturn("secret");
         assertThrows(ValidationException.class, () -> userService.createStartingUsers());
+        verify(userRepository).existsByEmail((String) any());
+    }
+    @Test
+    void testCreateStartingUsers2() throws UnsupportedEncodingException {
+        Image image = new Image();
+        image.setData("AAAAAAAA".getBytes("UTF-8"));
+        image.setFileSize(3L);
+        image.setId(123L);
+        image.setMediaType("Media Type");
+
+        User user = new User();
+        user.setCity("Oxford");
+        user.setEmail("jane.doe@example.org");
+        user.setFirstName("Jane");
+        user.setId(123L);
+        user.setImage(image);
+        user.setLastName("Doe");
+        user.setPassword("iloveyou");
+        user.setPhone("4105551212");
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        user.setRegDate(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant());
+        user.setRole(Role.USER);
+        when(userRepository.existsByEmail((String) any())).thenReturn(false);
+        when(userRepository.save((User) any())).thenReturn(user);
+        when(passwordEncoder.encode((CharSequence) any()))
+                .thenThrow(new BadCredentialsException("Current method is - createStartingUsers"));
+        assertThrows(BadCredentialsException.class, () -> userService.createStartingUsers());
         verify(userRepository).existsByEmail((String) any());
         verify(passwordEncoder).encode((CharSequence) any());
     }
-
 
     @Test
     void testGetUsers() throws UnsupportedEncodingException {
@@ -105,7 +133,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetUsers2() {
+    void testGetUsers3() {
         when(userRepository.findByEmail((String) any()))
                 .thenThrow(new BadCredentialsException("Current method is - getUsers"));
         assertThrows(BadCredentialsException.class, () -> userService.getUsers("jane.doe@example.org"));
@@ -162,6 +190,36 @@ class UserServiceTest {
         verify(userRepository).findByEmail((String) any());
     }
 
+    @Test
+    void testUpdateUser2() throws Exception {
+        Image image = new Image();
+        image.setData("AAAAAAAA".getBytes("UTF-8"));
+        image.setFileSize(3L);
+        image.setId(123L);
+        image.setMediaType("Media Type");
+
+        User user = new User();
+        user.setCity("Oxford");
+        user.setEmail("jane.doe@example.org");
+        user.setFirstName("Jane");
+        user.setId(123L);
+        user.setImage(image);
+        user.setLastName("Doe");
+        user.setPassword("iloveyou");
+        user.setPhone("4105551212");
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        user.setRegDate(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant());
+        user.setRole(Role.USER);
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.save((User) any())).thenThrow(new BadCredentialsException("Current method is - updateUser"));
+        when(userRepository.findByEmail((String) any())).thenReturn(ofResult);
+        assertThrows(BadCredentialsException.class,
+                () -> userService.updateUser(
+                        new UserDto(1, "Jane", "Doe", "jane.doe@example.org", "4105551212", "Oxford", "2020-03-01", "Image"),
+                        "jane.doe@example.org"));
+        verify(userRepository).save((User) any());
+        verify(userRepository).findByEmail((String) any());
+    }
 
     @Test
     void testUpdateUserImage() throws IOException {
@@ -221,7 +279,6 @@ class UserServiceTest {
         verify(imageService).uploadImage((MultipartFile) any());
     }
 
-
     @Test
     void testGetUserById() throws UnsupportedEncodingException {
         Image image = new Image();
@@ -248,14 +305,12 @@ class UserServiceTest {
         verify(userRepository).findById((Long) any());
     }
 
-
     @Test
-    void testGetUserById2() {
+    void testGetUserById3() {
         when(userRepository.findById((Long) any())).thenThrow(new BadCredentialsException("Msg"));
         assertThrows(BadCredentialsException.class, () -> userService.getUserById(123L));
         verify(userRepository).findById((Long) any());
     }
-
 
     @Test
     void testCreateUser() throws UnsupportedEncodingException {
@@ -301,7 +356,6 @@ class UserServiceTest {
         assertThrows(ValidationException.class, () -> userService.createUser(user1));
         verify(userRepository).existsByEmail((String) any());
     }
-
 
     @Test
     void testUpdateRole() throws UnsupportedEncodingException {
