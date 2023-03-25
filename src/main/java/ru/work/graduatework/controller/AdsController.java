@@ -157,7 +157,7 @@ public class AdsController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized", content = {})}, tags = "ADS")
     @DeleteMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<HttpStatus> deleteAdsComment(@PathVariable("ad_pk") long ad_pk,
-                                                       @PathVariable("id") long id) throws Exception {
+                                                       @PathVariable("id") long id) {
         logger.info("Current Method is - deleteCommentsId");
         adservice.deleteAdsComment(ad_pk, id);
         return ResponseEntity.ok(HttpStatus.OK);
