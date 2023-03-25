@@ -201,7 +201,7 @@ public class AdService {
      * @return {@link Comment}
      * @author Korolchuk Vladislav
      */
-    public Comment deleteAdsComment(long adPk, long id) throws Exception {
+    public Comment deleteAdsComment(long adPk, long id) {
 
         logger.info("Current Method is - deleteAdsComment");
         Comment comment = getAdsComment(adPk, id);
