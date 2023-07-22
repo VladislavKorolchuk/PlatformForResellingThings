@@ -67,7 +67,15 @@ to merge the code into the Dev branch
  [Golubev Sergey]()<br>
 </div>
 
+## Application assembly
 
+git clone https://github.com/VladislavKorolchuk/FlightSetFiltering.git \
+cd FlightSetFiltering \
+mvn package \
+cd target
+
+## Launch
+java -jar FlightSetFiltering.jar
 <div id="header" align="center">
   <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyOTI1ODEyYWQ5NDVmMWIxMjRmODg4M2I0YmQ2NmIzZGIzZjkyYiZjdD1n/VXemWL83bMJXABeIP5/giphy.gif" width="150"/>
 </div>
